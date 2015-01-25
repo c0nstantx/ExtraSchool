@@ -24,4 +24,4 @@ Installation
 [2]: http://www.aueb.gr/
 [3]: https://github.com/c0nstantx
 [4]: https://github.com/pavlosg
-[5]: https://github.com/spantazaras
+[5]: https://github.com/Soookkk
