@@ -53,7 +53,7 @@
       <w>90</w>
       <h>110</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;90.0;70.0;10.0</additional_attributes>
   </element>
   <element>
@@ -64,7 +64,7 @@
       <w>180</w>
       <h>30</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;160.0;10.0</additional_attributes>
   </element>
   <element>
@@ -75,7 +75,7 @@
       <w>30</w>
       <h>220</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;200.0;10.0;10.0</additional_attributes>
   </element>
   <element>
