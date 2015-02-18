@@ -1,4 +1,4 @@
-name := """my-first-app"""
+name := """Extra School"""
 
 version := "1.0-SNAPSHOT"
 
@@ -10,5 +10,7 @@ libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
   cache,
-  javaWs
+  javaWs,
+  javaJpa,
+  "org.hibernate" % "hibernate-entitymanager" % "4.3.8.Final"
 )
