@@ -1,29 +1,17 @@
 package models.domain;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import models.persistence.JPAUtil;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Assert;
 import org.junit.Test;
 
-public class UserTest
+public class UserTest extends EntityBaseTest
 {
-
-	protected EntityManager em;
-	
-	@BeforeClass
-	public static void initTest()
-	{
-		System.out.println("Starting unit test...");
-	}
-	
-	@Before
-	public void setUp()
-	{
-		em = JPAUtil.getCurrentEntityManager();
-	}
 	
 	@Test
 	public void createNewUser()
@@ -32,6 +20,33 @@ public class UserTest
 		user.setUsername("kostasx");
 		user.setPassword("123456");
 		em.persist(user);
+		
+        Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
+        query.setParameter("uname", "kostasx");
+        @SuppressWarnings("unchecked")
+		List<User> results = query.getResultList();
+        Assert.assertEquals(1, results.size());
+        Assert.assertEquals(user, results.get(0));
 	}
-
+	
+	@Test
+	public void updateUser()
+	{
+		createNewUser();
+		
+        Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
+        query.setParameter("uname", "kostasx");
+        @SuppressWarnings("unchecked")
+		List<User> results = query.getResultList();
+        User user = results.get(0);
+        user.setUsername("user1");
+        em.merge(user);
+        
+        query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
+        query.setParameter("uname", "user1");
+        @SuppressWarnings("unchecked")
+		List<User> updatedResults = query.getResultList();
+        User retrievedUser = updatedResults.get(0);
+        Assert.assertEquals(retrievedUser.getUsername(), "user1");
+	}
 }
