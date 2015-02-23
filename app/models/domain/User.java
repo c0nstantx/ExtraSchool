@@ -1,6 +1,7 @@
 package models.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,49 +14,67 @@ import models.persistence.UserType;
 
 /**
  * User Entity
+ * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  *
  */
 @Entity
-@Table(name="users")
-public class User {
-
+@Table(name = "users")
+public class User
+{
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name="username")
-	private String Username;
+	@Column(name = "username", nullable = false)
+	private String username;
 
-	@Column(name="password")
-	private String Password;
+	@Column(name = "password", nullable = false)
+	private String password;
 
-	@Column(name="user_type")
+	@Column(name = "user_type")
 	@Enumerated(EnumType.STRING)
-	private UserType userType;
+	private UserType userType = UserType.STUDENT;
+
+	@Embedded
+	private Person person = new Person();
+
+	public void User() {}
+
+	public void User(String uname, String pwd)
+	{
+		username = uname;
+		password = pwd;
+	}
 	
-	public Integer getId() {
+	public Integer getId()
+	{
 		return id;
 	}
 
-	private void setId(Integer id) {
+	private void setId(Integer id)
+	{
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return Username;
+	public String getUsername()
+	{
+		return username;
 	}
 
-	public void setUsername(String username) {
-		Username = username;
+	public void setUsername(String uname)
+	{
+		username = uname;
 	}
 
-	public String getPassword() {
-		return Password;
+	public String getPassword()
+	{
+		return password;
 	}
 
-	public void setPassword(String password) {
-		Password = password;
+	public void setPassword(String pwd)
+	{
+		password = pwd;
 	}
 }
