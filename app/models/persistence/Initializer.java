@@ -1,6 +1,6 @@
 package models.persistence;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -76,11 +76,11 @@ public class Initializer
     	/* Create Activities */
     	Activity a1 = new Activity("activity1", "activity1 description");
     	Activity a2 = new Activity("activity2", "activity2 description");
-    	
-    	ActivityCalendar ac1 = new ActivityCalendar(new Date(2015, 3, 2));
-    	ActivityCalendar ac2 = new ActivityCalendar(new Date(2015, 3, 3));
-    	ActivityCalendar ac3 = new ActivityCalendar(new Date(2015, 3, 9));
-    	ActivityCalendar ac4 = new ActivityCalendar(new Date(2015, 3, 10));
+
+    	ActivityCalendar ac1 = new ActivityCalendar(new Date("2 Mar 2015"));
+    	ActivityCalendar ac2 = new ActivityCalendar(new Date("3 Mar 2015"));
+    	ActivityCalendar ac3 = new ActivityCalendar(new Date("9 Mar 2015"));
+    	ActivityCalendar ac4 = new ActivityCalendar(new Date("10 Mar 2015"));
     	
     	a1.addActivityCalendar(ac1);
     	a2.addActivityCalendar(ac3);

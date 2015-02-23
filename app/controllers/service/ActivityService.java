@@ -1,8 +1,9 @@
 package controllers.service;
 
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import models.domain.Activity;
 
@@ -36,5 +37,19 @@ public class ActivityService extends BaseService
 				.setParameter("name", name)
 				.getSingleResult();
 		return activity;
+	}
+	
+	/**
+	 * Find a list of activities of a given date
+	 * @param date
+	 * @return
+	 */
+	public List<Activity> findByDate(Date date)
+	{
+		Query query = em.createQuery("SELECT a FROM Activity a JOIN a.calendar ac WHERE ac.date = :date")
+				.setParameter("date", date);
+		@SuppressWarnings("unchecked")
+		List<Activity> activities = query.getResultList();
+		return activities;
 	}
 }

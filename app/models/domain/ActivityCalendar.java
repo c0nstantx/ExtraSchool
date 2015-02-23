@@ -1,6 +1,6 @@
 package models.domain;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.Type;
 
 /**
  * ActivityCalendar Entity
@@ -28,6 +28,7 @@ public class ActivityCalendar
 	private Integer id;
 	
 	@Column(name = "date")
+	@Type(type = "date")
 	private Date date;
 
 	@ManyToOne()
@@ -38,6 +39,12 @@ public class ActivityCalendar
 
 	public ActivityCalendar(Date date)
 	{
+		this.date = date;
+	}
+
+	public ActivityCalendar(Activity activity, Date date)
+	{
+		this.activity = activity;
 		this.date = date;
 	}
 	

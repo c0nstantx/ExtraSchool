@@ -41,7 +41,6 @@ public class Activity
             cascade = CascadeType.ALL, 
             mappedBy = "activity", fetch=FetchType.LAZY)
 	private Set<ActivityCalendar> calendar = new HashSet<ActivityCalendar>();
-//    private Set<Item> items = new HashSet<Item>();
 
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "tutor_id")
@@ -122,6 +121,7 @@ public class Activity
 	public void addActivityCalendar(ActivityCalendar ac)
 	{
 		this.calendar.add(ac);
+		ac.setActivity(this);
 	}
 	
 	public void addStudent(User student)
