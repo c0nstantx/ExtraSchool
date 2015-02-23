@@ -13,11 +13,6 @@ import models.domain.Activity;
  */
 public class ActivityService extends BaseService
 {
-	public ActivityService(EntityManager em)
-	{
-		super(em);
-	}
-
 	/**
 	 * Find all activities
 	 * @return

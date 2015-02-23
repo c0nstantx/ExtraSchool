@@ -13,9 +13,8 @@ public class BaseService
 {
 	protected EntityManager em;
 	
-	public BaseService(EntityManager em)
+	public BaseService()
 	{
-//		em = JPAUtil.getCurrentEntityManager();
-		this.em = em;
+		em = JPAUtil.getCurrentEntityManager();
 	}
 }

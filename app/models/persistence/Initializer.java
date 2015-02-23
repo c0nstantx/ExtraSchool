@@ -21,9 +21,10 @@ public class Initializer
 {
 	private EntityManager em;
 	
-	public Initializer(EntityManager em)
+	public Initializer()
 	{
-		this.em = em;
+    	em = JPAUtil.getCurrentEntityManager();
+    	
 	}
 	
     @Transactional

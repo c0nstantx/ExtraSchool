@@ -17,7 +17,7 @@ public class ActivityServiceTest extends EntityBaseTest
 	public void beforeTest()
 	{
 		super.beforeTest();
-		as = new ActivityService(em);
+		as = new ActivityService();
 	}
 	
 	@Test

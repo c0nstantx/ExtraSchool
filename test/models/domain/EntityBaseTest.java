@@ -50,7 +50,7 @@ abstract public class EntityBaseTest
     public void beforeTest()
     {
     	em.getTransaction().begin();
-    	Initializer init = new Initializer(em);
+    	Initializer init = new Initializer();
     	init.initDB();
     }
     

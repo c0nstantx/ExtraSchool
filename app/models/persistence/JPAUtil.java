@@ -1,35 +1,29 @@
 package models.persistence;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+
+import play.db.jpa.JPA;
 
 public class JPAUtil {
 
-    private static EntityManagerFactory emf;
-    private static final ThreadLocal<EntityManager> currentEntityManager = new ThreadLocal<EntityManager>();
-
-    
-    public static EntityManagerFactory getEntityManagerFactory() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("extraSchool");
-        }
-        return emf;
-    }
-    
+	static EntityManager em = null;
     
     public static EntityManager getCurrentEntityManager() {      
-        EntityManager em = currentEntityManager.get();
-//        if (em  == null || !em.isOpen()) {
-//            em = getEntityManagerFactory().createEntityManager();
-//            currentEntityManager.set(em);
-//        }
-        return em;
+        
+    	if (em == null || !em.isOpen()){
+    		em = createEntityManager();
+    	}
+    	return em;
+    	
+    }
+    
+    public static void setCurrentEntityManager(EntityManager e){
+    	em = e;
     }
     
     public static EntityManager createEntityManager() {
     	
-    	return getEntityManagerFactory().createEntityManager();
+    	return JPA.em();
     }
     
 }
