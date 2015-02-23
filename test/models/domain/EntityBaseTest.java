@@ -31,7 +31,7 @@ abstract public class EntityBaseTest
     public static void setUp()
     {
 		System.out.println("Starting Unit Test...");
-    	FakeApplication app = Helpers.fakeApplication();
+    	FakeApplication app = Helpers.fakeApplication(inMemoryDatabase());
 		Helpers.start(app);
 		Option<JPAPlugin> jpaPlugin = app.getWrappedApplication().plugin(
 				JPAPlugin.class);

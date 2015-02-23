@@ -19,11 +19,11 @@ public class JPAUtil {
     
     
     public static EntityManager getCurrentEntityManager() {      
-        EntityManager em = currentEntityManager.get();         
-        if (em  == null || !em.isOpen()) {
-            em = getEntityManagerFactory().createEntityManager();
-            currentEntityManager.set(em);
-        }
+        EntityManager em = currentEntityManager.get();
+//        if (em  == null || !em.isOpen()) {
+//            em = getEntityManagerFactory().createEntityManager();
+//            currentEntityManager.set(em);
+//        }
         return em;
     }
     
