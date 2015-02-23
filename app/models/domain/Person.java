@@ -2,6 +2,7 @@ package models.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Table;
 
 /**
  * Person Entity

@@ -12,26 +12,35 @@ import org.junit.Test;
 
 public class UserTest extends EntityBaseTest
 {
+	@Test
+	public void countStartupUsers()
+	{
+		@SuppressWarnings("unchecked")
+		List<User> users = em.createQuery("SELECT user FROM User user").getResultList();
+		Assert.assertEquals(3, users.size());
+	}
 	
 	@Test
 	public void createNewUser()
 	{
+		/* Create user */
 		User user = new User("kostasx", "123456", "Konstantinos", "Christofilos");
 		em.persist(user);
 		
+		/* Check if user is saved */
         Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
         query.setParameter("uname", "kostasx");
-        @SuppressWarnings("unchecked")
-		List<User> results = query.getResultList();
-        Assert.assertEquals(1, results.size());
-        Assert.assertEquals(user, results.get(0));
+		User retrievedUser = (User) query.getSingleResult();
+        Assert.assertEquals(user, retrievedUser);
 	}
 	
 	@Test
 	public void updateUser()
 	{
+		/* Create new user */
 		createNewUser();
 		
+		/* Update user */
         Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
         query.setParameter("uname", "kostasx");
         @SuppressWarnings("unchecked")
@@ -40,6 +49,7 @@ public class UserTest extends EntityBaseTest
         user.setUsername("user1");
         em.merge(user);
         
+        /* Check if user is updated */
         query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
         query.setParameter("uname", "user1");
         @SuppressWarnings("unchecked")

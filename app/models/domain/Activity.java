@@ -1,6 +1,7 @@
 package models.domain;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import java.util.HashSet;
 
 /**
  * Activity Entity
@@ -37,15 +40,36 @@ public class Activity
     @OneToMany(orphanRemoval=true, 
             cascade = CascadeType.ALL, 
             mappedBy = "activity", fetch=FetchType.LAZY)
-	private List<ActivityCalendar> calendar;
+	private Set<ActivityCalendar> calendar = new HashSet<ActivityCalendar>();
+//    private Set<Item> items = new HashSet<Item>();
 
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "tutor_id")
 	private User tutor;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "activity")
+	private Set<ActivityStudent> students = new HashSet<ActivityStudent>();
 	
 	public Activity() {}
 	
-    public Integer getId()
+    public Activity(String name, String description)
+	{
+		this.name = name;
+		this.description = description;
+	}
+	
+    public Activity(String name, String description,
+			Set<ActivityCalendar> calendar, User tutor)
+	{
+		super();
+		this.name = name;
+		this.description = description;
+		this.calendar = calendar;
+		this.tutor = tutor;
+	}
+
+
+	public Integer getId()
 	{
 		return id;
 	}
@@ -75,12 +99,12 @@ public class Activity
 		this.description = description;
 	}
 
-	public List<ActivityCalendar> getCalendar()
+	public Set<ActivityCalendar> getCalendar()
 	{
 		return calendar;
 	}
 
-	public void setCalendar(List<ActivityCalendar> calendar)
+	public void setCalendar(Set<ActivityCalendar> calendar)
 	{
 		this.calendar = calendar;
 	}
@@ -93,5 +117,26 @@ public class Activity
 	public void setTutor(User tutor)
 	{
 		this.tutor = tutor;
+	}
+	
+	public void addActivityCalendar(ActivityCalendar ac)
+	{
+		this.calendar.add(ac);
+	}
+	
+	public void addStudent(User student)
+	{
+		ActivityStudent as = new ActivityStudent(this, student);
+		this.students.add(as);
+	}
+
+	public Set<ActivityStudent> getStudents()
+	{
+		return students;
+	}
+
+	public void setStudents(Set<ActivityStudent> students)
+	{
+		this.students = students;
 	}
 }

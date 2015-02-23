@@ -63,6 +63,15 @@ public class User
 		person.setFirstName(fName);
 		person.setLastName(lName);
 	}
+
+	public User(String uname, String pwd, String fName, String lName, UserType uType)
+	{
+		username = uname;
+		password = pwd;
+		userType = uType;
+		person.setFirstName(fName);
+		person.setLastName(lName);
+	}
 	
 	public Integer getId()
 	{

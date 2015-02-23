@@ -31,7 +31,7 @@ abstract public class EntityBaseTest
     public static void setUp()
     {
 		System.out.println("Starting Unit Test...");
-    	FakeApplication app = Helpers.fakeApplication(inMemoryDatabase());
+    	FakeApplication app = Helpers.fakeApplication();
 		Helpers.start(app);
 		Option<JPAPlugin> jpaPlugin = app.getWrappedApplication().plugin(
 				JPAPlugin.class);
@@ -50,8 +50,8 @@ abstract public class EntityBaseTest
     public void beforeTest()
     {
     	em.getTransaction().begin();
-//    	Initializer init = new Initializer();
-//    	init.initDB();
+    	Initializer init = new Initializer(em);
+    	init.initDB();
     }
     
     @After
