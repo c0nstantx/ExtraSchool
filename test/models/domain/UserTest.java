@@ -16,9 +16,7 @@ public class UserTest extends EntityBaseTest
 	@Test
 	public void createNewUser()
 	{
-		User user = new User();
-		user.setUsername("kostasx");
-		user.setPassword("123456");
+		User user = new User("kostasx", "123456", "Konstantinos", "Christofilos");
 		em.persist(user);
 		
         Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");

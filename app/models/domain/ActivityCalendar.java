@@ -3,6 +3,7 @@ package models.domain;
 import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.ManyToAny;
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  *
  */
+@Entity
 public class ActivityCalendar
 {
 	@Id

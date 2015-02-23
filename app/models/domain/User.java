@@ -1,5 +1,7 @@
 package models.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -8,7 +10,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.google.common.collect.Lists;
 
 import models.persistence.UserType;
 
@@ -37,15 +42,26 @@ public class User
 	@Enumerated(EnumType.STRING)
 	private UserType userType = UserType.STUDENT;
 
+	@OneToMany()
+	private List<Activity> activities;
+
 	@Embedded
 	private Person person = new Person();
 
-	public void User() {}
+	public User() {}
 
-	public void User(String uname, String pwd)
+	public User(String uname, String pwd)
 	{
 		username = uname;
 		password = pwd;
+	}
+
+	public User(String uname, String pwd, String fName, String lName)
+	{
+		username = uname;
+		password = pwd;
+		person.setFirstName(fName);
+		person.setLastName(lName);
 	}
 	
 	public Integer getId()
@@ -76,5 +92,15 @@ public class User
 	public void setPassword(String pwd)
 	{
 		password = pwd;
+	}
+	
+	public Person getPerson()
+	{
+		return person;
+	}
+
+	public void setPerson(Person person)
+	{
+		this.person = person;
 	}
 }

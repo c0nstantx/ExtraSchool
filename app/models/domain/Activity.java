@@ -45,7 +45,6 @@ public class Activity
 	
 	public Activity() {}
 	
-	
     public Integer getId()
 	{
 		return id;
