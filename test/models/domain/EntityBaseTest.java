@@ -3,6 +3,7 @@ package models.domain;
 import static play.test.Helpers.inMemoryDatabase;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import models.persistence.Initializer;
 
@@ -54,7 +55,14 @@ abstract public class EntityBaseTest
     @After
     public void afterTest()
     {
-    	em.getTransaction().commit();
+    	try {
+        	em.getTransaction().commit();
+		} catch (Exception e) {
+			EntityTransaction et = em.getTransaction();
+			if (et.isActive()) {
+				em.getTransaction().rollback();
+			}
+		}
     	em.clear();
     }
 }

@@ -34,7 +34,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name = "username", nullable = false)
+	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 
 	@Column(name = "password", nullable = false)
@@ -59,11 +59,10 @@ public class User {
 
 	public User() {}
 	
-	public User(String username, String password, UserType userType, String identityNo, String fName, String lName, Date birthDate) {
+	public User(String username, String password, UserType userType, String fName, String lName, Date birthDate) {
 		this.username = username;
 		this.password = password;
 		this.userType = userType;
-		person.setIdentityNo(identityNo);
 		person.setFirstName(fName);
 		person.setLastName(lName);
 		person.setBirthDate(birthDate);
@@ -123,18 +122,38 @@ public class User {
 		this.registers = registers;
 	}
 	
-	public void addRegister(ActivitySession session, RegistrationStatus status, String notes) {
+	public void addRegister(ActivitySession session, RegistrationStatus status, 
+			String notes) {
 		SessionRegister register = new SessionRegister(this, session, status, notes);
 		registers.add(register);
 	}
+
 	
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+
 	public boolean equals(Object other) {
-		return (this.getPerson().getIdentityNo() == ((User)other).getPerson().getIdentityNo());
+        if ( other == null) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+        if (! (other instanceof User)) {
+            return false;
+        }
+        return true;
 	}
 	
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("User: ");
+		strbuilder.append("'" + id + "'" + ", ");
 		strbuilder.append("'" + username + "'" + ", ");
 		strbuilder.append("'" + password + "'" + ", ");
 		strbuilder.append("'" + userType + "'" + ", ");

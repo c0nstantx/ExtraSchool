@@ -22,4 +22,5 @@ public class BaseService
 	{
 		em = JPAUtil.getCurrentEntityManager();
 	}
+	
 }
