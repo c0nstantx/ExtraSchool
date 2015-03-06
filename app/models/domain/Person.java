@@ -15,9 +15,6 @@ import models.persistence.DateLib;
  */
 @Embeddable
 public class Person {
-	@Column(name = "identity_no", nullable = false)
-	private String identityNo;
-	
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
@@ -31,14 +28,6 @@ public class Person {
 	 * Default constructor
 	 */
 	public Person() {}
-	
-	public String getIdentityNo() {
-		return identityNo;
-	}
-	
-	public void setIdentityNo(String identityNo) {
-		this.identityNo = identityNo;
-	}
 	
 	public String getFirstName() {
 		return firstName;
@@ -70,7 +59,6 @@ public class Person {
 
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
-		strbuilder.append("'" + identityNo + "'" + ", ");
 		strbuilder.append("'" + firstName + "'" + ", ");
 		strbuilder.append("'" + lastName + "'" + ", ");
 		strbuilder.append(birthDate != null ? DateLib.dateAsString(birthDate) : "");

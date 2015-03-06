@@ -1,10 +1,13 @@
 package controllers.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
 import models.domain.User;
+import models.exceptions.UsernameExistsException;
 import models.persistence.UserType;
 
 /**
@@ -23,22 +26,18 @@ public class UserService extends BaseService {
 	 * @param username the username for this user
 	 * @param password the password for this user
 	 * @param userType user type
-	 * @param identityNo user's identity number
 	 * @param firstName user's first name
 	 * @param lastName user's last name
 	 * @param birthDate user's birth date
 	 * @return the created User object
 	 */
-	public User createUser(String username, String password, UserType userType, String identityNo, String firstName, String lastName, Date birthDate) {
-		if (accountAlreadyExists(identityNo)) {
-			System.out.println("createUser(): Account Already Exists");
-			return null;
-		}
+	public User createUser(String username, String password, UserType userType, 
+			String firstName, String lastName, Date birthDate) {
 		if (usernameAlreadyExists(username)) {
-			System.out.println("createUser(): Username Already Exists");
+			System.out.println("Username '"+username+"' Already Exists");
 			return null;
 		}
-		User user = new User(username, password, userType, identityNo, firstName, lastName, birthDate);
+		User user = new User(username, password, userType, firstName, lastName, birthDate);
 		em.persist(user);
 		return null;
 	}
@@ -47,35 +46,26 @@ public class UserService extends BaseService {
 	 * Update existing user
 	 * @return
 	 */
-	public void updateUser() {
-		
+	public void updateUser(User user) {
+		em.merge(user);
 	}
 	
 	/**
 	 * Delete existing user
 	 * @return
 	 */
-	public void deleteUser() {
-		
+	public void deleteUser(User user) {
+		if (usernameAlreadyExists(user.getUsername())) {
+			em.createQuery("DELETE FROM User u WHERE u.id = :id")
+			.setParameter("id", user.getId())
+			.executeUpdate();
+		}
 	}
 	
-	/**
-	 * Checks if a specific user already has an account
-	 * @param identityNo person's identity number
-	 * @return true if an account already exists, false otherwise
-	 */
-	private boolean accountAlreadyExists(String identityNo) {
-		User user = null;
-		System.out.println("Trying: " + identityNo);
-		try {
-			user = (User)em.createQuery("SELECT u FROM User u WHERE u.person.identityNo = :identityNo")
-				.setParameter("identityNo", identityNo)
-				.getSingleResult();
-		}
-		catch (NoResultException exc) {
-			System.out.println("Exception!");
-		}
-		return (user != null ? true : false);
+	public List<User> getUsers()
+	{
+		List<User> users = new ArrayList<User>();
+		return users;
 	}
 	
 	/**
@@ -84,16 +74,15 @@ public class UserService extends BaseService {
 	 * @return true if the username is in use, false otherwise
 	 */
 	private boolean usernameAlreadyExists(String username) {
-		User user = null;
-		System.out.println("Trying: " + username);
 		try {
-			user = (User)em.createQuery("SELECT u FROM User u WHERE u.username = :username")
+			User user = (User) em.createQuery("SELECT u FROM User u WHERE u.username = :username")
 				.setParameter("username", username)
 				.getSingleResult();
+			return true;
 		}
 		catch (NoResultException exc) {
-			System.out.println("Exception!");
+			System.out.println("No user found with username '"+username+"'");
+			return false;
 		}
-		return (user != null ? true : false);
 	}
 }

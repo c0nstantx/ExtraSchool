@@ -62,9 +62,9 @@ public class Initializer
     private void populateMockupData()
     {
     	/* Create 3 users */
-    	User u1 = new User("kchristofilos", "123456", UserType.Tutor, "id111", "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
-    	User u2 = new User("sok", "123456", UserType.Student, "id112", "Sokratis", "Pantazaras", DateLib.getDateObject(20, 10, 1978));
-    	User u3 = new User("pgerardos", "123456", UserType.Student, "id113", "Pavlos", "Gerardos", DateLib.getDateObject(8, 1, 1980));
+    	User u1 = new User("kchristofilos", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
+    	User u2 = new User("sok", "123456", UserType.Student, "Sokratis", "Pantazaras", DateLib.getDateObject(20, 10, 1978));
+    	User u3 = new User("pgerardos", "123456", UserType.Student, "Pavlos", "Gerardos", DateLib.getDateObject(8, 1, 1980));
 
     	em.persist(u1);
     	em.persist(u2);

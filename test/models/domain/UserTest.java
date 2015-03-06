@@ -10,6 +10,8 @@ import models.persistence.UserType;
 import org.junit.Assert;
 import org.junit.Test;
 
+import controllers.service.UserService;
+
 public class UserTest extends EntityBaseTest
 {
 	@Test
@@ -24,7 +26,7 @@ public class UserTest extends EntityBaseTest
 	public void createNewUser()
 	{
 		/* Create user */
-		User user = new User("kostasx", "123456", UserType.Tutor, "Konstantinos", "Christofilos", "id111", DateLib.getDateObject(21, 12, 1985));
+		User user = new User("kostasx", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
 		em.persist(user);
 		
 		/* Check if user is saved */
@@ -57,4 +59,20 @@ public class UserTest extends EntityBaseTest
         User retrievedUser = updatedResults.get(0);
         Assert.assertEquals(retrievedUser.getUsername(), "user1");
 	}
+	
+	@Test
+	public void userStringify()
+	{
+		UserService us = new UserService();
+		List<User> users = us.getUsers();
+		String userString = "";
+		
+		for (User user : users) {
+			userString = "User: '"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"
+		+user.getUserType().toString()+"', '"+user.getPerson().getFirstName()+"', '"+user.getPerson().getLastName()
+		+"', "+user.getPerson().getBirthDate().toString();
+			Assert.assertEquals(userString, user.toString());
+		}
+	}
+
 }
