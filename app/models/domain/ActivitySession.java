@@ -173,13 +173,14 @@ public class ActivitySession {
 	}
 	
 	/**
-	 * Returns a string representation of the session object
+	 * Returns a string representation of the ActivitySession object
 	 * @return a string representation of the object
 	 */
 	@Override
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Session: ");
+		strbuilder.append(id + ", ");
 		strbuilder.append("'" + activity.getName() + "'" + ", ");
 		strbuilder.append(DateLib.dateAsString(date) + ", ");
 		strbuilder.append("'" + activity.getVenue() + "'" + ", ");
