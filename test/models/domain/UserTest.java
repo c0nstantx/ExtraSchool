@@ -61,7 +61,8 @@ public class UserTest extends EntityBaseTest
 	public void createNewUserFromConstructor()
 	{
 		/* Create user */
-		User user = new User("kostasx", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
+		User user = new User("kostasx", "123456", UserType.Tutor, 
+				"Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
 		em.getTransaction().begin();
 		em.persist(user);
 		em.getTransaction().commit();
@@ -125,8 +126,6 @@ public class UserTest extends EntityBaseTest
 		
 		user.addMembership(activity);
 		
-		em.persist(user);
-		
 		Assert.assertEquals(1, user.getMemberships().size());
 	}
 
@@ -146,8 +145,6 @@ public class UserTest extends EntityBaseTest
 			memberships.add(membership);
 		}
 		user.setMemberships(memberships);
-		
-		em.persist(user);
 		
 		Assert.assertEquals(3, user.getMemberships().size());
 	}

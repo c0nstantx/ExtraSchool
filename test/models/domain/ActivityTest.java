@@ -77,7 +77,8 @@ public class ActivityTest extends EntityBaseTest
 		activity.setSessions(sessions);
 		
 		boolean[] days = {false, false, true, false, false, false, false};
-		activity.createSessions(DateLib.getDateObject(7, 4, 2015), DateLib.getDateObject(4, 5, 2015), days);
+		activity.createSessions(DateLib.getDateObject(7, 4, 2015), 
+				DateLib.getDateObject(4, 5, 2015), days);
 
 		Assert.assertEquals(6, activity.getSessions().size());
 	}
