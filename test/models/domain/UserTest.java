@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import models.persistence.DateLib;
 import models.persistence.UserType;
+import models.util.DateLib;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -70,7 +70,7 @@ public class UserTest extends EntityBaseTest
 		for (User user : users) {
 			userString = "User: '"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"
 		+user.getUserType().toString()+"', '"+user.getPerson().getFirstName()+"', '"+user.getPerson().getLastName()
-		+"', "+user.getPerson().getBirthDate().toString();
+		+"', "+DateLib.dateAsString(user.getPerson().getBirthDate());
 			Assert.assertEquals(userString, user.toString());
 		}
 	}

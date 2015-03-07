@@ -7,6 +7,7 @@ import models.domain.Activity;
 import models.domain.ActivitySession;
 import models.domain.SessionRegister;
 import models.domain.User;
+import models.util.DateLib;
 import play.db.jpa.Transactional;
 
 /**

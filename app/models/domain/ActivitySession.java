@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import models.persistence.DateLib;
+import models.util.DateLib;
 import models.persistence.RegistrationStatus;
 import models.persistence.SessionStatus;
 

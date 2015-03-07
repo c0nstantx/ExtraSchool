@@ -28,7 +28,7 @@ public class UserService extends BaseService {
 	 * @param firstName user's first name
 	 * @param lastName user's last name
 	 * @param birthDate user's birth date
-	 * @return the created User object
+	 * @return User|null The created User object or null
 	 */
 	public User createUser(String username, String password, UserType userType, 
 			String firstName, String lastName, Date birthDate) {
@@ -38,12 +38,12 @@ public class UserService extends BaseService {
 		}
 		User user = new User(username, password, userType, firstName, lastName, birthDate);
 		em.persist(user);
-		return null;
+		return user;
 	}
-	
+
 	/**
-	 * Update existing user
-	 * @return
+	 * Update user
+	 * @param user
 	 */
 	public void updateUser(User user) {
 		em.merge(user);
@@ -51,7 +51,7 @@ public class UserService extends BaseService {
 	
 	/**
 	 * Delete existing user
-	 * @return
+	 * @param user
 	 */
 	public void deleteUser(User user) {
 		if (usernameAlreadyExists(user.getUsername())) {
@@ -60,11 +60,30 @@ public class UserService extends BaseService {
 			.executeUpdate();
 		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public List<User> getUsers()
 	{
 		List<User> users = new ArrayList<User>();
+		users = em.createQuery("SELECT u FROM User u").getResultList();
 		return users;
+	}
+
+	/**
+	 * 
+	 * @param username
+	 * @return User|null If the user exists return the User object, else return null
+	 */
+	public User findUserByUsername(String username)
+	{
+		try {
+			User user = (User) em.createQuery("SELECT u FROM User u WHERE u.username = :username")
+					.setParameter("username", username)
+					.getSingleResult();
+			return user;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -74,6 +93,7 @@ public class UserService extends BaseService {
 	 */
 	private boolean usernameAlreadyExists(String username) {
 		try {
+			@SuppressWarnings("unused")
 			User user = (User) em.createQuery("SELECT u FROM User u WHERE u.username = :username")
 				.setParameter("username", username)
 				.getSingleResult();

@@ -1,4 +1,4 @@
-package models.persistence;
+package models.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -194,7 +194,10 @@ public class DateLib {
 	 * @return a String representation for the Date object
 	 */
 	public static String dateAsString(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("E dd/MM/yyyy HH:mm");
-		return sdf.format(date);
+		if (date != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("E dd/MM/yyyy HH:mm");
+			return sdf.format(date);
+		}
+		return "";
 	}
 }

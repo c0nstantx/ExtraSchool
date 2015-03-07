@@ -8,7 +8,7 @@ import java.util.List;
 import models.domain.Activity;
 import models.domain.ActivitySession;
 import models.domain.EntityBaseTest;
-import models.persistence.DateLib;
+import models.util.DateLib;
 
 import org.junit.Test;
 

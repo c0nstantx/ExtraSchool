@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import models.persistence.DateLib;
+import models.util.DateLib;
 
 /**
  * Activity Entity

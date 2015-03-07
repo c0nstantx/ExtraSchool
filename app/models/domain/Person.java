@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import models.persistence.DateLib;
+import models.util.DateLib;
 
 /**
  * Person Entity
@@ -61,7 +61,7 @@ public class Person {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("'" + firstName + "'" + ", ");
 		strbuilder.append("'" + lastName + "'" + ", ");
-		strbuilder.append(birthDate != null ? DateLib.dateAsString(birthDate) : "");
+		strbuilder.append(DateLib.dateAsString(birthDate));
 		return strbuilder.toString();
 	}
 }

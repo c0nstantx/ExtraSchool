@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.domain.EntityBaseTest;
-import models.persistence.DateLib;
+import models.util.DateLib;
 import models.persistence.UserType;
 
 import org.junit.Assert;
