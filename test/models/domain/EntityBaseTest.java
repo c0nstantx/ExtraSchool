@@ -20,7 +20,8 @@ import scala.Option;
 /**
  * Base class for Entity testing
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
- *
+ * @author Pavlos Gerardos <pavlos.g@gmail.com >
+ * @author Sokratis Pantazaras <spantazaras@gmail.com>
  */
 abstract public class EntityBaseTest
 {

@@ -152,7 +152,7 @@ public class Activity {
 	 * @param user new activity member
 	 */
 	public void addMembership(User user) {
-		Membership membership = new Membership(this, user, new Date());
+		Membership membership = new Membership(this, user, DateLib.getDateObject());
 		memberships.add(membership);
 	}
 

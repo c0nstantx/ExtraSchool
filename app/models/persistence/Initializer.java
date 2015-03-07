@@ -60,6 +60,71 @@ public class Initializer
     	initDB(true);
     }
     
+    /*
+     * Creates a set of users, activities, memberships, sessions & registers.
+     * All the entities created satisfy integrity constraints, i.e. the initial state of the database is consistent.
+     * After method execution is completed, the database contains the following information:
+     * 
+     *  +--------------------------------------------------------------------------------------+
+     *  | users                                                                                |
+     *  +----+---------------+----------+-----------+--------------+--------------+------------+
+     *  | id |   username    | password | user_type |  first_name  |  last_name   | birth_date |
+     *  +----+---------------+----------+-----------+--------------+--------------+------------+
+     *  |  1 | kchristofilos | 123456   | Tutor     | Konstantinos | Christofilos | 21.12.1985 |
+     *  |  2 | sok           | 123456   | Student   | Sokratis     | Pantazaras   | 20.10.1978 |
+     *  |  3 | pgerardos     | 123456   | Student   | Pavlos       | Gerardos     | 08.01.1980 |
+     *  +----+---------------+----------+-----------+--------------+--------------+------------+
+     *  
+     *  +-----------------------------------------------------------+
+     *  | activities                                                |
+     *  +----+-----------+-----------------------+------------------+
+     *  | id |   name    |      description      |      venue       |
+     *  +----+-----------+-----------------------+------------------+
+     *  |  1 | activity1 | activity1 description | main hall        |
+     *  |  2 | activity2 | activity2 description | basketball court |
+     *  |  3 | activity3 | activity3 description | O.A.K.A. Stadium |
+     *  +----+-----------+-----------------------+------------------+
+     *  
+     *  +-------------------------------------------------+
+     *  | activity_sessions                               |
+     *  +----+------------------+-----------+-------------+
+     *  | id |      date        |  status   | activity_id |
+     *  +----+------------------+-----------+-------------+
+     *  |  1 | 02.03.2015 12.00 | Scheduled |      1      |
+     *  |  2 | 03.03.2015 12.00 | Scheduled |      1      |
+     *  |  3 | 09.03.2015 12.00 | Scheduled |      2      |
+     *  |  4 | 10.03.2015 12.00 | Scheduled |      2      |
+     *  |  5 | 05.03.2015 12.00 | Scheduled |      3      |
+     *  |  6 | 10.03.2015 12.00 | Scheduled |      3      |
+     *  |  7 | 12.03.2015 12.00 | Scheduled |      3      |
+     *  |  8 | 17.03.2015 12.00 | Scheduled |      3      |
+     *  |  9 | 19.03.2015 12.00 | Scheduled |      3      |
+     *  | 10 | 24.03.2015 12.00 | Scheduled |      3      |
+     *  | 11 | 26.03.2015 12.00 | Scheduled |      3      |
+     *  | 12 | 31.03.2015 12.00 | Scheduled |      3      |
+     *  | 13 | 02.04.2015 12.00 | Scheduled |      3      |
+     *  +----+------------------+-----------+-------------+
+     *  
+     *  +-------------------------------------------------------------------------------------------------+
+     *  | memberships                                                                                     |
+     *  +----+-------------+---------+-------------------+-----------+------------------+-------+---------+
+     *  | id | activity_id | user_id | registration_date | published | publication_date | grade | comment |
+     *  +----+-------------+---------+-------------------+-----------+------------------+-------+---------+
+     *  |  1 |      1      |    2    |    28.02.2015     |   false   |
+     *  |  2 |      1      |    3    |    28.02.2015     |   false   |
+     *  |  3 |      2      |    2    |    28.02.2015     |   false   |
+     *  |  4 |      2      |    3    |    28.02.2015     |   false   |
+     *  +----+-------------+---------+-------------------+-----------+
+     *  
+     *  +-------------------------------------------------------------------------------------------------+
+     *  | session_registers                                                                               |
+     *  +----+---------+---------------------+---------------------+--------------------------------------+
+     *  | id | user_id | activity_session_id | registration_status |                notes                 |
+     *  +----+---------+---------------------+---------------------+--------------------------------------+
+     *  |  1 |    2    |          1          | Present             | very inattentive                     |
+     *  |  2 |    3    |          2          | AbsentDueToInjury   | injured during last training session |
+     *  +----+---------+---------------------+---------------------+--------------------------------------+
+     */
     private void populateMockupData()
     {
     	/* Create 3 users */
@@ -108,5 +173,4 @@ public class Initializer
     	em.persist(register1);
     	em.persist(register2);
     }
-
 }

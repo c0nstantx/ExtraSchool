@@ -21,19 +21,6 @@ public class UserServiceTest extends EntityBaseTest
 		super.beforeTest();
 		us = new UserService();
 	}
-
-	@Test
-	public void addNewExistingUsers() {
-		/* Initial users are 3 */
-		
-		us.createUser("kchristofilos", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
-		us.createUser("sok", "123456", UserType.Tutor, "Sokratis", "Alafouzos", DateLib.getDateObject(21, 12, 1985));
-		
-		@SuppressWarnings("unchecked")
-		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
-		
-		Assert.assertEquals(3, users.size());
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Test
@@ -47,6 +34,19 @@ public class UserServiceTest extends EntityBaseTest
 		users = em.createQuery("SELECT u FROM User u").getResultList();
 		
 		Assert.assertEquals(5, users.size());
+	}
+	
+	@Test
+	public void addNewExistingUsers() {
+		/* Initial users are 3 */
+		
+		us.createUser("kchristofilos", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
+		us.createUser("sok", "123456", UserType.Tutor, "Sokratis", "Alafouzos", DateLib.getDateObject(21, 12, 1985));
+		
+		@SuppressWarnings("unchecked")
+		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
+		
+		Assert.assertEquals(3, users.size());
 	}
 
 	@SuppressWarnings("unchecked")

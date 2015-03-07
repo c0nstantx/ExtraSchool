@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import models.persistence.RegistrationStatus;
 import models.persistence.UserType;
+import models.util.DateLib;
 
 /**
  * User Entity
@@ -110,7 +111,7 @@ public class User {
 	}
 	
 	public void addMembership(Activity activity) {
-		Membership membership = new Membership(activity, this, new Date());
+		Membership membership = new Membership(activity, this, DateLib.getDateObject());
 		memberships.add(membership);
 	}
 	

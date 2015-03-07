@@ -8,6 +8,6 @@ package controllers.service;
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
  *
  */
-public class EnrolmentService extends BaseService {
+public class SessionRegisterService extends BaseService {
 	
 }

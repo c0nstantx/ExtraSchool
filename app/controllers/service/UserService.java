@@ -58,7 +58,7 @@ public class UserService extends BaseService {
 	}
 	
 	/**
-	 * Deletes existing user
+	 * Deletes user
 	 * @param user
 	 */
 	public void deleteUser(User user) {
@@ -75,7 +75,7 @@ public class UserService extends BaseService {
 	 * Finds all users
 	 */
 	@SuppressWarnings("unchecked")
-	public List<User> getUsers() {
+	public List<User> findAllUsers() {
 		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
 		return users;
 	}

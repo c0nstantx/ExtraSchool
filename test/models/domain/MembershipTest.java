@@ -22,12 +22,11 @@ public class MembershipTest extends EntityBaseTest
 {
 
 	@Test
-	public void membershipReport()
-	{
+	public void membershipReport() {
 		ActivityService as = new ActivityService();
 		UserService us = new UserService();
 		
-		Activity activity = as.findByName("activity1");
+		Activity activity = as.findActivityByName("activity1");
 		User user = us.findUserByUsername("sok");
 		Membership membership = new Membership();
 		membership.setActivity(activity);
@@ -47,10 +46,9 @@ public class MembershipTest extends EntityBaseTest
 	}
 
 	@Test
-	public void membershipString()
-	{
+	public void membershipString() {
 		ActivityService as = new ActivityService();
-		List<Activity> activities = as.findAll();
+		List<Activity> activities = as.findAllActivities();
 		
 		for (Activity activity : activities) {
 			Set<Membership> memberships = activity.getMemberships();

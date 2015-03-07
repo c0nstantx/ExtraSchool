@@ -13,11 +13,9 @@ import models.persistence.UserType;
 import models.util.DateLib;
 
 /**
- * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
- *
  */
 public class ActivityTest extends EntityBaseTest
 {
@@ -38,11 +36,10 @@ public class ActivityTest extends EntityBaseTest
 	@Test
 	public void addMemberships()
 	{
-		
 		ActivityService as = new ActivityService();
-		Activity activity = as.findByName("activity1");
+		Activity activity = as.findActivityByName("activity1");
 		UserService us = new UserService();
-		List<User> users = us.getUsers();
+		List<User> users = us.findAllUsers();
 		Set<Membership> studentMembers = new HashSet<>();
 		User tutor = new User();
 		for (User user : users) {
@@ -64,7 +61,7 @@ public class ActivityTest extends EntityBaseTest
 	public void addSessions()
 	{
 		ActivityService as = new ActivityService();
-		Activity activity = as.findByName("activity1");
+		Activity activity = as.findActivityByName("activity1");
 
 		Set<ActivitySession> sessions = new HashSet<>();
 		ActivitySession as1 = new ActivitySession();
@@ -87,7 +84,7 @@ public class ActivityTest extends EntityBaseTest
 	public void testString()
 	{
 		ActivityService as = new ActivityService();
-		List<Activity> activities = as.findAll();
+		List<Activity> activities = as.findAllActivities();
 		
 		for (Activity activity : activities) {
 			String activityString = "Activity: " + activity.getId() + ", '" + activity.getName() + "', '" 

@@ -104,7 +104,7 @@ public class UserTest extends EntityBaseTest
 	public void userStringify()
 	{
 		UserService us = new UserService();
-		List<User> users = us.getUsers();
+		List<User> users = us.findAllUsers();
 		String userString = "";
 		
 		for (User user : users) {
@@ -122,7 +122,7 @@ public class UserTest extends EntityBaseTest
 		ActivityService as = new ActivityService();
 		
 		User user = us.findUserByUsername("sok");
-		Activity activity = as.findByName("activity1");
+		Activity activity = as.findActivityByName("activity1");
 		
 		user.addMembership(activity);
 		
@@ -136,7 +136,7 @@ public class UserTest extends EntityBaseTest
 		ActivityService as = new ActivityService();
 		
 		User user = us.findUserByUsername("sok");
-		List<Activity> activities = as.findAll();
+		List<Activity> activities = as.findAllActivities();
 		Set<Membership> memberships = new HashSet<>();
 		for (Activity activity : activities) {
 			Membership membership = new Membership();

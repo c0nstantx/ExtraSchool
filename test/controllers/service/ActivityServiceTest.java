@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import models.domain.Activity;
-import models.domain.ActivitySession;
 import models.domain.EntityBaseTest;
 import models.util.DateLib;
 
@@ -24,37 +23,43 @@ public class ActivityServiceTest extends EntityBaseTest
 	}
 	
 	@Test
+	public void addNewActivities() {
+		
+	}
+	
+	@Test
+	public void addNewExistingActivities() {
+		
+	}
+	
+	@Test
+	public void deleteActivity() {
+		
+	}
+	
+	@Test
+	public void UpdateActivity() {
+		
+	}
+	
+	@Test
 	public void findAllActivities()
 	{
-		List<Activity> activities = as.findAll();
+		List<Activity> activities = as.findAllActivities();
 		assertEquals(3, activities.size());
 	}
 
 	@Test
 	public void findActivityByName()
 	{
-		Activity activity = as.findByName("activity1");
+		Activity activity = as.findActivityByName("activity1");
 		assertNotNull(activity);
 	}
 
 	@Test
 	public void findActivitiesByDate()
 	{
-		List<Activity> activities = as.findByDate(DateLib.getDateObject(3, 3, 2015));
+		List<Activity> activities = as.findActivitiesByDate(DateLib.getDateObject(3, 3, 2015));
 		assertEquals(1, activities.size());
-	}
-	
-	@Test
-	public void findSessionsByDate()
-	{
-		List<ActivitySession> sessions = as.findSessionsByDate(DateLib.getDateObject(10, 3, 2015));
-		assertEquals(2, sessions.size());
-	}
-	
-	@Test
-	public void testActivitySessions() {
-		Activity a3 = as.findByName("activity3");
-		assertNotNull(a3);
-		assertEquals(9, a3.getSessions().size());
 	}
 }

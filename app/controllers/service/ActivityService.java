@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import models.domain.Activity;
-import models.domain.ActivitySession;
-import models.domain.User;
 
 /**
  * Service for Activity Entity
@@ -17,6 +15,7 @@ import models.domain.User;
  *
  */
 public class ActivityService extends BaseService {
+	
 	/**
 	 * Creates new Activity object and attaches it to the database
 	 * Prerequisites:
@@ -27,7 +26,7 @@ public class ActivityService extends BaseService {
 	 * @return Activity|null The created Activity object or null
 	 */
 	public Activity createActivity(String name, String description, String venue) {
-		if (findByName(name) != null) {
+		if (findActivityByName(name) != null) {
 			System.out.println("Activity '" + name + "' already Exists");
 			return null;
 		}
@@ -38,20 +37,41 @@ public class ActivityService extends BaseService {
 		return activity;
 	}
 	
-	public boolean updateActivity() {
-		
+	/**
+	 * Updates activity
+	 * @param activity
+	 * @return boolean
+	 */
+	public boolean updateActivity(Activity activity) {
+		Activity searchActivity = findActivityByName(activity.getName());
+		if (activity.getId() == searchActivity.getId()) {
+			em.getTransaction().begin();
+			em.merge(activity);
+			em.getTransaction().commit();
+			return true;
+		}
+		return false;
 	}
 	
-	public boolean deleteActivity() {
-		
+	/**
+	 * Deletes activity
+	 * @param activity
+	 */
+	public void deleteActivity(Activity activity) {
+		if (findActivityByName(activity.getName()) != null) {
+			em.getTransaction().begin();
+			em.createQuery("DELETE FROM Activity a WHERE a.id = :id")
+			.setParameter("id", activity.getId())
+			.executeUpdate();
+			em.getTransaction().commit();
+		}
 	}
 	
 	/**
 	 * Finds all activities
 	 * @return list of activities
-	 * 
 	 */
-	public List<Activity> findAll() {
+	public List<Activity> findAllActivities() {
 		@SuppressWarnings("unchecked")
 		List<Activity> results = em.createQuery("SELECT a FROM Activity a").getResultList();
 		return results;
@@ -61,9 +81,8 @@ public class ActivityService extends BaseService {
 	 * Find an activity by its name
 	 * @param name activity name
 	 * @return activity with the specified name or null
-	 * 
 	 */
-	public Activity findByName(String name) {
+	public Activity findActivityByName(String name) {
 		Activity activity = (Activity) em.createQuery("SELECT a FROM Activity a WHERE name = :name")
 				.setParameter("name", name)
 				.getSingleResult();
@@ -74,39 +93,12 @@ public class ActivityService extends BaseService {
 	 * Find all activities that have sessions on a given date
 	 * @param date date of interest
 	 * @return list of activities
-	 * 
 	 */
-	public List<Activity> findByDate(Date date) {
+	public List<Activity> findActivitiesByDate(Date date) {
 		Query query = em.createQuery("SELECT a FROM Activity a JOIN a.sessions ac WHERE ac.date = :date")
 				.setParameter("date", date);
 		@SuppressWarnings("unchecked")
 		List<Activity> activities = query.getResultList();
 		return activities;
-	}
-	
-	/**
-	 * Find all activity sessions on a given date
-	 * @param date date of interest
-	 * @return list of sessions
-	 * 
-	 */
-	public List<ActivitySession> findSessionsByDate(Date date) {
-		Query query = em.createQuery("SELECT a FROM ActivitySession a WHERE a.date = :date")
-				.setParameter("date", date);
-		@SuppressWarnings("unchecked")
-		List<ActivitySession> sessions = query.getResultList();
-		return sessions;
-	}
-	
-	/**
-	 * Find all activity sessions on any date
-	 * @return list of sessions
-	 * 
-	 */
-	public List<ActivitySession> findAllSessions() {
-		Query query = em.createQuery("SELECT a FROM ActivitySession a");
-		@SuppressWarnings("unchecked")
-		List<ActivitySession> sessions = query.getResultList();
-		return sessions;
 	}
 }
