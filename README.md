@@ -20,8 +20,8 @@ Installation
 
 [P.Gerardos][4], [S.Pantazaras][5] and [K.Christofilos][3]
 
-[1]: http://mscis.cs.aueb.gr/
-[2]: http://www.aueb.gr/
+[1]: http://www.aueb.gr/
+[2]: http://mscis.cs.aueb.gr/
 [3]: https://github.com/c0nstantx
 [4]: https://github.com/pavlosg
 [5]: https://github.com/Soookkk

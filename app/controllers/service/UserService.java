@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.NoResultException;
 
 import models.domain.User;
-import models.exceptions.UsernameExistsException;
 import models.persistence.UserType;
 
 /**
