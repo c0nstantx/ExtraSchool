@@ -48,7 +48,6 @@ public class ActivityServiceTest extends EntityBaseTest
 	public void findSessionsByDate()
 	{
 		List<ActivitySession> sessions = as.findSessionsByDate(DateLib.getDateObject(10, 3, 2015));
-		System.out.println(sessions);
 		assertEquals(2, sessions.size());
 	}
 	
