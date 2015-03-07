@@ -138,16 +138,14 @@ public class User {
 	}
 
 	public boolean equals(Object other) {
-        if ( other == null) {
-            return false;
-        }
         if (this == other) {
             return true;
         }
-        if (! (other instanceof User)) {
-            return false;
+        if (other instanceof User 
+        		&& this.getUsername() == ((User) other).getUsername()) {
+    		return true;
         }
-        return true;
+        return false;
 	}
 	
 	public String toString() {

@@ -30,7 +30,7 @@ abstract public class EntityBaseTest
     @BeforeClass
     public static void setUp()
     {
-    	FakeApplication app = Helpers.fakeApplication();
+    	FakeApplication app = Helpers.fakeApplication(inMemoryDatabase());
 		Helpers.start(app);
 		Option<JPAPlugin> jpaPlugin = app.getWrappedApplication().plugin(JPAPlugin.class);
 		em = jpaPlugin.get().em("default");
