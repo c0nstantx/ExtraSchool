@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import models.util.DateLib;
 
 /**
@@ -22,8 +24,7 @@ import models.util.DateLib;
  */
 @Entity
 @Table(name = "memberships")
-public class Membership
-{
+public class Membership {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,6 +39,7 @@ public class Membership
 	private User user;
 	
 	@Column(name = "registration_date")
+	@Type(type = "date")
 	private Date registrationDate;
 	
 	@Embedded
@@ -62,7 +64,7 @@ public class Membership
 	
 	/**
 	 * returns the id of the membership
-	 * @return session id
+	 * @return membership id
 	 */
 	public Integer getId() {
 		return id;
@@ -142,16 +144,18 @@ public class Membership
 	}
 	
 	/**
-	 * Returns a string representation of the membership object
+	 * Returns a string representation of the Membership object
 	 * @return a string representation of the object
 	 */
 	@Override
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Membership: ");
+		strbuilder.append(id + ", ");
 		strbuilder.append(activity.getId() + ", ");
 		strbuilder.append(user.getId() + ", ");
-		strbuilder.append(DateLib.dateAsString(registrationDate));
+		strbuilder.append(DateLib.dateAsString(registrationDate) + ", ");
+		strbuilder.append(report);
 		return strbuilder.toString();
 	}
 }

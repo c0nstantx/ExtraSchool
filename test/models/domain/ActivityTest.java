@@ -89,7 +89,7 @@ public class ActivityTest extends EntityBaseTest
 		List<Activity> activities = as.findAll();
 		
 		for (Activity activity : activities) {
-			String activityString = "Activity: '" + activity.getName() + "', '" 
+			String activityString = "Activity: " + activity.getId() + ", '" + activity.getName() + "', '" 
 		+ activity.getDescription() + "', '" + activity.getVenue() + "', "+activity.getMemberships().size() 
 		+ " membership(s)" + ", "+activity.getSessions().size() + " session(s)";
 			Assert.assertEquals(activityString, activity.toString());

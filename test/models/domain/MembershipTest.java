@@ -55,9 +55,13 @@ public class MembershipTest extends EntityBaseTest
 		for (Activity activity : activities) {
 			Set<Membership> memberships = activity.getMemberships();
 			for (Membership membership : memberships) {
-				String membershipString = "Membership: "+activity.getId().toString() 
+				String membershipString = "Membership: "+membership.getId().toString()+", "+activity.getId().toString() 
 						+ ", "+membership.getUser().getId().toString() 
-						+ ", "+DateLib.dateAsString(membership.getRegistrationDate());
+						+ ", "+DateLib.dateAsString(membership.getRegistrationDate())
+						+ ", "+ membership.getReport().getPublished()
+						+ ", "+DateLib.dateAsString(membership.getReport().getPublicationDate())
+						+ ", "+membership.getReport().getGrade()
+						+", '"+membership.getReport().getComment()+"'";
 				Assert.assertEquals(membershipString, membership.toString());
 			}
 		}

@@ -176,7 +176,7 @@ public class Activity {
 	 * adds a new session to the set of sessions
 	 * @param session new activity session
 	 */
-	public void addSession(ActivitySession session) { // scheduler check
+	public void addSession(ActivitySession session) {
 		session.setActivity(this);
 		sessions.add(session);
 	}
@@ -197,13 +197,14 @@ public class Activity {
 	}
 	
 	/**
-	 * Returns a string representation of the activity object
+	 * Returns a string representation of the Activity object
 	 * @return a string representation of the object
 	 */
 	@Override
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Activity: ");
+		strbuilder.append(id + ", ");
 		strbuilder.append("'" + name + "'" + ", ");
 		strbuilder.append("'" + description + "'" + ", ");
 		strbuilder.append("'" + venue + "'" + ", ");

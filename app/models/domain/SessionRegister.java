@@ -16,12 +16,12 @@ import models.persistence.RegistrationStatus;
 /**
  * SessionRegister Entity
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
- *
+ * @author Pavlos Gerardos <pavlos.g@gmail.com >
+ * @author Sokratis Pantazaras <spantazaras@gmail.com>
  */
 @Entity
 @Table(name = "session_registers")
-public class SessionRegister
-{
+public class SessionRegister {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,60 +42,119 @@ public class SessionRegister
 	@Column(name = "notes")
 	private String notes;
 
+	/**
+	 * Default constructor
+	 */
 	public SessionRegister() {}
 	
-	public SessionRegister(User student, ActivitySession session, RegistrationStatus status, String notes)
-	{
+	/**
+	 * Constructor
+	 * @param student the user who is registered
+	 * @param session the session for which the user is registered
+	 * @param status the user status entered for this session
+	 * @param notes the notes entered about the user for this session
+	 */
+	public SessionRegister(User student, ActivitySession session, RegistrationStatus status, String notes) {
 		this.student = student;
 		this.session = session;
 		this.status = status;
 		this.notes = notes;
 	}
 	
-	public Integer getId()
-	{
+	/**
+	 * returns the id of the register
+	 * @return register id
+	 */
+	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * sets the id of the register
+	 * @param id register id
+	 */
 	@SuppressWarnings("unused")
-	private void setId(Integer id)
-	{
+	private void setId(Integer id) {
 		this.id = id;
 	}
 
-	public User getStudent()
-	{
+	/**
+	 * returns the user who is registered
+	 * @return registered user
+	 */
+	public User getStudent() {
 		return student;
 	}
 
-	public void setStudent(User student)
-	{
+	/**
+	 * sets the user who is registered
+	 * @param student registered user
+	 */
+	public void setStudent(User student) {
 		this.student = student;
 	}
 
-	public ActivitySession getSession()
-	{
+	/**
+	 * returns the session for which the user is registered
+	 * @return registration session
+	 */
+	public ActivitySession getSession() {
 		return session;
 	}
 
-	public void setSession(ActivitySession session)
-	{
+	/**
+	 * sets the session for which the user is registered
+	 * @param session registration session
+	 */
+	public void setSession(ActivitySession session) {
 		this.session = session;
 	}
 	
+	/**
+	 * returns the user status entered for this session
+	 * @return user status for this session
+	 */
 	public RegistrationStatus getStatus() {
 		return status;
 	}
 	
+	/**
+	 * sets the user status for this session
+	 * @param status user status
+	 */
 	public void setStatus(RegistrationStatus status) {
 		this.status = status;
 	}
 	
+	/**
+	 * returns the notes entered about the user for this session
+	 * @return notes about the user
+	 */
 	public String getNotes() {
 		return notes;
 	}
 	
+	/**
+	 * sets the notes entered about the user for this session
+	 * @param notes notes about the user
+	 */
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	
+	/**
+	 * Returns a string representation of the SessionRegister object
+	 * @return a string representation of the object
+	 */
+	@Override
+	public String toString() {
+		StringBuilder strbuilder = new StringBuilder();
+		strbuilder.append("Register: ");
+		strbuilder.append(id + ", ");
+		strbuilder.append(student.getId() + ", ");
+		strbuilder.append(session.getId() + ", ");
+		strbuilder.append("'" + status + "'" + ", ");
+		strbuilder.append("'" + notes + "'");
+		return strbuilder.toString();
 	}
 }
