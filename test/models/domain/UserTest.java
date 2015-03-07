@@ -46,7 +46,9 @@ public class UserTest extends EntityBaseTest
 		person.setLastName("Christofilos");
 		person.setBirthDate(DateLib.getDateObject(21, 12, 1985));
 		user.setPerson(person);
+		em.getTransaction().begin();
 		em.persist(user);
+		em.getTransaction().commit();
 		
 		/* Check if user is saved */
         Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
@@ -60,7 +62,9 @@ public class UserTest extends EntityBaseTest
 	{
 		/* Create user */
 		User user = new User("kostasx", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
+		em.getTransaction().begin();
 		em.persist(user);
+		em.getTransaction().commit();
 		
 		/* Check if user is saved */
         Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
@@ -82,7 +86,9 @@ public class UserTest extends EntityBaseTest
 		List<User> results = query.getResultList();
         User user = results.get(0);
         user.setUsername("user1");
+        em.getTransaction().begin();
         em.merge(user);
+        em.getTransaction().commit();
         
         /* Check if user is updated */
         query = em.createQuery("SELECT user FROM User user WHERE username = :uname");

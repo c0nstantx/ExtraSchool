@@ -29,8 +29,6 @@ public class ActivityTest extends EntityBaseTest
 		activity.setName("Activity Test");
 		activity.setDescription("Test activity description");
 		activity.setVenue("School's yard");
-		
-		em.persist(activity);
 
 		Assert.assertEquals("Activity Test", activity.getName());
 		Assert.assertEquals("Test activity description", activity.getDescription());
@@ -59,8 +57,6 @@ public class ActivityTest extends EntityBaseTest
 		activity.setMemberships(studentMembers);
 		activity.addMembership(tutor);
 		
-		em.persist(activity);
-		
 		Assert.assertEquals(3, activity.getMemberships().size());
 	}
 
@@ -82,8 +78,6 @@ public class ActivityTest extends EntityBaseTest
 		
 		boolean[] days = {false, false, true, false, false, false, false};
 		activity.createSessions(DateLib.getDateObject(7, 4, 2015), DateLib.getDateObject(4, 5, 2015), days);
-		
-		em.persist(activity);
 
 		Assert.assertEquals(6, activity.getSessions().size());
 	}

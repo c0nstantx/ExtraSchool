@@ -37,16 +37,26 @@ public class UserService extends BaseService {
 			return null;
 		}
 		User user = new User(username, password, userType, firstName, lastName, birthDate);
+		em.getTransaction().begin();
 		em.persist(user);
+		em.getTransaction().commit();
 		return user;
 	}
 
 	/**
 	 * Update user
 	 * @param user
+	 * @return boolean
 	 */
-	public void updateUser(User user) {
-		em.merge(user);
+	public boolean updateUser(User user) {
+		User searchUser = findUserByUsername(user.getUsername());
+		if (user.getId() == searchUser.getId()) {
+			em.getTransaction().begin();
+			em.merge(user);
+			em.getTransaction().commit();
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -55,9 +65,11 @@ public class UserService extends BaseService {
 	 */
 	public void deleteUser(User user) {
 		if (usernameAlreadyExists(user.getUsername())) {
+			em.getTransaction().begin();
 			em.createQuery("DELETE FROM User u WHERE u.id = :id")
 			.setParameter("id", user.getId())
 			.executeUpdate();
+			em.getTransaction().commit();
 		}
 	}
 

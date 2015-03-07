@@ -50,19 +50,12 @@ abstract public class EntityBaseTest
     	em.getTransaction().begin();
     	Initializer init = new Initializer();
     	init.initDB();
+    	em.getTransaction().commit();
     }
     
     @After
     public void afterTest()
     {
-    	try {
-        	em.getTransaction().commit();
-		} catch (Exception e) {
-			EntityTransaction et = em.getTransaction();
-			if (et.isActive()) {
-				em.getTransaction().rollback();
-			}
-		}
     	em.clear();
     }
 }
