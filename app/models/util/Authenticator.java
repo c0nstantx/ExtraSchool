@@ -11,7 +11,6 @@ import models.domain.User;
  */
 public class Authenticator {
 	/**
-	 * 
 	 * @param username
 	 * @param password
 	 * @return User|null

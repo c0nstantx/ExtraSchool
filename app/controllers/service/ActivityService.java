@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import models.domain.Activity;
 import models.domain.ActivitySession;
+import models.domain.User;
 
 /**
  * Service for Activity Entity
@@ -16,6 +17,34 @@ import models.domain.ActivitySession;
  *
  */
 public class ActivityService extends BaseService {
+	/**
+	 * Creates new Activity object and attaches it to the database
+	 * Prerequisites:
+	 * - no other activity exists with the same name
+	 * @param name the name of this activity
+	 * @param description a short description of the activity
+	 * @param venue the venue where the activity sessions take place
+	 * @return Activity|null The created Activity object or null
+	 */
+	public Activity createActivity(String name, String description, String venue) {
+		if (findByName(name) != null) {
+			System.out.println("Activity '" + name + "' already Exists");
+			return null;
+		}
+		Activity activity = new Activity(name, description, venue);
+		em.getTransaction().begin();
+		em.persist(activity);
+		em.getTransaction().commit();
+		return activity;
+	}
+	
+	public boolean updateActivity() {
+		
+	}
+	
+	public boolean deleteActivity() {
+		
+	}
 	
 	/**
 	 * Finds all activities
