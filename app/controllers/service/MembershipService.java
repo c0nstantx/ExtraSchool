@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import models.domain.Activity;
 import models.domain.ActivitySession;
 import models.domain.Membership;
+import models.domain.SessionRegister;
 import models.domain.User;
 import models.persistence.UserType;
 import models.util.DateLib;
@@ -42,20 +43,16 @@ public class MembershipService extends BaseService {
 	 */
 	public Membership createMembership(Activity activity, User user, Date registrationDate) {
 		if (user.getUserType() == UserType.Admin) {
-			System.out.println("Cannot enroll an administrator");
 			return null;
 		}
 		if (findMembership(activity, user) != null) {
-			System.out.println("User already signed up for this activity");
 			return null;
 		}
 		ActivityService as = new ActivityService();
 		if (as.findActivityTutor(activity.getName()) != null) {
-			System.out.println("There is already a tutor for this activity");
 			return null;
 		}
 		if (detectClashes(activity, user)) {
-			System.out.println("There are clashes");
 			return null;
 		}
 		Membership membership = new Membership(activity, user, registrationDate);
@@ -68,25 +65,10 @@ public class MembershipService extends BaseService {
 	}
 	
 	/**
-	 * Updates membership
-	 * @param membership
-	 * @return true if update successful, false otherwise
-	 */
-	public boolean updateMembership(Membership membership) {
-		Membership searchMembership = findMembership(membership.getActivity(), membership.getUser());
-		if (searchMembership != null && membership.getId() == searchMembership.getId()) {
-			em.getTransaction().begin();
-			em.merge(membership);
-			em.getTransaction().commit();
-			return true;
-		}
-		return false;
-	}
-	
-	/**
 	 * Deletes membership
 	 * Prerequisites:
-	 * - there are no registers linked to this membership
+	 * - there are no registers linked to the user for any of the sessions of the activity
+	 * - there is no published report for this membership
 	 * @param membership
 	 * @return true if deletion successful, false otherwise
 	 */
@@ -100,6 +82,29 @@ public class MembershipService extends BaseService {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param membership
+	 * @param grade
+	 * @param comment
+	 */
+	public void assignReport(Membership membership, double grade, String comment) {
+		Membership searchMembership = findMembership(membership.getActivity(), membership.getUser());
+		if (searchMembership != null && membership.getId() == searchMembership.getId()) {
+			em.getTransaction().begin();
+			em.merge(membership);
+			em.getTransaction().commit();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param membership
+	 */
+	public void publishReport(Membership membership) {
+		
 	}
 	
 	/**
@@ -122,8 +127,8 @@ public class MembershipService extends BaseService {
 	 */
 	public List<Membership> findAllMembershipsByActivity(Activity activity) {
 		@SuppressWarnings("unchecked")
-		List<Membership> results = em.createQuery("SELECT m FROM Membership m WHERE m.activity = :activity")
-		.setParameter("activity", activity)
+		List<Membership> results = em.createQuery("SELECT m FROM Membership m WHERE m.activity.id = :id")
+		.setParameter("id", activity.getId())
 		.getResultList();
 		return results;
 	}
@@ -137,9 +142,9 @@ public class MembershipService extends BaseService {
 	public Membership findMembership(Activity activity, User user) {
 		try {
 			Membership membership = (Membership)em
-					.createQuery("SELECT m FROM Membership m WHERE m.activity = :activity AND m.user = :user")
-					.setParameter("activity", activity)
-					.setParameter("user", user)
+					.createQuery("SELECT m FROM Membership m WHERE m.activity.id = :acId AND m.user.id = :usId")
+					.setParameter("acId", activity.getId())
+					.setParameter("usId", user.getId())
 					.getSingleResult();
 			return membership;
 		} catch (NoResultException e) {
@@ -147,12 +152,9 @@ public class MembershipService extends BaseService {
 		}
 	}
 	
-	/**
+	/*
 	 * Detects if there are clashes between one activity's sessions and the
-	 * sessions of all the other activities the user is already signed up for  
-	 * @param activity
-	 * @param user
-	 * @return true if there are clashes, false otherwise
+	 * sessions of all the other activities the user is already signed up for
 	 */
 	private boolean detectClashes(Activity activity, User user) {
 		List<Membership> existingMemberships = findAllMembershipsByUser(user);
@@ -168,12 +170,9 @@ public class MembershipService extends BaseService {
 		return false;
 	}
 	
-	/**
+	/*
 	 * Detects if there are clashes between the sessions of a new activity and a
 	 * session the user is already attending  
-	 * @param existingSession existing session
-	 * @param newActivity new activity
-	 * @return true if there are clashes, false otherwise
 	 */
 	private boolean detectClashes(ActivityService activityService, ActivitySession existingSession, Activity newActivity) {
 		List<ActivitySession> newSessions = activityService.findAllSessionsByActivity(newActivity);
@@ -183,5 +182,50 @@ public class MembershipService extends BaseService {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Finds all session registers for a specific user
+	 * @param user user
+	 * @return list of registers
+	 */
+	public List<SessionRegister> findAllRegistersByUser(User user) {
+		@SuppressWarnings("unchecked")
+		List<SessionRegister> results = em.createQuery("SELECT s FROM SessionRegister s WHERE s.user.id = :id")
+			.setParameter("id", user.getId())
+			.getResultList();
+		return results;
+	}
+	
+	/**
+	 * Finds all session registers for a specific activity
+	 * @param activity activity
+	 * @return list of registers
+	 */
+	public List<SessionRegister> findAllRegistersByActivity(Activity activity) {
+		@SuppressWarnings("unchecked")
+		List<SessionRegister> results = em.createQuery("SELECT s FROM SessionRegister s WHERE s.activity.id = :id")
+		.setParameter("id", activity.getId())
+		.getResultList();
+		return results;
+	}
+
+	/**
+	 * Find a session register by its key (activity session, user)
+	 * @param session activity session
+	 * @param user user
+	 * @return register with the specified key or null
+	 */
+	public SessionRegister findRegister(ActivitySession session, User user) {
+		try {
+			SessionRegister register = (SessionRegister)em
+					.createQuery("SELECT s FROM SessionRegister s WHERE s.session.id = :seId AND s.user.id = :usId")
+					.setParameter("seId", session.getId())
+					.setParameter("usId", user.getId())
+					.getSingleResult();
+			return register;
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 }

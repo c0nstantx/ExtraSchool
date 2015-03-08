@@ -66,7 +66,6 @@ public class UserService extends BaseService {
 	public boolean deleteUser(User user) {
 		User searchUser = findUserByUsername(user.getUsername());
 		if (searchUser != null && searchUser.getMemberships().size() == 0) {
-			System.out.println("Memberships: " + searchUser.getMemberships().size());
 			em.getTransaction().begin();
 			em.createQuery("DELETE FROM User u WHERE u.id = :id")
 			.setParameter("id", user.getId())
@@ -74,7 +73,6 @@ public class UserService extends BaseService {
 			em.getTransaction().commit();
 			return true;
 		}
-		System.out.println("Memberships: " + searchUser.getMemberships().size());
 		return false;
 	}
 
