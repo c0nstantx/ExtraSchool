@@ -26,6 +26,8 @@ import org.hibernate.annotations.Type;
 
 /**
  * ActivitySession Entity
+ * Describes the session of an activity
+ * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>

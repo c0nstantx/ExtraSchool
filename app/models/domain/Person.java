@@ -11,6 +11,8 @@ import models.util.DateLib;
 
 /**
  * Person Entity
+ * Personal information of users
+ * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>

@@ -18,6 +18,8 @@ import models.util.DateLib;
 
 /**
  * Activity Entity
+ * Describes the activities that a student can participate
+ * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>

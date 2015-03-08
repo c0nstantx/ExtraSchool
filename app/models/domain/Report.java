@@ -11,6 +11,8 @@ import org.hibernate.annotations.Type;
 
 /**
  * Report Entity
+ * Describes a student's report in an activity
+ *   
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
