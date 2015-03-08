@@ -41,8 +41,8 @@ public class DateLibTest extends EntityBaseTest
 		
 		date2 = DateLib.copyDateObject(date1); // date2 is 26.03.2015 12.00
 		DateLib.addMonths(date1, 1); // date 1 is 26.04.2015 12.00
-		String dateString2_1 = DateLib.dateAsString(date2).substring(4);
-		String dateString2_2 = "26/03/2015 12:00";
+		String dateString2_1 = DateLib.dateAsString(date2);
+		String dateString2_2 = "Thu 26/03/2015 12:00";
 		assertEquals(dateString2_1, dateString2_2);
 		
 		assertEquals(4, DateLib.getWeekday(date3)); // 25.03.2015 is Wed (4)

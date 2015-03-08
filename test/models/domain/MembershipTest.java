@@ -39,7 +39,7 @@ public class MembershipTest extends EntityBaseTest
 		report.setPublicationDate(new Date());
 		
 		membership.setReport(report);
-		
+
 		em.persist(membership);
 		
 		Assert.assertEquals(9.5, membership.getReport().getGrade(), 0.001);

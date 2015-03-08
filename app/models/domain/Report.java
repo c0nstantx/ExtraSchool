@@ -25,10 +25,10 @@ public class Report {
 	private Date publicationDate;
 	
 	@Column(name = "grade")
-	private double grade;
+	private double grade = 0.0;
 	
 	@Column(name = "comment")
-	private String comment;
+	private String comment = "";
 	
 	/**
 	 * Default constructor

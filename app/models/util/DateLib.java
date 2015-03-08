@@ -1,8 +1,10 @@
 package models.util;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * DateLib Class
@@ -195,7 +197,7 @@ public class DateLib {
 	 */
 	public static String dateAsString(Date date) {
 		if (date != null) {
-			SimpleDateFormat sdf = new SimpleDateFormat("E dd/MM/yyyy HH:mm");
+			SimpleDateFormat sdf = new SimpleDateFormat("E dd/MM/yyyy HH:mm", DateFormatSymbols.getInstance(Locale.ENGLISH));
 			return sdf.format(date);
 		}
 		return "";

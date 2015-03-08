@@ -108,7 +108,7 @@ public class UserTest extends EntityBaseTest
 		String userString = "";
 		
 		for (User user : users) {
-			userString = "User: '"+user.getId()+"', '"+user.getUsername()+"', '"+user.getPassword()+"', '"
+			userString = "User: "+user.getId()+", '"+user.getUsername()+"', '"+user.getPassword()+"', '"
 		+user.getUserType().toString()+"', '"+user.getPerson().getFirstName()+"', '"+user.getPerson().getLastName()
 		+"', "+DateLib.dateAsString(user.getPerson().getBirthDate());
 			Assert.assertEquals(userString, user.toString());
@@ -122,11 +122,11 @@ public class UserTest extends EntityBaseTest
 		ActivityService as = new ActivityService();
 		
 		User user = us.findUserByUsername("sok");
-		Activity activity = as.findActivityByName("activity1");
+		Activity activity = as.findActivityByName("Gymnastics");
+		Membership m = new Membership(activity, user, DateLib.getDateObject());
 		
-		user.addMembership(activity);
-		
-		Assert.assertEquals(1, user.getMemberships().size());
+		user.addMembership(m);
+		Assert.assertEquals(3, user.getMemberships().size());
 	}
 
 	@Test
