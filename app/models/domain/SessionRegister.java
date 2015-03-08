@@ -150,7 +150,7 @@ public class SessionRegister {
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Register: ");
-		strbuilder.append(id + ", ");
+		strbuilder.append((getId() == null ? -1 : getId()) + ", ");
 		strbuilder.append(student.getId() + ", ");
 		strbuilder.append(session.getId() + ", ");
 		strbuilder.append("'" + status + "'" + ", ");

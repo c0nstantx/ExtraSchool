@@ -204,12 +204,12 @@ public class Activity {
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Activity: ");
-		strbuilder.append(id + ", ");
-		strbuilder.append("'" + name + "'" + ", ");
-		strbuilder.append("'" + description + "'" + ", ");
-		strbuilder.append("'" + venue + "'" + ", ");
-		strbuilder.append(memberships.size() + " membership(s)" + ", ");
-		strbuilder.append(sessions.size() + " session(s)");
+		strbuilder.append((getId() == null ? -1 : getId()) + ", ");
+		strbuilder.append("'" + getName() + "'" + ", ");
+		strbuilder.append("'" + getDescription() + "'" + ", ");
+		strbuilder.append("'" + getVenue() + "'" + ", ");
+		strbuilder.append(getMemberships().size() + " membership(s)" + ", ");
+		strbuilder.append(getSessions().size() + " session(s)");
 		return strbuilder.toString();
 	}
 }

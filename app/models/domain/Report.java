@@ -105,10 +105,10 @@ public class Report {
 	 */
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
-		strbuilder.append(published + ", ");
-		strbuilder.append(DateLib.dateAsString(publicationDate) + ", ");
-		strbuilder.append(grade + ", ");
-		strbuilder.append("'" + comment + "'");
+		strbuilder.append(getPublished() + ", ");
+		strbuilder.append(DateLib.dateAsString(getPublicationDate()) + ", ");
+		strbuilder.append(getGrade() + ", ");
+		strbuilder.append("'" + getComment() + "'");
 		return strbuilder.toString();
 	}
 }

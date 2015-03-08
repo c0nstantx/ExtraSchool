@@ -94,9 +94,9 @@ public class Person {
 	 */
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
-		strbuilder.append("'" + firstName + "'" + ", ");
-		strbuilder.append("'" + lastName + "'" + ", ");
-		strbuilder.append(DateLib.dateAsString(birthDate));
+		strbuilder.append("'" + getFirstName() + "'" + ", ");
+		strbuilder.append("'" + getLastName() + "'" + ", ");
+		strbuilder.append(DateLib.dateAsString(getBirthDate()));
 		return strbuilder.toString();
 	}
 }

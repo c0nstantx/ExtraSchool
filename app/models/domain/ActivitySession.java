@@ -180,12 +180,12 @@ public class ActivitySession {
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Session: ");
-		strbuilder.append(id + ", ");
-		strbuilder.append("'" + activity.getName() + "'" + ", ");
-		strbuilder.append(DateLib.dateAsString(date) + ", ");
-		strbuilder.append("'" + activity.getVenue() + "'" + ", ");
-		strbuilder.append("'" + status + "'" + ", ");
-		strbuilder.append(registers.size() + " register(s)");
+		strbuilder.append((getId() == null ? -1 : getId()) + ", ");
+		strbuilder.append("'" + getActivity().getName() + "'" + ", ");
+		strbuilder.append(DateLib.dateAsString(getDate()) + ", ");
+		strbuilder.append("'" + getActivity().getVenue() + "'" + ", ");
+		strbuilder.append("'" + getStatus() + "'" + ", ");
+		strbuilder.append(getRegisters().size() + " register(s)");
 		return strbuilder.toString();
 	}
 }
