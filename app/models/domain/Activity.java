@@ -149,10 +149,9 @@ public class Activity {
 	
 	/**
 	 * adds a new membership to the set of memberships
-	 * @param user new activity member
+	 * @param membership new membership
 	 */
-	public void addMembership(User user) {
-		Membership membership = new Membership(this, user, DateLib.getDateObject());
+	public void addMembership(Membership membership) {
 		memberships.add(membership);
 	}
 

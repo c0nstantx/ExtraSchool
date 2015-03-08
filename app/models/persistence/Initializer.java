@@ -5,7 +5,7 @@ import javax.persistence.Query;
 
 import models.domain.Activity;
 import models.domain.ActivitySession;
-import models.domain.SessionRegister;
+import models.domain.Membership;
 import models.domain.User;
 import models.util.DateLib;
 import play.db.jpa.Transactional;
@@ -17,18 +17,15 @@ import play.db.jpa.Transactional;
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
  *
  */
-public class Initializer
-{
+public class Initializer {
 	private EntityManager em;
 	
-	public Initializer()
-	{
+	public Initializer() {
     	em = JPAUtil.getCurrentEntityManager();
 	}
 	
     @Transactional
-    public void clearDB()
-    {
+    public void clearDB() {
         Query query = em.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE");
         query.executeUpdate();
         query = em.createNativeQuery("TRUNCATE TABLE users");
@@ -46,8 +43,7 @@ public class Initializer
     }
 
     @Transactional
-    public void initDB(boolean mockupData)
-    {
+    public void initDB(boolean mockupData) {
     	clearDB();
     	if (mockupData == true) {
     		populateMockupData();
@@ -55,8 +51,7 @@ public class Initializer
     }
 
     @Transactional
-    public void initDB()
-    {
+    public void initDB() {
     	initDB(true);
     }
     
@@ -75,15 +70,15 @@ public class Initializer
      *  |  3 | pgerardos     | 123456   | Student   | Pavlos       | Gerardos     | 08.01.1980 |
      *  +----+---------------+----------+-----------+--------------+--------------+------------+
      *  
-     *  +-----------------------------------------------------------+
-     *  | activities                                                |
-     *  +----+-----------+-----------------------+------------------+
-     *  | id |   name    |      description      |      venue       |
-     *  +----+-----------+-----------------------+------------------+
-     *  |  1 | activity1 | activity1 description | main hall        |
-     *  |  2 | activity2 | activity2 description | basketball court |
-     *  |  3 | activity3 | activity3 description | O.A.K.A. Stadium |
-     *  +----+-----------+-----------------------+------------------+
+     *  +--------------------------------------------------------------------+
+     *  | activities                                                         |
+     *  +----+------------+-------------------------------+------------------+
+     *  | id |    name    |          description          |      venue       |
+     *  +----+------------+-------------------------------+------------------+
+     *  |  1 | Gymnastics | Base course in gymnastics     | Main hall        |
+     *  |  2 | Basketball | Intensive basketball training | Basketball court |
+     *  |  3 | Drama      | Shakespeare plays             | Room A5          |
+     *  +----+------------+-------------------------------+------------------+
      *  
      *  +-------------------------------------------------+
      *  | activity_sessions                               |
@@ -110,11 +105,11 @@ public class Initializer
      *  +----+-------------+---------+-------------------+-----------+------------------+-------+---------+
      *  | id | activity_id | user_id | registration_date | published | publication_date | grade | comment |
      *  +----+-------------+---------+-------------------+-----------+------------------+-------+---------+
-     *  |  1 |      1      |    2    |    28.02.2015     |   false   |
-     *  |  2 |      1      |    3    |    28.02.2015     |   false   |
-     *  |  3 |      2      |    2    |    28.02.2015     |   false   |
-     *  |  4 |      2      |    3    |    28.02.2015     |   false   |
-     *  +----+-------------+---------+-------------------+-----------+
+     *  |  1 |      1      |    2    |    28.02.2015     |   false   |      (null)      |  0.0  |         |
+     *  |  2 |      1      |    3    |    28.02.2015     |   false   |      (null)      |  0.0  |         |
+     *  |  3 |      2      |    2    |    28.02.2015     |   false   |      (null)      |  0.0  |         |
+     *  |  4 |      2      |    3    |    28.02.2015     |   false   |      (null)      |  0.0  |         |
+     *  +----+-------------+---------+-------------------+-----------+------------------+-------+---------+
      *  
      *  +-------------------------------------------------------------------------------------------------+
      *  | session_registers                                                                               |
@@ -125,52 +120,63 @@ public class Initializer
      *  |  2 |    3    |          2          | AbsentDueToInjury   | injured during last training session |
      *  +----+---------+---------------------+---------------------+--------------------------------------+
      */
-    private void populateMockupData()
-    {
-    	/* Create 3 users */
+    private void populateMockupData() {
+    	
+    	// Create & store 3 users
     	User u1 = new User("kchristofilos", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
     	User u2 = new User("sok", "123456", UserType.Student, "Sokratis", "Pantazaras", DateLib.getDateObject(20, 10, 1978));
     	User u3 = new User("pgerardos", "123456", UserType.Student, "Pavlos", "Gerardos", DateLib.getDateObject(8, 1, 1980));
-
     	em.persist(u1);
     	em.persist(u2);
     	em.persist(u3);
     	
-    	/* Create Activities */
-    	Activity a1 = new Activity("activity1", "activity1 description", "main hall");
-    	Activity a2 = new Activity("activity2", "activity2 description", "basketball court");
-    	Activity a3 = new Activity("activity3", "activity3 description", "O.A.K.A. Stadium");
+    	// Create 3 activities
+    	Activity a1 = new Activity("Gymnastics", "Base course in gymnastics", "Main hall");
+    	Activity a2 = new Activity("Basketball", "Intensive basketball training", "Basketball court");
+    	Activity a3 = new Activity("Drama", "Shakespeare plays", "Room A5");
 
+    	// Create 4 sessions
     	ActivitySession session1 = new ActivitySession(DateLib.getDateObject(2, 3, 2015));
     	ActivitySession session2 = new ActivitySession(DateLib.getDateObject(3, 3, 2015));
     	ActivitySession session3 = new ActivitySession(DateLib.getDateObject(9, 3, 2015));
     	ActivitySession session4 = new ActivitySession(DateLib.getDateObject(10, 3, 2015));
     	
+    	// Assign sessions to activities
     	a1.addSession(session1);
     	a2.addSession(session3);
     	a1.addSession(session2);
     	a2.addSession(session4);
     	
-    	/* Sessions for activity 3 created on the following dates:
+    	/* Create sessions for activity 3 on the following dates:
     	 * 05/03 (Thu), 10/03 (Tue), 12/03 (Thu), 17/03 (Tue), 19/03 (Thu),
     	 * 24/03 (Tue), 26/03 (Thu), 31/03 (Tue), 02/04 (Thu)
     	 */
     	a3.createSessions(DateLib.getDateObject(4, 3, 2015), DateLib.getDateObject(4, 4, 2015), new boolean[] {false, false, true, false, true, false, false});
     	
-    	a1.addMembership(u2);
-    	a1.addMembership(u3);
-    	a2.addMembership(u2);
-    	a2.addMembership(u3);
+    	// Create 4 memberships and add to activities
+    	Membership m1 = new Membership(a1, u2, DateLib.getDateObject());
+    	Membership m2 = new Membership(a1, u3, DateLib.getDateObject());
+    	Membership m3 = new Membership(a2, u2, DateLib.getDateObject());
+    	Membership m4 = new Membership(a2, u3, DateLib.getDateObject());
+    	a1.addMembership(m1);
+    	a1.addMembership(m2);
+    	a2.addMembership(m3);
+    	a2.addMembership(m4);
+    	u2.addMembership(m1);
+    	u2.addMembership(m3);
+    	u3.addMembership(m2);
+    	u3.addMembership(m4);
     	
+    	// Store activities
         em.persist(a1);
         em.persist(a2);
         em.persist(a3);
+        
+//    	/* Add registers */
+  //  	SessionRegister register1 = new SessionRegister(u2, session1, RegistrationStatus.Present, "very inattentive");
+    //	SessionRegister register2 = new SessionRegister(u3, session2, RegistrationStatus.AbsentDueToInjury, "injured during last training session");
     	
-    	/* Add registers */
-    	SessionRegister register1 = new SessionRegister(u2, session1, RegistrationStatus.Present, "very inattentive");
-    	SessionRegister register2 = new SessionRegister(u3, session2, RegistrationStatus.AbsentDueToInjury, "injured during last training session");
-    	
-    	em.persist(register1);
-    	em.persist(register2);
+    	//em.persist(register1);
+    	//em.persist(register2);
     }
 }

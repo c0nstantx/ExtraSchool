@@ -37,7 +37,7 @@ public class ActivityTest extends EntityBaseTest
 	public void addMemberships()
 	{
 		ActivityService as = new ActivityService();
-		Activity activity = as.findActivityByName("activity1");
+		Activity activity = as.findActivityByName("Gymnastics");
 		UserService us = new UserService();
 		List<User> users = us.findAllUsers();
 		Set<Membership> studentMembers = new HashSet<>();
@@ -52,7 +52,8 @@ public class ActivityTest extends EntityBaseTest
 			}
 		}
 		activity.setMemberships(studentMembers);
-		activity.addMembership(tutor);
+		Membership m = new Membership(activity, tutor, DateLib.getDateObject());
+		activity.addMembership(m);
 		
 		Assert.assertEquals(3, activity.getMemberships().size());
 	}
@@ -61,7 +62,7 @@ public class ActivityTest extends EntityBaseTest
 	public void addSessions()
 	{
 		ActivityService as = new ActivityService();
-		Activity activity = as.findActivityByName("activity1");
+		Activity activity = as.findActivityByName("Gymnastics");
 
 		Set<ActivitySession> sessions = new HashSet<>();
 		ActivitySession as1 = new ActivitySession();

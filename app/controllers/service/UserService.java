@@ -31,7 +31,6 @@ public class UserService extends BaseService {
 	public User createUser(String username, String password, UserType userType, 
 			String firstName, String lastName, Date birthDate) {
 		if (findUserByUsername(username) != null) {
-			System.out.println("Username '"+username+"' Already Exists");
 			return null;
 		}
 		User user = new User(username, password, userType, firstName, lastName, birthDate);
@@ -44,11 +43,11 @@ public class UserService extends BaseService {
 	/**
 	 * Updates user
 	 * @param user
-	 * @return boolean
+	 * @return true if update successful, false otherwise
 	 */
 	public boolean updateUser(User user) {
 		User searchUser = findUserByUsername(user.getUsername());
-		if (user.getId() == searchUser.getId()) {
+		if (searchUser != null && user.getId() == searchUser.getId()) {
 			em.getTransaction().begin();
 			em.merge(user);
 			em.getTransaction().commit();
@@ -59,16 +58,24 @@ public class UserService extends BaseService {
 	
 	/**
 	 * Deletes user
+	 * Prerequisites:
+	 * - the user must not have any memberships in activities
 	 * @param user
+	 * @return true if deletion successful, false otherwise
 	 */
-	public void deleteUser(User user) {
-		if (findUserByUsername(user.getUsername()) != null) {
+	public boolean deleteUser(User user) {
+		User searchUser = findUserByUsername(user.getUsername());
+		if (searchUser != null && searchUser.getMemberships().size() == 0) {
+			System.out.println("Memberships: " + searchUser.getMemberships().size());
 			em.getTransaction().begin();
 			em.createQuery("DELETE FROM User u WHERE u.id = :id")
 			.setParameter("id", user.getId())
 			.executeUpdate();
 			em.getTransaction().commit();
+			return true;
 		}
+		System.out.println("Memberships: " + searchUser.getMemberships().size());
+		return false;
 	}
 
 	/**
