@@ -15,6 +15,8 @@ import models.persistence.RegistrationStatus;
 
 /**
  * SessionRegister Entity
+ * Describes student's status in an activity's session (absences)
+ * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>

@@ -18,6 +18,8 @@ import models.util.DateLib;
 
 /**
  * ActivityMembership Entity
+ * Describes the connection of a user (student/tutor) to an activity
+ * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
