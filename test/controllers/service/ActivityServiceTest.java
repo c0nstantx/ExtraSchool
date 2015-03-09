@@ -86,6 +86,11 @@ public class ActivityServiceTest extends EntityBaseTest
 		Activity dramaAcUpd = as.findActivityByName("Drama");
 		assertTrue(dramaAcUpd.getDescription().equals(newDescription));
 		assertTrue(dramaAcUpd.getVenue().equals(newRoom));
+		
+		/* Update a non persisted activity */
+		Activity transparentActivity = new Activity();
+		transparentActivity.setName("MockName");
+		assertFalse(as.updateActivity(transparentActivity));
 	}
 	
 	// Testing ActivityService.deleteActivity() and ActivityService.deleteActivitySessions() (called by the former)
@@ -146,5 +151,8 @@ public class ActivityServiceTest extends EntityBaseTest
 		// Retrieve tutor using ActivityService
 		User searchTutor = as.findActivityTutor(a.getName());
 		assertEquals(tutor.getId(), searchTutor.getId());
+		
+		/* Test non existing activity */
+		assertNull(as.findActivityTutor("NonExisting"));
 	}
 }
