@@ -149,6 +149,19 @@ public class DateLib {
 	}
 	
 	/**
+	 * Returns a string representing the day of the week for the specified date
+	 * @param date Date object to extract day of the week from
+	 * @return a String representing the day of the week
+	 */
+	public static String getWeekdayAbbr(Date date) {
+		if (date != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("E", DateFormatSymbols.getInstance(Locale.ENGLISH));
+			return sdf.format(date);
+		}
+		return "";
+	}
+	
+	/**
 	 * Compares two Date Objects for equality, down to the second
 	 * @param date1 the first Date object
 	 * @param date2 the second Date object
