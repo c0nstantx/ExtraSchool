@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import models.persistence.RegistrationStatus;
+import models.persistence.SessionStatus;
 import models.persistence.UserType;
 import models.util.DateLib;
 
@@ -32,8 +33,9 @@ public class ActivitySessionTest extends EntityBaseTest {
 		assertEquals(10, a.getSessions().size());
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
-	public void addRegister() {
+	public void addRegisters() {
 		// Create parent activity
 		Activity a = new Activity("Basketball Club", "Can you play the game?", "O.A.K.A. Basketball Court");
 		
@@ -46,7 +48,7 @@ public class ActivitySessionTest extends EntityBaseTest {
 		assertTrue(as.toString().equals(asToString));
 		
 		// Create user
-		User u = new User("kchristofilos", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
+		User u = new User("kchristofilos1", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
 		
 		// Create new session register for session as and user u
 		SessionRegister sr = new SessionRegister(u, as, RegistrationStatus.AbsentWithoutPermission, "and like that, he's gone");
@@ -56,6 +58,36 @@ public class ActivitySessionTest extends EntityBaseTest {
 		// test toString() method
 		asToString = "Session: -1, 'Basketball Club', Wed 01/04/2015 12:00, 'O.A.K.A. Basketball Court', 'Scheduled', 1 register(s)";
 		assertTrue(as.toString().equals(asToString));
+		
+		// Create new registers and replace old
+		SessionRegister reg1 = new SessionRegister(u, as, RegistrationStatus.AbsentDueToIllness, "bla");
+		SessionRegister reg2 = new SessionRegister(u, as, RegistrationStatus.AbsentDueToInjury, "blu"); // this is actually not allowed by the service
+		Set newSet = new HashSet<SessionRegister>();
+		newSet.add(reg1);
+		newSet.add(reg2);
+		as.setRegisters(newSet);
+		assertEquals(2, as.getRegisters().size());
+		
+		// Check session status, update & re-check
+		assertEquals(as.getStatus(), SessionStatus.Scheduled);
+		as.setStatus(SessionStatus.Cancelled);
+		assertEquals(as.getStatus(), SessionStatus.Cancelled);
+		
+		// Store objects
+		em.getTransaction().begin();
+        em.persist(u);
+        em.getTransaction().commit();
+		
+		em.getTransaction().begin();
+        em.persist(a);
+        em.getTransaction().commit();
+		
+		em.getTransaction().begin();
+        em.persist(as);
+        em.getTransaction().commit();
+        
+        asToString = "Session: " + as.getId() + ", 'Basketball Club', Wed 01/04/2015 12:00, 'O.A.K.A. Basketball Court', 'Cancelled', 2 register(s)";
+        assertTrue(asToString.equals(as.toString()));
 	}
 	
 	@Test
