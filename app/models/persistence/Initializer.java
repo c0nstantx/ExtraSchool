@@ -6,6 +6,7 @@ import javax.persistence.Query;
 import models.domain.Activity;
 import models.domain.ActivitySession;
 import models.domain.Membership;
+import models.domain.SessionRegister;
 import models.domain.User;
 import models.util.DateLib;
 import play.db.jpa.Transactional;
@@ -153,7 +154,7 @@ public class Initializer {
     	 */
     	a3.createSessions(DateLib.getDateObject(4, 3, 2015), DateLib.getDateObject(4, 4, 2015), new boolean[] {false, false, true, false, true, false, false});
     	
-    	// Create 4 memberships and add to activities
+    	// Create 4 memberships and link to activities & users
     	Membership m1 = new Membership(a1, u2, DateLib.getDateObject());
     	Membership m2 = new Membership(a1, u3, DateLib.getDateObject());
     	Membership m3 = new Membership(a2, u2, DateLib.getDateObject());
@@ -172,11 +173,16 @@ public class Initializer {
         em.persist(a2);
         em.persist(a3);
         
-//    	/* Add registers */
-  //  	SessionRegister register1 = new SessionRegister(u2, session1, RegistrationStatus.Present, "very inattentive");
-    //	SessionRegister register2 = new SessionRegister(u3, session2, RegistrationStatus.AbsentDueToInjury, "injured during last training session");
-    	
-    	//em.persist(register1);
-    	//em.persist(register2);
+        // Create 2 registers and link to sessions & users
+        SessionRegister reg1 = new SessionRegister(u2, session1, RegistrationStatus.Present, "very inattentive");
+        SessionRegister reg2 = new SessionRegister(u3, session2, RegistrationStatus.AbsentDueToInjury, "injured during last training session");
+        session1.addRegister(reg1);
+        session2.addRegister(reg2);
+        u2.addRegister(reg1);
+        u3.addRegister(reg2);
+        
+        // Store registers
+    	em.persist(reg1);
+    	em.persist(reg2);
     }
 }

@@ -18,9 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import models.util.DateLib;
-import models.persistence.RegistrationStatus;
 import models.persistence.SessionStatus;
+import models.util.DateLib;
 
 import org.hibernate.annotations.Type;
 
@@ -165,12 +164,9 @@ public class ActivitySession {
 	
 	/**
 	 * adds a new register to the set of registers
-	 * @param user user the new register concerns
-	 * @param status registration status code for this register record
-	 * @param notes notes for this register record
+	 * @param register register to add
 	 */
-	public void addRegister(User user, RegistrationStatus status, String notes) {
-		SessionRegister register = new SessionRegister(user, this, status, notes);
+	public void addRegister(SessionRegister register) {
 		registers.add(register);
 	}
 	

@@ -9,7 +9,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import models.domain.Activity;
-import models.domain.ActivitySession;
 import models.domain.EntityBaseTest;
 import models.domain.User;
 import models.util.DateLib;
@@ -26,18 +25,39 @@ public class ActivityServiceTest extends EntityBaseTest
 		as = new ActivityService();
 	}
 	
+	// Testing ActivityService.createActivity(), ActivityService.createActivitySessions()
 	@Test
 	public void addNewActivities() {
 		
 		// Add 3 new activities (3 already in database)
-		as.createActivity("Volleyball", "Volleyball for beginners", "Inside volleyball court");
-		as.createActivity("Handball", "Advanced handball training", "Outside pitch");
-		as.createActivity("Photography club", "Let's take pictures!", "Room B4");
+		Activity volleyAc = as.createActivity("Volleyball", "Volleyball for beginners", "Inside volleyball court");
+		Activity handballAc = as.createActivity("Handball", "Advanced handball training", "Outside pitch");
+		Activity photoAc = as.createActivity("Photography club", "Let's take pictures!", "Room B4");
 		
 		// The total number of activities should now be 6
 		assertEquals(6, as.findAllActivities().size());
+		
+		// Create sessions for above activities
+		ActivitySessionService ass = new ActivitySessionService();
+		ass.createActivitySessions(volleyAc, DateLib.getDateObject(1, 4, 2015, 16, 0, 0), DateLib.getDateObject(30, 4, 2015),
+				new boolean[] {false, true, false, false, false, false, false}); // during the month of April, on Mondays at 16.00
+		ass.createActivitySessions(handballAc, DateLib.getDateObject(1, 4, 2015, 17, 0, 0), DateLib.getDateObject(30, 4, 2015),
+				new boolean[] {false, false, true, true, false, false, false}); // during the month of April, on Tuesdays and Wednesdays at 17.00
+		ass.createActivitySessions(photoAc, DateLib.getDateObject(1, 5, 2015), DateLib.getDateObject(31, 5, 2015),
+				new boolean[] {false, false, false, false, false, false, true}); // during the month of May, on Saturdays at 12.00
+		
+		// Verify
+		assertEquals(4, volleyAc.getSessions().size()); // 4 Mondays in April 2015
+		assertEquals(9, handballAc.getSessions().size()); // 9 Tuesdays & Wednesdays in April 2015
+		assertEquals(5, photoAc.getSessions().size()); // 5 Saturdays in May 2015
+		
+		// Try to create sessions for the volleyball activity again
+		ass.createActivitySessions(volleyAc, DateLib.getDateObject(1, 5, 2015, 16, 0, 0), DateLib.getDateObject(13, 5, 2015),
+				new boolean[] {false, true, false, false, false, false, false}); // add sessions for the first two Mondays in May
+		assertEquals(4, volleyAc.getSessions().size()); // should make no difference
 	}
 	
+	// Testing ActivityService.createActivity()
 	@Test
 	public void addNewExistingActivities() {
 		
@@ -48,6 +68,7 @@ public class ActivityServiceTest extends EntityBaseTest
 		assertEquals(3, as.findAllActivities().size());
 	}
 	
+	// Testing ActivityService.updateActivity()
 	@Test
 	public void updateActivity() {
 		
@@ -67,6 +88,7 @@ public class ActivityServiceTest extends EntityBaseTest
 		assertTrue(dramaAcUpd.getVenue().equals(newRoom));
 	}
 	
+	// Testing ActivityService.deleteActivity() and ActivityService.deleteActivitySessions() (called by the former)
 	@Test
 	public void deleteActivity() {
 		
@@ -85,27 +107,21 @@ public class ActivityServiceTest extends EntityBaseTest
 		assertNull(as.findActivityByName("Drama"));
 	}
 	
+	// Testing ActivityService.findAllActivities(), ActivityService.findActivityByName(), ActivityService.findActivitiesByDate()
 	@Test
-	public void findAllActivities()
+	public void findActivities()
 	{
 		List<Activity> activities = as.findAllActivities();
 		assertEquals(3, activities.size());
-	}
-
-	@Test
-	public void findActivityByName()
-	{
+		
 		Activity activity = as.findActivityByName("Gymnastics");
 		assertNotNull(activity);
-	}
-
-	@Test
-	public void findActivitiesByDate()
-	{
-		List<Activity> activities = as.findActivitiesByDate(DateLib.getDateObject(3, 3, 2015));
+		
+		activities = as.findActivitiesByDate(DateLib.getDateObject(3, 3, 2015));
 		assertEquals(1, activities.size());
 	}
 	
+	// Testing ActivityService.findActivityTutor()
 	@Test
 	public void findActivityTutor() {
 		
@@ -130,12 +146,5 @@ public class ActivityServiceTest extends EntityBaseTest
 		// Retrieve tutor using ActivityService
 		User searchTutor = as.findActivityTutor(a.getName());
 		assertEquals(tutor.getId(), searchTutor.getId());
-	}
-	
-	@Test
-	public void findSessionsByDate()
-	{
-		List<ActivitySession> sessions = as.findSessionsByDate(DateLib.getDateObject(10, 3, 2015));
-		assertEquals(2, sessions.size());
 	}
 }

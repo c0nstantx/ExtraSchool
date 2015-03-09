@@ -30,8 +30,9 @@ public class ActivitySessionTest extends EntityBaseTest {
 		// Create user
 		User u = new User("kchristofilos", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
 		
-		// Create new session register for activity session
-		as.addRegister(u, RegistrationStatus.AbsentWithoutPermission, "and like that, he's gone");	
+		// Create new session register for sessuib as and user u
+		SessionRegister sr = new SessionRegister(u, as, RegistrationStatus.AbsentWithoutPermission, "and like that, he's gone");
+		as.addRegister(sr);
 		assertEquals(1, as.getRegisters().size());
 		
 		// test toString() method

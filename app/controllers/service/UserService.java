@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import models.domain.Activity;
 import models.domain.User;
 import models.persistence.UserType;
 
@@ -29,7 +30,7 @@ public class UserService extends BaseService {
 	 * @return User|null The created User object or null
 	 */
 	public User createUser(String username, String password, UserType userType, 
-			String firstName, String lastName, Date birthDate) {
+			String firstName, String lastName, Date birthDate) { // tested
 		if (findUserByUsername(username) != null) {
 			return null;
 		}
@@ -42,10 +43,10 @@ public class UserService extends BaseService {
 
 	/**
 	 * Updates user
-	 * @param user
+	 * @param user the user to update
 	 * @return true if update successful, false otherwise
 	 */
-	public boolean updateUser(User user) {
+	public boolean updateUser(User user) { // tested
 		User searchUser = findUserByUsername(user.getUsername());
 		if (searchUser != null && user.getId() == searchUser.getId()) {
 			em.getTransaction().begin();
@@ -60,10 +61,10 @@ public class UserService extends BaseService {
 	 * Deletes user
 	 * Prerequisites:
 	 * - the user must not have any memberships in activities
-	 * @param user
+	 * @param user the user to delete
 	 * @return true if deletion successful, false otherwise
 	 */
-	public boolean deleteUser(User user) {
+	public boolean deleteUser(User user) { // tested
 		User searchUser = findUserByUsername(user.getUsername());
 		if (searchUser != null && searchUser.getMemberships().size() == 0) {
 			em.getTransaction().begin();
@@ -80,7 +81,7 @@ public class UserService extends BaseService {
 	 * Finds all users
 	 */
 	@SuppressWarnings("unchecked")
-	public List<User> findAllUsers() {
+	public List<User> findAllUsers() { // tested
 		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
 		return users;
 	}
@@ -90,7 +91,7 @@ public class UserService extends BaseService {
 	 * @param username
 	 * @return User|null If the user exists return the User object, else return null
 	 */
-	public User findUserByUsername(String username) {
+	public User findUserByUsername(String username) { // tested
 		try {
 			User user = (User) em.createQuery("SELECT u FROM User u WHERE u.username = :username")
 					.setParameter("username", username)
@@ -99,5 +100,16 @@ public class UserService extends BaseService {
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+	
+	/**
+	 * Looks for a membership linking a specific user to a specific activity
+	 * @param activity the activity part of the membership
+	 * @param user the user part of the membership
+	 * @return true if such a membership exists, false otherwise
+	 */
+	public boolean isRegisteredFor(Activity activity, User user) { // tested
+		MembershipService ms = new MembershipService();
+		return (ms.findMembership(activity, user) != null);
 	}
 }

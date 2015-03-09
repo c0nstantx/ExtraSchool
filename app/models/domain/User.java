@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import models.persistence.RegistrationStatus;
 import models.persistence.UserType;
 
 /**
@@ -206,13 +205,9 @@ public class User {
 	
 	/**
 	 * adds a new register to the set of registers
-	 * @param session the activity session this register refers to
-	 * @param status the registration status for this register
-	 * @param notes the notes about the user for this register
+	 * @param register the register to add
 	 */
-	public void addRegister(ActivitySession session, RegistrationStatus status, 
-			String notes) {
-		SessionRegister register = new SessionRegister(this, session, status, notes);
+	public void addRegister(SessionRegister register) {
 		registers.add(register);
 	}
 

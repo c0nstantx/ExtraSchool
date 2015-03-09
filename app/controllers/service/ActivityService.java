@@ -7,7 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import models.domain.Activity;
-import models.domain.ActivitySession;
 import models.domain.User;
 import models.persistence.UserType;
 
@@ -28,7 +27,7 @@ public class ActivityService extends BaseService {
 	 * @param venue the venue where the activity sessions take place
 	 * @return Activity|null The created Activity object or null
 	 */
-	public Activity createActivity(String name, String description, String venue) {
+	public Activity createActivity(String name, String description, String venue) { // tested
 		if (findActivityByName(name) != null) {
 			return null;
 		}
@@ -44,7 +43,7 @@ public class ActivityService extends BaseService {
 	 * @param activity
 	 * @return true if update successful, false otherwise
 	 */
-	public boolean updateActivity(Activity activity) {
+	public boolean updateActivity(Activity activity) { // tested
 		Activity searchActivity = findActivityByName(activity.getName());
 		if (searchActivity != null && activity.getId() == searchActivity.getId()) {
 			em.getTransaction().begin();
@@ -62,10 +61,11 @@ public class ActivityService extends BaseService {
 	 * @param activity
 	 * @return true if deletion successful, false otherwise
 	 */
-	public boolean deleteActivity(Activity activity) {
+	public boolean deleteActivity(Activity activity) { // tested
 		Activity searchActivity = findActivityByName(activity.getName());
+		ActivitySessionService ass = new ActivitySessionService();
 		if (searchActivity != null && searchActivity.getMemberships().size() == 0) {
-			if (deleteActivitySessions(searchActivity)) {
+			if (ass.deleteActivitySessions(searchActivity)) {
 				em.getTransaction().begin();
 				em.createQuery("DELETE FROM Activity a WHERE a.id = :id")
 					.setParameter("id", activity.getId())
@@ -78,43 +78,10 @@ public class ActivityService extends BaseService {
 	}
 	
 	/**
-	 * Deletes all sessions of a specific activity
-	 * Prerequisites:
-	 * - No registers must exist for any of the sessions
-	 * @param activity
-	 * @return true if deletion successful, false otherwise
-	 */
-	public boolean deleteActivitySessions(Activity activity) {
-		List<ActivitySession> sessions = findAllSessionsByActivity(activity);
-		// if no sessions exist for this activity, deletion is considered successful
-		if (sessions == null) {
-			return true;
-		}
-		
-		// if there are any registers in any of the sessions, deletion cannot proceed
-		for (ActivitySession session : sessions) {
-			if (session.getRegisters().size() > 0) {
-				return false;
-			}
-		}
-		
-		// delete all sessions
-		for (ActivitySession session : sessions) {
-			em.getTransaction().begin();
-			em.createQuery("DELETE FROM ActivitySession a WHERE a.id = :id")
-				.setParameter("id", session.getId())
-				.executeUpdate();
-			em.getTransaction().commit();
-		}
-		
-		return true;
-	}
-	
-	/**
 	 * Finds all activities
 	 * @return list of activities
 	 */
-	public List<Activity> findAllActivities() {
+	public List<Activity> findAllActivities() { // tested
 		@SuppressWarnings("unchecked")
 		List<Activity> results = em.createQuery("SELECT a FROM Activity a").getResultList();
 		return results;
@@ -125,7 +92,7 @@ public class ActivityService extends BaseService {
 	 * @param name activity name
 	 * @return activity with the specified name or null
 	 */
-	public Activity findActivityByName(String name) {
+	public Activity findActivityByName(String name) { // tested
 		try {
 			Activity activity = (Activity) em.createQuery("SELECT a FROM Activity a WHERE name = :name")
 					.setParameter("name", name)
@@ -141,7 +108,7 @@ public class ActivityService extends BaseService {
 	 * @param date date of interest
 	 * @return list of activities
 	 */
-	public List<Activity> findActivitiesByDate(Date date) {
+	public List<Activity> findActivitiesByDate(Date date) { // tested
 		Query query = em.createQuery("SELECT a FROM Activity a JOIN a.sessions ac WHERE ac.date = :date")
 				.setParameter("date", date);
 		@SuppressWarnings("unchecked")
@@ -154,7 +121,7 @@ public class ActivityService extends BaseService {
 	 * @param name activity name
 	 * @return activity tutor or null
 	 */
-	public User findActivityTutor(String name) {
+	public User findActivityTutor(String name) { // tested
 		Activity searchActivity = findActivityByName(name);
 		if (searchActivity == null) {
 			return null;
@@ -169,41 +136,5 @@ public class ActivityService extends BaseService {
 		} catch (NoResultException e) {
 			return null;
 		}
-	}
-	
-	/**
-	 * Find all activity sessions on a given date
-	 * @param date date of interest
-	 * @return list of sessions
-	 */
-	public List<ActivitySession> findSessionsByDate(Date date) {
-		Query query = em.createQuery("SELECT a FROM ActivitySession a WHERE a.date = :date")
-				.setParameter("date", date);
-		@SuppressWarnings("unchecked")
-		List<ActivitySession> sessions = query.getResultList();
-		return sessions;
-	}
-	
-	/**
-	 * Find all sessions for a specific activity on any date
-	 * @return list of sessions
-	 */
-	public List<ActivitySession> findAllSessionsByActivity(Activity activity) {
-		@SuppressWarnings("unchecked")
-		List<ActivitySession> sessions = em.createQuery("SELECT a FROM ActivitySession a WHERE a.activity.id = :id")
-				.setParameter("id", activity.getId())
-				.getResultList();
-		return sessions;
-	}
-	
-	/**
-	 * Find all activity sessions on any date
-	 * @return list of sessions
-	 */
-	public List<ActivitySession> findAllSessions() {
-		Query query = em.createQuery("SELECT a FROM ActivitySession a");
-		@SuppressWarnings("unchecked")
-		List<ActivitySession> sessions = query.getResultList();
-		return sessions;
 	}
 }
