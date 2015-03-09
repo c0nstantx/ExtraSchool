@@ -159,5 +159,8 @@ public class UserTest extends EntityBaseTest
 		Assert.assertFalse(user1.equals(user2));
 		Assert.assertTrue(user1.equals(user1));
 		Assert.assertFalse(user2.equals(null));
+		
+		user2.setUsername(user1.getUsername());
+		Assert.assertTrue(user1.equals(user2));
 	}
 }
