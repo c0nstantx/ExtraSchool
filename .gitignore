@@ -19,5 +19,3 @@ server.pid
 .settings/
 .project
 test.*
-*.db
-*.db
