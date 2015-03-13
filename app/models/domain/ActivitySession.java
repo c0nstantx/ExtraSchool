@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import models.persistence.SessionStatus;
 import models.util.DateLib;
 
 import org.hibernate.annotations.Type;

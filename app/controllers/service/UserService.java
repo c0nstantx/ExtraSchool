@@ -7,7 +7,7 @@ import javax.persistence.NoResultException;
 
 import models.domain.Activity;
 import models.domain.User;
-import models.persistence.UserType;
+import models.domain.UserType;
 
 /**
  * Service for User Entity

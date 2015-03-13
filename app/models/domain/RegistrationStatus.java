@@ -1,4 +1,4 @@
-package models.persistence;
+package models.domain;
 
 /**
  * Custom enumerated type for registration status

@@ -6,8 +6,10 @@ import javax.persistence.Query;
 import models.domain.Activity;
 import models.domain.ActivitySession;
 import models.domain.Membership;
+import models.domain.RegistrationStatus;
 import models.domain.SessionRegister;
 import models.domain.User;
+import models.domain.UserType;
 import models.util.DateLib;
 import play.db.jpa.Transactional;
 

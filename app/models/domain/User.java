@@ -17,8 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import models.persistence.UserType;
-
 /**
  * User Entity
  * Application's user data
@@ -161,6 +159,54 @@ public class User {
 	 */
 	public void setPerson(Person person) {
 		this.person = person;
+	}
+
+	/**
+	 * Set user's first name
+	 * @param firstName
+	 */
+	public void setFirstName(String firstName) {
+		person.setFirstName(firstName);
+	}
+
+	/**
+	 * Return user's first name
+	 * @return
+	 */
+	public String getFirstName() {
+		return person.getFirstName();
+	}
+
+	/**
+	 * Set user's last name
+	 * @param lastName
+	 */
+	public void setLastName(String lastName) {
+		person.setLastName(lastName);
+	}
+
+	/**
+	 * Return user's last name
+	 * @return lastName
+	 */
+	public String getLastName() {
+		return person.getLastName();
+	}
+
+	/**
+	 * Set user's birthdate
+	 * @param birthdate
+	 */
+	public void setBirthDate(Date birthdate) {
+		person.setBirthDate(birthdate);
+	}
+
+	/**
+	 * Return user's birthdate
+	 * @return birthdate
+	 */
+	public Date getBirthDate() {
+		return person.getBirthDate();
 	}
 	
 	/**

@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import controllers.service.ActivityService;
 import controllers.service.UserService;
-import models.persistence.UserType;
 import models.util.DateLib;
 
 /**

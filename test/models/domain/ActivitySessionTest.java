@@ -6,9 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
-import models.persistence.RegistrationStatus;
-import models.persistence.SessionStatus;
-import models.persistence.UserType;
 import models.util.DateLib;
 
 import org.junit.Test;

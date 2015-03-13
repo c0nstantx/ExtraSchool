@@ -1,8 +1,6 @@
 package models.domain;
 
 import static org.junit.Assert.assertTrue;
-import models.persistence.RegistrationStatus;
-import models.persistence.UserType;
 import models.util.DateLib;
 
 import org.junit.Test;

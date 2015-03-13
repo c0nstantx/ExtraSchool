@@ -10,8 +10,8 @@ import java.util.List;
 
 import models.domain.Activity;
 import models.domain.EntityBaseTest;
+import models.domain.UserType;
 import models.util.DateLib;
-import models.persistence.UserType;
 
 import org.junit.Assert;
 import org.junit.Test;

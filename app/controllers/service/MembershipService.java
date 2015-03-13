@@ -9,7 +9,7 @@ import models.domain.Activity;
 import models.domain.ActivitySession;
 import models.domain.Membership;
 import models.domain.User;
-import models.persistence.UserType;
+import models.domain.UserType;
 import models.util.DateLib;
 
 /**

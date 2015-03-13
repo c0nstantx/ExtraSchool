@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.Query;
 
-import models.persistence.UserType;
 import models.util.DateLib;
 
 import org.junit.Assert;
@@ -41,6 +40,27 @@ public class UserTest extends EntityBaseTest
 		user.setUsername("kostasx");
 		user.setPassword("123456");
 		user.setUserType(UserType.Tutor);
+		user.setFirstName("Konstantinos");
+		user.setLastName("Christofilos");
+		user.setBirthDate(DateLib.getDateObject(21, 12, 1985));
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+		
+		/* Check if user is saved */
+        Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
+        query.setParameter("uname", "kostasx");
+		User retrievedUser = (User) query.getSingleResult();
+        Assert.assertEquals(user, retrievedUser);
+	}
+
+	@Test
+	public void createUserWithPerson() {
+		/* Create user */
+		User user = new User();
+		user.setUsername("kostasx");
+		user.setPassword("123456");
+		user.setUserType(UserType.Tutor);
 		Person person = new Person();
 		person.setFirstName("Konstantinos");
 		person.setLastName("Christofilos");
@@ -56,7 +76,6 @@ public class UserTest extends EntityBaseTest
 		User retrievedUser = (User) query.getSingleResult();
         Assert.assertEquals(user, retrievedUser);
 	}
-	
 	@Test
 	public void createNewUserFromConstructor()
 	{
@@ -162,5 +181,24 @@ public class UserTest extends EntityBaseTest
 		
 		user2.setUsername(user1.getUsername());
 		Assert.assertTrue(user1.equals(user2));
+	}
+
+	@Test
+	public void userGetters()
+	{
+		/* Create user */
+		User user = new User("kostasx", "123456", UserType.Tutor, 
+				"Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
+		em.getTransaction().begin();
+		em.persist(user);
+		em.getTransaction().commit();
+		
+        Query query = em.createQuery("SELECT user FROM User user WHERE username = :uname");
+        query.setParameter("uname", "kostasx");
+		User retrievedUser = (User) query.getSingleResult();
+
+		Assert.assertEquals("Konstantinos", retrievedUser.getFirstName());
+		Assert.assertEquals("Christofilos", retrievedUser.getLastName());
+		Assert.assertEquals(DateLib.getDateObject(21, 12, 1985), retrievedUser.getBirthDate());
 	}
 }

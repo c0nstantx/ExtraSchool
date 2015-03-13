@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import models.persistence.RegistrationStatus;
-
 /**
  * SessionRegister Entity
  * Describes student's status in an activity's session (absences)
