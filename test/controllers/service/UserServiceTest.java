@@ -86,6 +86,12 @@ public class UserServiceTest extends EntityBaseTest
 		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
 		
 		assertEquals(2, users.size()); // initial users are 3, should now be 2
+		
+		/* Get first user and alter username */
+		user = users.get(0);
+		user.setUsername("AnotherUsername");
+		boolean result = us.deleteUser(user);
+		assertFalse(result);
 	}
 
 	// Testing UserService.findAllUsers(), UserService.findUserByUsername()
