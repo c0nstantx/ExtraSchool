@@ -15,10 +15,10 @@ public class Authenticator {
 	 * @param password
 	 * @return User|null
 	 */
-	public User authenticate(String username, String password) {
+	public static User authenticate(String username, String password) {
 		UserService us = new UserService();
 		User user = us.findUserByUsername(username);
-		if (null != user && user.getPassword() == password) {
+		if (null != user && user.getPassword().equals(password)) {
 			return user;
 		}
 		return null;

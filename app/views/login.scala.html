@@ -1,0 +1,32 @@
+@(form: Form[Application.Login])
+
+@main("Login", null) {
+	@helper.form(action = routes.Application.authenticate, 'class -> "form-horizontal") {
+	  <div class="form-group@if(form.hasGlobalErrors) { has-error}">
+	    <label for="username" class="col-sm-2 control-label">Username</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control" name="username" id="username" placeholder="Username" value="@form("username").value">
+	    </div>
+	  </div>
+	  <div class="form-group@if(form.hasGlobalErrors) { has-error}">
+	    <label for="password" class="col-sm-2 control-label">Password</label>
+	    <div class="col-sm-3">
+	      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+		@if(form.hasGlobalErrors) {
+		    <p class="text-danger">
+		        @form.globalError.message
+		    </p>
+		}
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <button type="submit" class="btn btn-default">Sign in</button>
+	    </div>
+	  </div>
+	}
+}

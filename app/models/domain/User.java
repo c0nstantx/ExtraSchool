@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 /**
  * User Entity
  * Application's user data
@@ -78,6 +80,14 @@ public class User {
 		person.setFirstName(fName);
 		person.setLastName(lName);
 		person.setBirthDate(birthDate);
+	}
+
+	/**
+	 * Creates a short name from user's full name
+	 * @return String
+	 */
+	public String getShortName() {
+		return getFirstName().substring(0, 1).toUpperCase()+". "+WordUtils.capitalize(getLastName());
 	}
 	
 	/**

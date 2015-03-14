@@ -19,12 +19,11 @@ public class AuthenticatorTest extends EntityBaseTest
 	@Test
 	public void authenticate()
 	{
-		Authenticator auth = new Authenticator();
 		UserService us = new UserService();
 		User user = us.findUserByUsername("kchristofilos");
 		
-		Assert.assertNull(auth.authenticate("kchristofilos", "123456789"));
-		Assert.assertNull(auth.authenticate("kostasx", "123456"));
-		Assert.assertEquals(user, auth.authenticate("kchristofilos", "123456"));
+		Assert.assertNull(Authenticator.authenticate("kchristofilos", "123456789"));
+		Assert.assertNull(Authenticator.authenticate("kostasx", "123456"));
+		Assert.assertEquals(user, Authenticator.authenticate("kchristofilos", "123456"));
 	}
 }

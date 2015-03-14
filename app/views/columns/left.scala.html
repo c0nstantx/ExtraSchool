@@ -1,0 +1,27 @@
+@(user: models.domain.User)	
+	<div class="col-sm-3">
+	@if(user != null) {
+      <!-- Left column -->
+      <ul class="list-unstyled">
+        <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">
+          <h5>Activities <i class="glyphicon glyphicon-chevron-down"></i></h5>
+          </a>
+            <ul class="list-unstyled collapse in" id="userMenu">
+                <li class="active"> <a href="#">List Activities</a></li>
+                <li class="active"> <a href="#">Create New Activity</a></li>
+            </ul>
+        </li>
+        <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu2">
+          <h5>Reports <i class="glyphicon glyphicon-chevron-right"></i></h5>
+          </a>
+        
+            <ul class="list-unstyled collapse" id="menu2">
+                <li><a href="#">Information &amp; Stats</a>
+                </li>
+            </ul>
+        </li>
+      </ul>
+           
+      <hr>
+      }
+  	</div><!-- /col-3 -->

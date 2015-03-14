@@ -1,15 +1,39 @@
-@(title: String)(content: Html)
+@(title: String, user: models.domain.User)(content: Html)
 
 <!DOCTYPE html>
 
 <html>
     <head>
-        <title>@title</title>
+        <title>
+        @title
+        @if(title != "") {
+        	 | 
+    	}
+        ExtraSchool
+        </title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/hello.js")" type="text/javascript"></script>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.ico")">
+        <script src="@routes.Assets.at("javascripts/jquery.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/script.js")" type="text/javascript"></script>
     </head>
     <body>
-        @content
+	@header.main(user)
+<!-- Main -->
+<div class="container-fluid">
+<div class="row">
+	@columns.left(user)
+	@columns.center(user, content)
+</div>
+</div>
+<!-- /Main -->
+
+<footer class="text-center">Created by 
+	<a target="_blank" href="https://github.com/c0nstantx"><strong>K.Christofilos</strong></a> |
+	<a target="_blank" href="https://github.com/pavlosg"><strong>P.Gerardos</strong></a> |
+	<a target="_blank" href="https://github.com/Soookkk"><strong>S.Pantazaras</strong></a>
+	</footer>
+
     </body>
 </html>
