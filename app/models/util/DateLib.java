@@ -162,6 +162,16 @@ public class DateLib {
 	}
 	
 	/**
+	 * Returns the difference in seconds between two date objects
+	 * @param fromDate the first Date object
+	 * @param toDate the second Date object
+	 * @return the difference in seconds between toDate and fromDate
+	 */
+	public static long getDateDifferenceInSeconds(Date fromDate, Date toDate) {
+		return (toDate.getTime() - fromDate.getTime() / 1000);
+	}
+	
+	/**
 	 * Compares two Date Objects for equality, down to the second
 	 * @param date1 the first Date object
 	 * @param date2 the second Date object
