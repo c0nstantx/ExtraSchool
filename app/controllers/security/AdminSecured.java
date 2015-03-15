@@ -1,11 +1,12 @@
-package controllers;
+package controllers.security;
 
-import controllers.service.UserService;
 import models.domain.User;
 import models.domain.UserType;
+import controllers.service.UserService;
+import play.mvc.*;
 import play.mvc.Http.*;
 
-public class TutorSecured extends Secured {
+public class AdminSecured extends Secured {
 
     @Override
     public String getUsername(Context ctx) {
@@ -15,16 +16,15 @@ public class TutorSecured extends Secured {
         if (username != null && isTutor(user)) {
         	return username;
         }
-        ctx.flash().put("error", "Only Tutors can access that page.");
+        ctx.flash().put("error", "Only Administrators can access that page.");
         return null;
     }
     
     private boolean isTutor(User user) {
     	UserType userType = user.getUserType();
-    	if (user != null && (userType == UserType.Tutor || userType == UserType.Admin)) {
+    	if (user != null && userType == UserType.Admin) {
     		return true;
     	}
     	return false;
     	
-    }
-}
+    }}

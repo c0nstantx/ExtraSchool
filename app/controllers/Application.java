@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.security.Secured;
 import controllers.service.UserService;
 import models.domain.User;
 import models.util.Authenticator;

@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import controllers.security.AdminSecured;
 import controllers.service.ActivityService;
 import controllers.service.UserService;
 import play.*;
