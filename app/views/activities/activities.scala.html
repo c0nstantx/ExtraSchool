@@ -1,0 +1,31 @@
+@(activities: List[models.domain.Activity], user: models.domain.User)
+
+@main("School Activities", user) {
+<div class="col-sm-12">
+	<table class="table table-bordered">
+		<tr class="active">
+			<th>Activity</th>
+			<th>Venue</th>
+			<th>Students</th>
+			<th>Status</th>
+			@if(user.getUserType() == "Admin") {
+			<th>Actions</th>
+			}
+		</tr>
+	@for(a <- activities) {
+		<tr @if(a.isActive()) { class="active" } else { class="danger" }>
+			<td>@a.getName()</td>
+			<td>@a.getVenue()</td>
+			<td>@a.getMemberships().size()</td>
+			<td>
+			@if(a.isActive()) {
+			<span title="Inactive" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			} else {
+			<span title="Active" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			}
+			</td>
+		</tr>
+	}
+	</table>
+</div>
+}

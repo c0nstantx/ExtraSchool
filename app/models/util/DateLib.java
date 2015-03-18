@@ -1,6 +1,8 @@
 package models.util;
 
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -224,5 +226,30 @@ public class DateLib {
 			return sdf.format(date);
 		}
 		return "";
+	}
+
+	/**
+	 * Formats a Date as a string
+	 * @param date
+	 * @param formatString
+	 * @return
+	 */
+	public static String format(Date date, String formatString) {
+		DateFormat format = new SimpleDateFormat(formatString);
+		return format.format(date);
+	}
+	
+	/**
+	 * Create a Date object from a string
+	 * @param formatString
+	 * @param dateString
+	 * @return
+	 * @throws ParseException
+	 */
+	public static Date createFromString(String formatString, String dateString) throws ParseException {
+		DateFormat format = new SimpleDateFormat(formatString);
+		Date date = format.parse(dateString);
+		
+		return date;
 	}
 }

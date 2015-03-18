@@ -29,7 +29,7 @@ public class UserTest extends EntityBaseTest
 	{
 		@SuppressWarnings("unchecked")
 		List<User> users = em.createQuery("SELECT user FROM User user").getResultList();
-		Assert.assertEquals(3, users.size());
+		Assert.assertEquals(4, users.size());
 	}
 	
 	@Test

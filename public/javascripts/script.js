@@ -5,4 +5,11 @@ $('[data-toggle=collapse]').click(function(){
   	// toggle icon
   	$(this).find("i").toggleClass("glyphicon-chevron-right glyphicon-chevron-down");
 });
+
+/* Datepicker */
+$("#birthDate").datepicker(
+	{
+		format: "dd-mm-yyyy"
+	}
+)
 });

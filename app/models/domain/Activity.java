@@ -2,6 +2,7 @@ package models.domain;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -212,5 +213,20 @@ public class Activity {
 		strbuilder.append(getMemberships().size() + " membership(s)" + ", ");
 		strbuilder.append(getSessions().size() + " session(s)");
 		return strbuilder.toString();
+	}
+
+	/**
+	 * Returns if an activity is currently active or not
+	 * @return boolean
+	 */
+	public boolean isActive() {
+		Set<ActivitySession> sessions = getSessions();
+		ActivitySession firstSession = sessions.iterator().next();
+		ActivitySession lastSession = sessions.iterator().next();
+		for (Iterator<ActivitySession> iterator = sessions.iterator(); iterator.hasNext();) {
+			lastSession = (ActivitySession) iterator.next();
+		}
+		Date today = new Date();
+		return today.after(firstSession.getDate()) && today.before(lastSession.getDate());
 	}
 }

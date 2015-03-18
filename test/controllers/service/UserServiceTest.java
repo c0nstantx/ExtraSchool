@@ -40,7 +40,7 @@ public class UserServiceTest extends EntityBaseTest
 		
 		users = em.createQuery("SELECT u FROM User u").getResultList();
 		
-		assertEquals(5, users.size());
+		assertEquals(6, users.size());
 	}
 	
 	// Testing UserService.createUser()
@@ -54,7 +54,7 @@ public class UserServiceTest extends EntityBaseTest
 		@SuppressWarnings("unchecked")
 		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
 		
-		assertEquals(3, users.size());
+		assertEquals(4, users.size());
 	}
 	
 	// Testing UserService.updateUser()
@@ -85,7 +85,7 @@ public class UserServiceTest extends EntityBaseTest
 		@SuppressWarnings("unchecked")
 		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
 		
-		assertEquals(2, users.size()); // initial users are 3, should now be 2
+		assertEquals(3, users.size()); // initial users are 3, should now be 2
 		
 		/* Get first user and alter username */
 		user = users.get(0);
@@ -98,7 +98,7 @@ public class UserServiceTest extends EntityBaseTest
 	@Test
 	public void findUsers() {
 		List<User> users = us.findAllUsers(); // initial users are 3
-		Assert.assertEquals(3, users.size()); // verify
+		Assert.assertEquals(4, users.size()); // verify
 		User u1 = us.findUserByUsername("kchristofilos"); // retrieve user u1
 		assertNotNull(u1); // verify retrieval
 		assertTrue(u1.getPerson().getFirstName().equals("Konstantinos")); // verify first name

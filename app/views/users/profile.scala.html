@@ -1,0 +1,52 @@
+@(form: Form[Users.Profile], user: models.domain.User)
+
+@main("School Activities", user) {
+<div class="col-sm-12">
+	@helper.form(action = routes.Users.updateProfile, 'class -> "form-horizontal") {
+	  <div class="form-group">
+	    <label for="firstName" class="col-sm-2 control-label">First Name:</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control" name="firstName" id="firstName" placeholder="First Name" value="@form("firstName").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="lastName" class="col-sm-2 control-label">Last Name:</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Last Name" value="@form("lastName").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="birthDate" class="col-sm-2 control-label">Birth Date:</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control" name="birthDate" id="birthDate" placeholder="Birth Date" value="@form("birthDate").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="password" class="col-sm-2 control-label">Password:</label>
+	    <div class="col-sm-3">
+	      <input type="password" class="form-control" name="password" id="password" placeholder="Password" value="@form("password").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="passwordRepeat" class="col-sm-2 control-label">Repeat Password:</label>
+	    <div class="col-sm-3">
+	      <input type="password" class="form-control" name="passwordRepeat" id="passwordRepeat" placeholder="Repeat Password" value="@form("passwordRepeat").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+		@if(form.hasGlobalErrors) {
+		    <p class="text-danger">
+		        @form.globalError.message
+		    </p>
+		}
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <button type="submit" class="btn btn-primary">Save</button>
+	    </div>
+	  </div>
+	}
+</div>
+}

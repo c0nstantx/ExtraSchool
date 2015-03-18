@@ -49,9 +49,9 @@ public class UserService extends BaseService {
 	public boolean updateUser(User user) { // tested
 		User searchUser = findUserByUsername(user.getUsername());
 		if (searchUser != null && user.getId() == searchUser.getId()) {
-			em.getTransaction().begin();
+//			em.getTransaction().begin();
 			em.merge(user);
-			em.getTransaction().commit();
+//			em.getTransaction().commit();
 			return true;
 		}
 		return false;

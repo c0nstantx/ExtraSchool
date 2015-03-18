@@ -129,9 +129,11 @@ public class Initializer {
     	User u1 = new User("kchristofilos", "123456", UserType.Tutor, "Konstantinos", "Christofilos", DateLib.getDateObject(21, 12, 1985));
     	User u2 = new User("sok", "123456", UserType.Student, "Sokratis", "Pantazaras", DateLib.getDateObject(20, 10, 1978));
     	User u3 = new User("pgerardos", "123456", UserType.Student, "Pavlos", "Gerardos", DateLib.getDateObject(8, 1, 1980));
+    	User u4 = new User("admin", "123456", UserType.Admin, "Super", "Admin", DateLib.getDateObject(1, 1, 2000));
     	em.persist(u1);
     	em.persist(u2);
     	em.persist(u3);
+    	em.persist(u4);
     	
     	// Create 3 activities
     	Activity a1 = new Activity("Gymnastics", "Base course in gymnastics", "Main hall");
