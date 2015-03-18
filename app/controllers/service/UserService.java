@@ -101,6 +101,20 @@ public class UserService extends BaseService {
 			return null;
 		}
 	}
+
+	/**
+	 * Searches for a user with its ID
+	 * @param id
+	 * @return User|null If the user exists return the User object, else return null
+	 */
+	public User find(Integer id) {
+		try {
+			User user = (User) em.find(User.class, id);
+			return user;
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 	
 	/**
 	 * Looks for a membership linking a specific user to a specific activity

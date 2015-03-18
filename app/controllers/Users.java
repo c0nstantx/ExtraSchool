@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import controllers.security.AdminSecured;
 import controllers.security.Secured;
 import controllers.service.ActivityService;
 import controllers.service.UserService;
@@ -55,11 +56,87 @@ public class Users extends Controller {
 	    }
 	}
 	
+	public static class UserForm {
 
+	    public String firstName;
+	    public String lastName;
+	    public String password;
+	    public String passwordRepeat;
+	    public String birthDate;
+	    public String userType;
+
+	    public String validate() {
+	    	if (firstName == "") {
+	    		return "First name cannot be blank";
+	    	}
+	    	if (lastName == "") {
+	    		return "Last name cannot be blank";
+	    	}
+	    	try {
+	    		DateLib.createFromString("d-M-y", birthDate);
+			} catch (Exception e) {
+				return "Birth date is not in proper format DD-MM-YYY";
+			}
+	    	if (password != "") {
+	    		if (passwordRepeat == "") {
+	    			return "Password repeat cannot be blank";
+	    		}
+	    		if (!password.equals(passwordRepeat)) {
+	    			return "Password repeat must be the same as password";
+	    		}
+	    	} else {
+	    		return "Password cannot be blank";
+	    	}
+	    	if (userType == "") {
+	    		return "User type cannot be blank";
+	    	}
+	    	return null;
+	    }
+	}
+	
+	@Security.Authenticated(AdminSecured.class)
+	public static Result create() {
+    	UserService us = new UserService();
+    	User user = us.findUserByUsername(request().username());
+    	
+    	Form<Profile> profileForm = form(Profile.class);
+    	
+        return ok(views.html.users.create.render(profileForm, user));
+	}
+	
+	@Security.Authenticated(AdminSecured.class)
+	public static Result save() {
+        return redirect(
+                routes.Users.create()
+            );
+		
+	}
+	
+	@Security.Authenticated(AdminSecured.class)
+	public static Result show(Integer id) {
+    	UserService us = new UserService();
+    	User user = us.findUserByUsername(request().username());
+    	User userEdit = us.find(id);
+    	
+    	Form<Profile> userForm = form(Profile.class);
+    	userForm.data().put("firstName", userEdit.getFirstName());
+    	userForm.data().put("lastName", userEdit.getLastName());
+    	userForm.data().put("birthDate", DateLib.format(userEdit.getBirthDate(), "d-M-y"));
+    	
+        return ok(views.html.users.profile.render(userForm, user));
+		
+	}
+	
+	@Security.Authenticated(AdminSecured.class)
+	public static Result update(Integer id) {
+        return redirect(
+                routes.Users.show(id)
+            );
+	}
+	
 	@Transactional
 	@Security.Authenticated(Secured.class)
     public static Result profile() {
-    	ActivityService as = new ActivityService();
     	UserService us = new UserService();
     	User user = us.findUserByUsername(request().username());
     	
@@ -71,8 +148,8 @@ public class Users extends Controller {
         return ok(views.html.users.profile.render(profileForm, user));
     }
 	
-	@Security.Authenticated(Secured.class)
 	@Transactional
+	@Security.Authenticated(Secured.class)
 	public static Result updateProfile() {
     	Form<Profile> profileForm = Form.form(Profile.class).bindFromRequest();
     	UserService us = new UserService();
