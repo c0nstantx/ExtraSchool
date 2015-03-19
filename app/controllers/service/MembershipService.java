@@ -62,6 +62,8 @@ public class MembershipService extends BaseService {
 		activity.addMembership(membership);
 		user.addMembership(membership);
 		em.getTransaction().begin();
+		em.merge(activity);
+		em.merge(user);
 		em.persist(membership);
 		em.getTransaction().commit();
 		return membership;

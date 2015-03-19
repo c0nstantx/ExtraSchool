@@ -19,8 +19,6 @@ public class ActivitySessionService extends BaseService {
 	
 	/**
 	 * Creates sessions for a specific activity
-	 * Prerequisites:
-	 * - No sessions must exist for this activity
 	 * @param activity activity to create sessions for
 	 * @param startDate starting date for activity sessions
 	 * @param endDate closing date for activity sessions
@@ -28,10 +26,11 @@ public class ActivitySessionService extends BaseService {
 	 * @return true if creation successful, false otherwise
 	 */
 	public boolean createActivitySessions(Activity activity, Date startDate, Date endDate, boolean[] selection) { // tested
-		if (activity.getSessions().size() > 0) {
-			return false;
-		}
+		// needs check for clashes
 		activity.createSessions(startDate, endDate, selection);
+		em.getTransaction().begin();
+		em.merge(activity);
+		em.getTransaction().commit();
 		return true;
 	}
 	

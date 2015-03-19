@@ -51,10 +51,10 @@ public class ActivityServiceTest extends EntityBaseTest
 		assertEquals(9, handballAc.getSessions().size()); // 9 Tuesdays & Wednesdays in April 2015
 		assertEquals(5, photoAc.getSessions().size()); // 5 Saturdays in May 2015
 		
-		// Try to create sessions for the volleyball activity again
+		// Create sessions for the volleyball activity again
 		ass.createActivitySessions(volleyAc, DateLib.getDateObject(1, 5, 2015, 16, 0, 0), DateLib.getDateObject(13, 5, 2015),
 				new boolean[] {false, true, false, false, false, false, false}); // add sessions for the first two Mondays in May
-		assertEquals(4, volleyAc.getSessions().size()); // should make no difference
+		assertEquals(6, volleyAc.getSessions().size()); // should now be 6
 	}
 	
 	// Testing ActivityService.createActivity()

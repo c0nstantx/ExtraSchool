@@ -5,6 +5,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 
 import models.persistence.Initializer;
+import models.util.DBCreator;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
@@ -26,10 +27,12 @@ public class Global extends GlobalSettings {
 		JPA.withTransaction(new play.libs.F.Callback0() {
 			@Override
 			public void invoke() throws Throwable {
-
-				Initializer init = new Initializer();
-				init.clearDB();
-				init.initDB();
+				//Initializer init = new Initializer();
+				//init.clearDB();
+				//init.initDB();
+				DBCreator dbCreator = new DBCreator();
+				dbCreator.clearDB();
+				dbCreator.preparePresentationDatabase();
 			}
 		});
 	}
