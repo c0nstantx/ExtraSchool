@@ -12,6 +12,7 @@ GET     /logout                     controllers.Application.logout()
 
 # Activity page
 GET		/activities					controllers.Activities.showAll()
+GET		/activity/:id				controllers.Activities.show(id: Integer)
 
 # Delete activities
 POST	/activity/delete			controllers.Activities.delete()

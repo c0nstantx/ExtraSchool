@@ -1,0 +1,27 @@
+@(activity: models.domain.Activity, user: models.domain.User, dates: List[java.util.Date])
+
+@main("Activity - "+activity.getName(), user) {
+<div class="col-sm-12">
+	<table class="table table-bordered">
+		<tr class="active">
+			<th>Name</th>
+			<th>Description</th>
+			<th>Venue</th>
+			<th>Members</th>
+		</tr>
+		<tr class="info">
+			<td>@activity.getName()</td>
+			<td>@activity.getDescription()</td>
+			<td>@activity.getVenue()</td>
+			<td>@activity.getMemberships().size()</td>
+		</tr>
+	</table>
+</div>
+<div class="col-sm-12">
+<h1>Calendar</h1>
+
+@for(d <- dates) {
+	<div class="col-xs-2 session-block">@d</div>
+}
+</div>
+}

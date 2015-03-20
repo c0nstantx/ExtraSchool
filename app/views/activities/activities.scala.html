@@ -23,7 +23,7 @@
 			}
 			</td>
 			<td>
-			<a href="" title="View"><span class="glyphicon glyphicon-search"></span></a>
+			<a href="@routes.Activities.show(a.getId())" title="View"><span class="glyphicon glyphicon-search"></span></a>
 			@if(user.getUserType().toString() == "Admin") {
 			<a href="@routes.Activities.delete()" title="Delete" id="delete-activity" data-activity="@a.getId()"><span class="glyphicon glyphicon-remove"></span></a>
 			}
