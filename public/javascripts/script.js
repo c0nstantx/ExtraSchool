@@ -32,4 +32,23 @@ $(document).ready(function(){
 			form.submit();
 		}
 	});
+
+	/* Delete Activity */
+	$(document).on("click", "#delete-activity", function(elem) {
+		elem.preventDefault();
+		if (confirm("Are you sure you want to delete this activity ?")) {
+			var form = document.createElement("form");
+			form.setAttribute("method", "POST");
+			form.setAttribute("action", $(this).attr("href"));
+
+			var userId = document.createElement("input");
+			userId.setAttribute("type", "hidden");
+			userId.setAttribute("name", "activity_id");
+			userId.setAttribute("value", $(this).data('activity'));
+
+			form.appendChild(userId);
+			document.body.appendChild(form);
+			form.submit();
+		}
+	});
 });

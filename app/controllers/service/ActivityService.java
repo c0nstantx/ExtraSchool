@@ -20,6 +20,16 @@ import models.domain.UserType;
 public class ActivityService extends BaseService {
 
 	/**
+	 * Find an activity by ID
+	 * 
+	 * @param id
+	 * @return Activity
+	 */
+	public Activity find(Integer id) {
+		return em.find(Activity.class, id);
+	}
+	
+	/**
 	 * Creates new Activity object and attaches it to the database
 	 * Prerequisites: - no other activity exists with the same name
 	 * 

@@ -8,9 +8,7 @@
 			<th>Venue</th>
 			<th>Members</th>
 			<th>Status</th>
-			@if(user.getUserType() == "Admin") {
 			<th>Actions</th>
-			}
 		</tr>
 	@for(a <- activities) {
 		<tr @if(a.isActive()) { class="success" } else { class="danger" }>
@@ -22,6 +20,12 @@
 			<span title="Inactive" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 			} else {
 			<span title="Active" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			}
+			</td>
+			<td>
+			<a href="" title="View"><span class="glyphicon glyphicon-search"></span></a>
+			@if(user.getUserType().toString() == "Admin") {
+			<a href="@routes.Activities.delete()" title="Delete" id="delete-activity" data-activity="@a.getId()"><span class="glyphicon glyphicon-remove"></span></a>
 			}
 			</td>
 		</tr>

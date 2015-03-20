@@ -143,6 +143,7 @@ public class Users extends Controller {
 	}
 	
 	@Security.Authenticated(AdminSecured.class)
+	@Transactional
 	public static Result save() throws ParseException {
     	Form<NewUser> userForm = Form.form(NewUser.class).bindFromRequest();
     	UserService us = new UserService();

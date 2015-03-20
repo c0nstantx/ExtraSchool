@@ -13,6 +13,9 @@ GET     /logout                     controllers.Application.logout()
 # Activity page
 GET		/activities					controllers.Activities.showAll()
 
+# Delete activities
+POST	/activity/delete			controllers.Activities.delete()
+
 # Profile page
 GET		/profile					controllers.Users.profile()
 POST	/profile					controllers.Users.updateProfile()
