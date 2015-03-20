@@ -50,6 +50,7 @@ public class DBCreator {
 	public void preparePresentationDatabase() {
 		createAdmins();
 		setupActivities();
+		createTestUsers();
 	}
 	
 	private void createAdmins() {
@@ -67,6 +68,7 @@ public class DBCreator {
 		while (it.hasNext()) {
 			Entry<String, ActivityInfo> entry = (Entry<String, ActivityInfo>)it.next();
 			ActivityInfo activityInfo = entry.getValue();
+			System.out.println("Creating activity: " + entry.getValue().getName());
 			Membership[] activityMemberships = activityInfo.setupActivity(pupils, DateLib.getDateObject(1, 1, 2015));
 			Activity activity = activityMemberships[0].getActivity();
 			em.persist(activity);
@@ -77,7 +79,7 @@ public class DBCreator {
 	private void persistObjects(Membership[] activityMemberships) {
 		for (int i = 0; i < activityMemberships.length; i++) {
 			User user = activityMemberships[i].getUser();
-			em.persist(user);
+			em.merge(user);
 			em.persist(activityMemberships[i]);
 		}
 	}
@@ -86,7 +88,17 @@ public class DBCreator {
 		User[] pupils = new User[PupilBank.pupilData.length];
 		for (int i = 0; i < PupilBank.pupilData.length; i++) {
 			pupils[i] = PupilBank.pupilData[i].createPupil();
+			em.persist(pupils[i]);
 		}
 		return pupils;
+	}
+	
+	private void createTestUsers() {
+		User testAdmin = new User("admin", "admin", UserType.Admin, "Test", "Admin", DateLib.getDateObject(1, 1, 1980));
+		em.persist(testAdmin);
+		User testTutor = new User("tutor", "tutor", UserType.Tutor, "Test", "Tutor", DateLib.getDateObject(1, 1, 1990));
+		em.persist(testTutor);
+		User testPupil = new User("pupil", "pupil", UserType.Student, "Test", "Pupil", DateLib.getDateObject(1, 1, 2000));
+		em.persist(testPupil);
 	}
 }

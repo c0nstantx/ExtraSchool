@@ -44,8 +44,8 @@ public class PupilBank {
 		pupilData = new PupilInfo[NumberOfPupils];
 		randomGenerator = new Random();
 		for (int i = 0; i < NumberOfPupils; i++) {
-			int firstNameIndex = (6 * i) % PupilFirstNames.length;
-			int lastNameIndex = (6 * i) / PupilLastNames.length;
+			int firstNameIndex = (6 * i) / PupilFirstNames.length;
+			int lastNameIndex = (6 * i) % PupilLastNames.length;
 			pupilData[i] = new PupilInfo(createPupilUsername(PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex]),
 					createPupilPassword(PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex]),
 					PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex],
@@ -54,7 +54,7 @@ public class PupilBank {
 	}
 	
 	private static String createPupilUsername(String firstName, String lastName) {
-		return firstName.charAt(0) + lastName.substring(0, Math.min(lastName.length(), MaxUsernameLength - 1));
+		return firstName.toLowerCase().charAt(0) + lastName.toLowerCase().substring(0, Math.min(lastName.length(), MaxUsernameLength - 1));
 	}
 	
 	private static String createPupilPassword(String firstName, String lastName) {

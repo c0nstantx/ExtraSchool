@@ -3,6 +3,7 @@ package models.util.db;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -10,6 +11,7 @@ import models.domain.Activity;
 import models.domain.EntityBaseTest;
 import models.domain.User;
 import models.domain.UserType;
+import models.util.DateLib;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +39,7 @@ public class DBCreatorTest extends EntityBaseTest {
     }
 
     @Test
-    public void testUsers() {
+    public void testAdmins() {
     	UserService us = new UserService();
     	User kchristof = us.findUserByUsername("kchristof");
     	User pgerard = us.findUserByUsername("pgerard");
@@ -48,13 +50,36 @@ public class DBCreatorTest extends EntityBaseTest {
     }
     
     @Test
-    public void testActivities() {
+    public void testPupils() {
+    	for (int i = 0; i < PupilBank.pupilData.length; i++) {
+    		testPupil(PupilBank.pupilData[i].getUserame(),
+    				PupilBank.pupilData[i].getPassword(),
+    				PupilBank.pupilData[i].getFirstName(),
+    				PupilBank.pupilData[i].getLastName(),
+    				PupilBank.pupilData[i].getBirthDate());
+    		System.out.println("Successfully tested pupil " + i + ": " + PupilBank.pupilData[i]);
+    	}
+    }
+    
+    @Test
+    public void testActivitiesAndTutors() {
     	Iterator<Entry<String, ActivityInfo>> it = ActivityBank.ActivityInfoMap.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, ActivityInfo> entry = (Entry<String, ActivityInfo>)it.next();
 			ActivityInfo activityInfo = entry.getValue();
 			testActivity(activityInfo.getName(), activityInfo.getDescription(), activityInfo.getVenue(), activityInfo.getTotalNumberOfSessions(), activityInfo.getTutorUsername());
 		}
+    }
+    
+    private void testPupil(String username, String password, String firstName, String lastName, Date birthDate) {
+    	UserService us = new UserService();
+    	User pupil = us.findUserByUsername(username);
+    	assertTrue(username.equals(pupil.getUsername()));
+    	assertTrue(password.equals(pupil.getPassword()));
+    	assertEquals(UserType.Student, pupil.getUserType());
+    	assertTrue(firstName.equals(pupil.getFirstName()));
+    	assertTrue(lastName.equals(pupil.getLastName()));
+    	assertTrue(DateLib.equals(birthDate, pupil.getBirthDate()));
     }
     
     private void testActivity(String name, String description, String venue, int numberOfSessions, String tutorUsername) {

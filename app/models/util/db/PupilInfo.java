@@ -4,6 +4,7 @@ import java.util.Date;
 
 import models.domain.User;
 import models.domain.UserType;
+import models.util.DateLib;
 
 /**
  * PupilInfo class
@@ -48,5 +49,10 @@ public class PupilInfo {
 	
 	public User createPupil() {
 		return new User(username, password, UserType.Student, firstName, lastName, birthDate);
+	}
+	
+	@Override
+	public String toString() {
+		return username + ", " + password + ", " + firstName + ", " + lastName + ", " + DateLib.dateAsString(birthDate);
 	}
 }
