@@ -224,7 +224,13 @@ public class Activity {
 		ActivitySession firstSession = sessions.iterator().next();
 		ActivitySession lastSession = sessions.iterator().next();
 		for (Iterator<ActivitySession> iterator = sessions.iterator(); iterator.hasNext();) {
-			lastSession = (ActivitySession) iterator.next();
+			ActivitySession session = (ActivitySession) iterator.next();
+			if (session.getDate().before(firstSession.getDate())) {
+				firstSession = session;
+			}
+			if (session.getDate().after(lastSession.getDate())) {
+				lastSession = session;
+			}
 		}
 		Date today = new Date();
 		return today.after(firstSession.getDate()) && today.before(lastSession.getDate());
