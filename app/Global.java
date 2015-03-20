@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.transaction.Transactional;
 
 import models.persistence.Initializer;
-import models.util.DBCreator;
+import models.util.db.DBCreator;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;

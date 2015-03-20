@@ -1,21 +1,20 @@
-package models.util;
+package models.util.db;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import controllers.service.ActivityService;
-import controllers.service.ActivitySessionService;
-import controllers.service.MembershipService;
-import controllers.service.UserService;
-import play.db.jpa.Transactional;
 import models.domain.Activity;
 import models.domain.Membership;
 import models.domain.User;
 import models.domain.UserType;
 import models.persistence.JPAUtil;
+import models.util.DateLib;
+import play.db.jpa.Transactional;
 
 /**
  * DBCreator Class
@@ -44,28 +43,21 @@ public class DBCreator {
 	//private static final int MaximumUniqueNames = FirstNames.length * LastNames.length;
 
 	private static final int NumberOfPupils = 100;
+	private static final Date CurrentDate = DateLib.getDateObject(23, 3, 2015);
 	private static final int MinimumAgeInYearsForPupils = 15;
 	private static final int MaximumAgeInYearsForPupils = 18;
 	
 	private static final int SecondsPerYear = 3600 * 24 * 365;
 	private static final int MaxUsernameLength = 5;
 	
-	private Random randomGenerator = new Random();
-	private int lastCombinationUsed = 0;
+	private User[] pupils = new User[NumberOfPupils];
 	
-	private UserService userService;
-	private ActivityService activityService;
-	private ActivitySessionService sessionService;
-	private MembershipService membershipService;
+	private Random randomGenerator = new Random();
 	
 	private EntityManager em;
 	
 	public DBCreator() {
 		em = JPAUtil.getCurrentEntityManager();
-    	//userService = new UserService();
-    	//activityService = new ActivityService();
-    	//sessionService = new ActivitySessionService();
-    	//membershipService = new MembershipService();
 	}
 	
 	@Transactional
@@ -88,21 +80,14 @@ public class DBCreator {
 	
 	public void preparePresentationDatabase() {
 		createAdminsAndPupils();
-		createActivitiesWithTutors();;
+		createActivitiesWithTutors();
+		createPupilMemberships();
 	}
 	
 	private void createAdminsAndPupils() {
 		createAdmins();
-		createPupils();
+		//createPupils();
 	}
-
-/*
-	private void createAdminsOld() {
-		userService.createUser("kchristof", "123456", UserType.Admin, "Konstantinos", "Christofilos", DateLib.getDateObject(17, 3, 1981));
-		userService.createUser("pgerard", "123456", UserType.Admin, "Pavlos", "Gerardos", DateLib.getDateObject(14, 3, 1979));
-		userService.createUser("spanta", "123456", UserType.Admin, "Sokratis", "Pantazaras", DateLib.getDateObject(20, 10, 1978));
-	}
-*/
 	
 	private void createAdmins() {
 		User admin1 = new User("kchristof", "123456", UserType.Admin, "Konstantinos", "Christofilos", DateLib.getDateObject(17, 3, 1981));
@@ -114,53 +99,49 @@ public class DBCreator {
 	}
 	
 	private void createPupils() {
-		
+		for (int i = 0; i < pupils.length; i++) {
+			int firstNameIndex = (6 * i) % PupilFirstNames.length;
+			int lastNameIndex = (6 * i) / PupilLastNames.length;
+			String firstName = PupilFirstNames[firstNameIndex];
+			String lastName = PupilLastNames[lastNameIndex];
+			String username = createUsername(firstName, lastName);
+			String password = createPassword(firstName, lastName);
+			Date birthDate = createBirthDate(CurrentDate, MinimumAgeInYearsForPupils, MaximumAgeInYearsForPupils);
+			pupils[i] = new User(username, password, UserType.Student, firstName, lastName, birthDate);
+		}
 	}
-
-/*
-	private void createActivitiesWithTutorsOld() {
-		// ATHLETICS
-		String athleticsDescription = "Athletics is an exclusive collection of sporting events that involve competitive running, jumping, "
-				+ "throwing, and walking. The most common types of athletics competitions are track and field, road running, cross country running, "
-				+ "and race walking. The simplicity of the competitions, and the lack of a need for expensive equipment, makes athletics one of the "
-				+ "most commonly competed sports in the world. Athletics is mostly an individual sport, with the exception of relay races and "
-				+ "competitions which combine athletes' performances for a team score, such as cross country.";
-		Activity athleticsActivity = activityService.createActivity("Athletics", athleticsDescription, "Outside fields");
-		sessionService.createActivitySessions(athleticsActivity, DateLib.getDateObject(13, 1, 2015, 16, 0, 0), DateLib.getDateObject(26, 5, 2015, 16, 0, 0),
-				new boolean[] {false, false, true, false, false, false, false});
-		sessionService.createActivitySessions(athleticsActivity, DateLib.getDateObject(17, 1, 2015, 10, 0, 0), DateLib.getDateObject(30, 5, 2015, 10, 0, 0),
-				new boolean[] {false, false, false, false, false, false, true});
-		User athleticsTutor = userService.createUser("kvoisey", "123456", UserType.Tutor, "Kate", "Voisey", DateLib.getDateObject(11, 8, 1985));
-		membershipService.createMembership(athleticsActivity, athleticsTutor);
-		
-		// BASKETBALL
-		String basketballDescription = "Basketball is a sport played by two teams of five players on a rectangular court. The objective is "
-				+ "to shoot a ball through a hoop 18 inches (46 cm) in diameter and 10 feet (3.048 m) high mounted to a backboard at each end. "
-				+ "Basketball is one of the world's most popular and widely viewed sports.";
-		Activity basketballActivity = activityService.createActivity("Basketball", basketballDescription, "Basketball court");
-		sessionService.createActivitySessions(basketballActivity, DateLib.getDateObject(12, 1, 2015, 18, 0, 0), DateLib.getDateObject(27, 5, 2015, 18, 0, 0),
-				new boolean[] {false, true, false, true, false, false, false});
-		sessionService.createActivitySessions(basketballActivity, DateLib.getDateObject(16, 1, 2015, 17, 0, 0), DateLib.getDateObject(29, 5, 2015, 17, 0, 0),
-				new boolean[] {false, false, false, false, false, true, false});
-		User basketballTutor = userService.createUser("clatanis", "123456", UserType.Tutor, "Chris", "Latanis", DateLib.getDateObject(21, 1, 1987));
-		membershipService.createMembership(basketballActivity, basketballTutor);
-		
-		// DRAMA CLUB
-		String dramaDescription = "Drama is the specific mode of fiction represented in performance.The term comes from a Greek word meaning action, "
-				+ "which is derived from the verb meaning to do or to act. The enactment of drama in theatre, performed by actors on a stage before"
-				+ " an audience, presupposes collaborative modes of production and a collective form of reception. The structure of dramatic texts, "
-				+ "unlike other forms of literature, is directly influenced by this collaborative production and collective reception. The early "
-				+ "modern tragedy Hamlet (1601) by Shakespeare and the classical Athenian tragedy Oedipus the King (c. 429 BC) by Sophocles are "
-				+ "among the masterpieces of the art of drama. A modern example is Long Day's Journey into Night by Eugene O’Neill (1956).";
-		Activity dramaActivity = activityService.createActivity("Drama Club", dramaDescription, "Room A5");
-		sessionService.createActivitySessions(dramaActivity, DateLib.getDateObject(12, 1, 2015, 17, 0, 0), DateLib.getDateObject(27, 5, 2015, 17, 0, 0),
-				new boolean[] {false, true, false, true, false, false, false});
-		User dramaTutor = userService.createUser("jgunn", "123456", UserType.Tutor, "Julie", "Gunn", DateLib.getDateObject(3, 12, 1968));
-		membershipService.createMembership(dramaActivity, dramaTutor);
+	
+	private String createUsername(String firstName, String lastName) {
+		return firstName.charAt(0) + lastName.substring(0, Math.min(lastName.length(), MaxUsernameLength - 1));
 	}
-*/
-
+	
+	private String createPassword(String firstName, String lastName) {
+		return createUsername(firstName, lastName) + "123";
+	}
+	
+	private Date createBirthDate(Date currentDate, int minimumAgeInYears, int maximumAgeInYears) {
+		int randomAgeInYears = minimumAgeInYears + randomGenerator.nextInt(maximumAgeInYears - minimumAgeInYears);
+		Date birthDate = DateLib.copyDateObject(currentDate);
+		DateLib.addYears(birthDate, -randomAgeInYears);
+		DateLib.addSeconds(birthDate, randomGenerator.nextInt(DBCreator.SecondsPerYear));
+		return birthDate;
+	}
+	
 	private void createActivitiesWithTutors() {
+		Iterator<Entry<String, ActivityInfo>> it = ActivityBank.ActivityInfoMap.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<String, ActivityInfo> entry = (Entry<String, ActivityInfo>)it.next();
+			ActivityInfo activityInfo = entry.getValue();
+			Membership membership = activityInfo.createActivityWithTutor(DateLib.getDateObject(1, 1, 2015));
+			Activity activity = membership.getActivity();
+			User tutor = membership.getUser();
+			em.persist(activity);
+			em.persist(tutor);
+			em.persist(membership);
+		}
+	}
+
+	private void createActivitiesWithTutorsOld() {
 		/* ATHLETICS */
 		String athleticsDescription = "Athletics is an exclusive collection of sporting events that involve competitive running, jumping, "
 				+ "throwing, and walking. The most common types of athletics competitions are track and field, road running, cross country running, "
@@ -305,64 +286,11 @@ public class DBCreator {
 		em.persist(volleyballMembership);
 	}
 	
-	private void createStandardUsers(int numberOfUsers, UserType userType) {
-		int[] indices = createSequentialArray(lastCombinationUsed, numberOfUsers);
-		createUsers(indices, userType);
-	}
-	
-	private void createRandomUsers(int numberOfUsers, UserType userType) {
-		int[] indices = createSequentialArray(lastCombinationUsed, numberOfUsers);
-		shuffle(indices);
-		createUsers(indices, userType);
-	}
-	
-	private void createUsers(int[] indices, UserType userType) {
-		for (int i = 0; i < indices.length; i++) {
-			System.out.println(indices[i]);
-		}
-		lastCombinationUsed += indices.length;
-	}
-	
-	private int[] createSequentialArray(int startIndex, int size) {
-		int[] seqArray = new int[size];
-		for (int i = 0; i < size; i++) {
-			seqArray[i] = startIndex + i;
-		}
-		return seqArray;
-	}
-	
-	private void shuffle(int[] array) {
-		for (int i = 0; i < array.length * 10; i++) {
-			int posA = randomGenerator.nextInt(array.length);
-			int posB = randomGenerator.nextInt(array.length);
-			int temp = array[posA];
-			array[posA] = array[posB];
-			array[posB] = temp;
-		}
-	}
-	
-	private String createUsername(String firstName, String lastName) {
-		return firstName.charAt(0) + lastName.substring(0, Math.min(lastName.length(), MaxUsernameLength - 1));
-	}
-	
-	private String createPassword(String firstName, String lastName) {
-		return createUsername(firstName, lastName) + "123";
-	}
-	
-	private Date createBirthDate(int minimumAgeInYears, int maximumAgeInYears) {
-		return createBirthDate(DateLib.getDateObject(), minimumAgeInYears, maximumAgeInYears);
-	}
-	
-	private Date createBirthDate(Date currentDate, int minimumAgeInYears, int maximumAgeInYears) {
-		int randomAgeInYears = minimumAgeInYears + randomGenerator.nextInt(maximumAgeInYears - minimumAgeInYears);
-		Date birthDate = DateLib.copyDateObject(currentDate);
-		DateLib.addYears(birthDate, -randomAgeInYears);
-		DateLib.addSeconds(birthDate, randomGenerator.nextInt(DBCreator.SecondsPerYear));
-		return birthDate;
+	private void createPupilMemberships() {
+		
 	}
 	
 	public static void main(String[] args) {
-		DBCreator dbCreator = new DBCreator();
-		dbCreator.preparePresentationDatabase();
+		//DBCreator dbCreator = new DBCreator();
 	}
 }
