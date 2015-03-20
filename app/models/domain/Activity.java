@@ -221,18 +221,21 @@ public class Activity {
 	 */
 	public boolean isActive() {
 		Set<ActivitySession> sessions = getSessions();
-		ActivitySession firstSession = sessions.iterator().next();
-		ActivitySession lastSession = sessions.iterator().next();
-		for (Iterator<ActivitySession> iterator = sessions.iterator(); iterator.hasNext();) {
-			ActivitySession session = (ActivitySession) iterator.next();
-			if (session.getDate().before(firstSession.getDate())) {
-				firstSession = session;
+		if (sessions.size() > 0) {
+			ActivitySession firstSession = sessions.iterator().next();
+			ActivitySession lastSession = sessions.iterator().next();
+			for (Iterator<ActivitySession> iterator = sessions.iterator(); iterator.hasNext();) {
+				ActivitySession session = (ActivitySession) iterator.next();
+				if (session.getDate().before(firstSession.getDate())) {
+					firstSession = session;
+				}
+				if (session.getDate().after(lastSession.getDate())) {
+					lastSession = session;
+				}
 			}
-			if (session.getDate().after(lastSession.getDate())) {
-				lastSession = session;
-			}
+			Date today = new Date();
+			return today.after(firstSession.getDate()) && today.before(lastSession.getDate());
 		}
-		Date today = new Date();
-		return today.after(firstSession.getDate()) && today.before(lastSession.getDate());
+		return false;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Collections;
 
 import models.domain.Activity;
 import models.domain.ActivitySession;
@@ -30,6 +31,7 @@ public class Helper {
 		for (ActivitySession session : activity.getSessions()) {
 			dates.add(session.getDate());
 		}
+		Collections.sort(dates);
 //		dates.sort(new Comparator<Date>() {
 //
 //			@Override

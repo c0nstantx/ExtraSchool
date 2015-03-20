@@ -10,12 +10,19 @@ GET     /login      	            controllers.Application.login()
 POST    /login		 	            controllers.Application.authenticate()
 GET     /logout                     controllers.Application.logout()
 
+# Register activity
+GET		/activity/register/:id		controllers.Activities.register(id: Integer)
+
 # Activity page
 GET		/activities					controllers.Activities.showAll()
 GET		/activity/:id				controllers.Activities.show(id: Integer)
 
 # Delete activities
 POST	/activity/delete			controllers.Activities.delete()
+
+# Create new activity
+GET		/activity					controllers.Activities.create()
+POST	/activity					controllers.Activities.save()
 
 # Profile page
 GET		/profile					controllers.Users.profile()

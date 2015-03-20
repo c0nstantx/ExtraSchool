@@ -8,7 +8,7 @@ $(document).ready(function(){
 	});
 
 	/* Datepicker */
-	$("#birthDate").datepicker(
+	$(".datepicker").datepicker(
 		{
 			format: "dd-mm-yyyy"
 		}

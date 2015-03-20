@@ -1,0 +1,64 @@
+@(form: Form[Activities.NewActivity], user: models.domain.User)
+
+@main("Edit User", user) {
+<div class="col-sm-12">
+	@helper.form(action = routes.Activities.save(), 'class -> "form-horizontal") {
+	  <div class="form-group">
+	    <label for="name" class="col-sm-2 control-label">Name:</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="@form("name").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="description" class="col-sm-2 control-label">Description:</label>
+	    <div class="col-sm-3">
+	      <textarea class="form-control" name="description" id="description">@form("description").value</textarea>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="venue" class="col-sm-2 control-label">Venue:</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control" name="venue" id="venue" placeholder="Venue" value="@form("venue").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="dateStart" class="col-sm-2 control-label">Starting Date:</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control datepicker" name="dateStart" id="dateStart" placeholder="Starting date" value="@form("dateStart").value">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <label for="dateEnd" class="col-sm-2 control-label">Ending Date:</label>
+	    <div class="col-sm-3">
+	      <input type="text" class="form-control datepicker" name="dateEnd" id="dateEnd" placeholder="Ending date" value="@form("dateEnd").value">
+	    </div>
+	  </div>
+	  <div class="checkbox">
+	    <label for="daySelection" class="col-sm-2 control-label">Select Days:</label>
+	    <div class="col-sm-3">
+	      <input type="checkbox" name="monday" id="monday" @if(form("monday").value == "on") { checked="checked"}>Monday<br>
+	      <input type="checkbox" name="tuesday" id="tuesday" @if(form("tuesday").value == "on") { checked="checked"}>Tuesday<br>
+	      <input type="checkbox" name="wednesday" id="wednesday" @if(form("wednesday").value == "on") { checked="checked"}>Wednesday<br>
+	      <input type="checkbox" name="thursday" id="thursday" @if(form("thursday").value == "on") { checked="checked"}>Thursday<br>
+	      <input type="checkbox" name="friday" id="friday" @if(form("friday").value == "on") { checked="checked"}>Friday<br>
+	      <input type="checkbox" name="saturday" id="saturday" @if(form("saturday").value == "on") { checked="checked"}>Saturday<br>
+	      <input type="checkbox" name="sunday" id="sunday" @if(form("sunday").value == "on") { checked="checked"}>Sunday
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+		@if(form.hasGlobalErrors) {
+		    <p class="text-danger">
+		        @form.globalError.message
+		    </p>
+		}
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	      <button type="submit" class="btn btn-primary">Save</button>
+	    </div>
+	  </div>
+	}
+</div>
+}
