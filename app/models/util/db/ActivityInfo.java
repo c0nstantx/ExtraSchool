@@ -25,10 +25,11 @@ public class ActivityInfo {
 	private String tutorFirstName;
 	private String tutorLastName;
 	private Date tutorBirthDate;
+	private int[] pupilIds;
 	
 	public ActivityInfo(String name, String description, DateSet[] dateSets, String venue,
 						String tutorUsername, String tutorPassword, String tutorFirstName,
-						String tutorLastName, Date tutorBirthDate) {
+						String tutorLastName, Date tutorBirthDate, int[] pupilIds) {
 		this.name = name;
 		this.description = description;
 		this.dateSets = dateSets;
@@ -38,6 +39,7 @@ public class ActivityInfo {
 		this.tutorFirstName = tutorFirstName;
 		this.tutorLastName = tutorLastName;
 		this.tutorBirthDate = tutorBirthDate;
+		this.pupilIds = pupilIds;
 	}
 	
 	public String getName() {
@@ -77,19 +79,35 @@ public class ActivityInfo {
 		return sessions;
 	}
 	
-	public Membership createActivityWithTutor(Date creationDate) {
+	public Membership[] setupActivity(User[] pupils, Date creationDate) {
 		Activity activity = new Activity(name, description, venue);
 		createAllSessions(activity);
-		User tutor = new User(tutorUsername, tutorPassword, UserType.Tutor, tutorFirstName, tutorLastName, tutorBirthDate);
-		Membership membership = new Membership(activity, tutor, creationDate);
-		activity.addMembership(membership);
-		tutor.addMembership(membership);
-		return membership;
+		Membership[] memberships = new Membership[pupilIds.length + 1];
+		memberships[0] = createAndAddTutor(activity, creationDate);
+		for (int i = 1; i < memberships.length; i++) {
+			memberships[i] = addPupil(activity, pupils[i - 1], creationDate);
+		}
+		return memberships;
 	}
 	
 	private void createAllSessions(Activity activity) {
 		for (int i = 0; i < dateSets.length; i++) {
 			activity.createSessions(DateLib.copyDateObject(dateSets[i].getStartDate()), DateLib.copyDateObject(dateSets[i].getEndDate()), dateSets[i].getWeekdays());
 		}
+	}
+	
+	private Membership createAndAddTutor(Activity activity, Date creationDate) {
+		User tutor = new User(tutorUsername, tutorPassword, UserType.Tutor, tutorFirstName, tutorLastName, tutorBirthDate);
+		Membership tutorMembership = new Membership(activity, tutor, creationDate);
+		activity.addMembership(tutorMembership);
+		tutor.addMembership(tutorMembership);
+		return tutorMembership;
+	}
+	
+	private Membership addPupil(Activity activity, User pupil, Date creationDate) {
+		Membership pupilMembership = new Membership(activity, pupil, creationDate);
+		activity.addMembership(pupilMembership);
+		pupil.addMembership(pupilMembership);
+		return pupilMembership;
 	}
 }
