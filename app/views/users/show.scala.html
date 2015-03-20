@@ -1,8 +1,8 @@
-@(form: Form[Users.Profile], user: models.domain.User)
+@(form: Form[Users.UserForm], user: models.domain.User, user_id: Integer)
 
 @main("Edit User", user) {
 <div class="col-sm-12">
-	@helper.form(action = routes.Users.update(Integer.parseInt(form("id").value)), 'class -> "form-horizontal") {
+	@helper.form(action = routes.Users.update(user_id), 'class -> "form-horizontal") {
 	  <div class="form-group">
 	    <label for="firstName" class="col-sm-2 control-label">First Name:</label>
 	    <div class="col-sm-3">

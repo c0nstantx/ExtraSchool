@@ -21,10 +21,10 @@ POST	/profile					controllers.Users.updateProfile()
 POST	/user/delete				controllers.Users.delete()
 
 # Create/Edit user
-GET		/user						controllers.Users.create()
-POST	/user						controllers.Users.save()
 GET		/user/:id					controllers.Users.show(id: Integer)
 POST	/user/:id					controllers.Users.update(id: Integer)
+GET		/user						controllers.Users.create()
+POST	/user						controllers.Users.save()
 
 # List users
 GET		/users						controllers.Users.showAll()

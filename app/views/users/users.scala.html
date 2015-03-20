@@ -20,7 +20,9 @@
 			<td>@u.getLastName</td>
 			<td>
 			<a href="@routes.Users.show(u.getId())"><span class="glyphicon glyphicon-pencil" title="Edit"></span></a>
+			@if(!u.getId().equals(user.getId())) {
 			<a id="delete-user" data-user="@u.getId()" href="@routes.Users.delete()"><span class="glyphicon glyphicon-remove" title="Delete"></span></a>
+			}
 			</td>
 		</tr>
 	}

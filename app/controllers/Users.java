@@ -2,28 +2,24 @@ package controllers;
 
 import static play.data.Form.form;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
 import controllers.security.AdminSecured;
 import controllers.security.Secured;
-import controllers.service.ActivityService;
 import controllers.service.UserService;
-import play.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.*;
-import views.html.*;
-import models.domain.Activity;
 import models.domain.User;
-import models.util.Authenticator;
+import models.domain.UserType;
 import models.util.DateLib;
 
 public class Users extends Controller {
+
+	protected static final String DATE_FORMAT = "dd-MM-yyyy";
 	
 	public static class Profile {
 
@@ -41,7 +37,7 @@ public class Users extends Controller {
 	    		return "Last name cannot be blank";
 	    	}
 	    	try {
-	    		DateLib.createFromString("d-M-y", birthDate);
+	    		DateLib.createFromString(DATE_FORMAT, birthDate);
 			} catch (Exception e) {
 				return "Birth date is not in proper format DD-MM-YYY";
 			}
@@ -59,7 +55,6 @@ public class Users extends Controller {
 	
 	public static class UserForm {
 
-		public Integer id;
 	    public String firstName;
 	    public String lastName;
 	    public String password;
@@ -75,7 +70,47 @@ public class Users extends Controller {
 	    		return "Last name cannot be blank";
 	    	}
 	    	try {
-	    		DateLib.createFromString("d-M-y", birthDate);
+	    		DateLib.createFromString(DATE_FORMAT, birthDate);
+			} catch (Exception e) {
+				return "Birth date is not in proper format DD-MM-YYY";
+			}
+	    	if (password != "") {
+	    		if (passwordRepeat == "") {
+	    			return "Password repeat cannot be blank";
+	    		}
+	    		if (!password.equals(passwordRepeat)) {
+	    			return "Password repeat must be the same as password";
+	    		}
+	    	}
+	    	if (userType == "") {
+	    		return "User type cannot be blank";
+	    	}
+	    	return null;
+	    }
+	}
+	
+	public static class NewUser {
+
+	    public String username;
+	    public String firstName;
+	    public String lastName;
+	    public String password;
+	    public String passwordRepeat;
+	    public String birthDate;
+	    public String userType;
+
+		public String validate() {
+	    	if (username == "") {
+	    		return "Username cannot be blank";
+	    	}
+	    	if (firstName == "") {
+	    		return "First name cannot be blank";
+	    	}
+	    	if (lastName == "") {
+	    		return "Last name cannot be blank";
+	    	}
+	    	try {
+	    		DateLib.createFromString(DATE_FORMAT, birthDate);
 			} catch (Exception e) {
 				return "Birth date is not in proper format DD-MM-YYY";
 			}
@@ -93,7 +128,7 @@ public class Users extends Controller {
 	    		return "User type cannot be blank";
 	    	}
 	    	return null;
-	    }
+		}
 	}
 	
 	@Security.Authenticated(AdminSecured.class)
@@ -102,17 +137,39 @@ public class Users extends Controller {
     	UserService us = new UserService();
     	User user = us.findUserByUsername(request().username());
     	
-    	Form<Profile> profileForm = form(Profile.class);
+    	Form<NewUser> newUser = form(NewUser.class);
     	
-        return ok(views.html.users.create.render(profileForm, user));
+        return ok(views.html.users.create.render(newUser, user));
 	}
 	
 	@Security.Authenticated(AdminSecured.class)
-	public static Result save() {
-        return redirect(
-                routes.Users.create()
+	public static Result save() throws ParseException {
+    	Form<NewUser> userForm = Form.form(NewUser.class).bindFromRequest();
+    	UserService us = new UserService();
+    	
+    	User user = us.findUserByUsername(request().username());
+        if (userForm.hasErrors()) {
+            return badRequest(views.html.users.create.render(userForm, user));
+        } else {
+        	Map<String, String> formData = userForm.data();
+        	UserType uType = UserType.Student;
+        	switch (formData.get("userType")) {
+			case "Admin":
+				uType = UserType.Admin;
+				break;
+			case "Tutor":
+				uType = UserType.Tutor;
+			default:
+				break;
+			}
+        	us.createUser(formData.get("username"), formData.get("password"), uType, 
+        			formData.get("firstName"), formData.get("lastName"), 
+        			DateLib.createFromString(DATE_FORMAT, formData.get("birthDate")));
+        	flash("success", "User created successfully");
+            return redirect(
+  	          routes.Users.showAll()
             );
-		
+        }
 	}
 	
 	@Transactional
@@ -122,30 +179,69 @@ public class Users extends Controller {
     	User user = us.findUserByUsername(request().username());
     	User userEdit = us.find(id);
     	
-    	Form<Profile> userForm = form(Profile.class);
+    	Form<UserForm> userForm = form(UserForm.class);
     	userForm.data().put("firstName", userEdit.getFirstName());
     	userForm.data().put("lastName", userEdit.getLastName());
-    	userForm.data().put("birthDate", DateLib.format(userEdit.getBirthDate(), "d-M-y"));
-    	userForm.data().put("id", userEdit.getId().toString());
+    	userForm.data().put("birthDate", DateLib.format(userEdit.getBirthDate(), DATE_FORMAT));
     	userForm.data().put("userType", userEdit.getUserType().toString());
     	
-        return ok(views.html.users.show.render(userForm, user));
+        return ok(views.html.users.show.render(userForm, user, id));
 		
 	}
 	
 	@Security.Authenticated(AdminSecured.class)
 	@Transactional
 	public static Result update(Integer id) {
-        return redirect(
+    	Form<UserForm> userForm = Form.form(UserForm.class).bindFromRequest();
+    	UserService us = new UserService();
+    	
+    	User user = us.findUserByUsername(request().username());
+    	User userEdit = us.find(id);
+        if (userForm.hasErrors()) {
+            return badRequest(views.html.users.show.render(userForm, user, id));
+        } else {
+        	Map<String, String> formData = userForm.data();
+        	userEdit.setLastName(formData.get("firstName"));
+        	userEdit.setFirstName(formData.get("lastName"));
+        	UserType uType = UserType.Student;
+        	switch (formData.get("userType")) {
+			case "Admin":
+				uType = UserType.Admin;
+				break;
+			case "Tutor":
+				uType = UserType.Tutor;
+			default:
+				break;
+			}
+        	userEdit.setUserType(uType);
+        	try {
+        		userEdit.setBirthDate(DateLib.createFromString(DATE_FORMAT, formData.get("birthDate")));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+        	if (formData.get("password") != "") {
+        		userEdit.setPassword(formData.get("password"));
+        	}
+        	us.updateUser(userEdit);
+        	flash("success", "User updated successfully");
+            return redirect(
                 routes.Users.show(id)
             );
+        }
 	}
 	
 	@Security.Authenticated(AdminSecured.class)
 	@Transactional
 	public static Result delete() {
 		DynamicForm form = Form.form().bindFromRequest();
-		System.out.println(form.get("user_id"));
+		Integer userId = Integer.parseInt(form.get("user_id"));
+		UserService us = new UserService();
+		User user = us.find(userId);
+		if (us.deleteUser(user)) {
+			flash("success", "User deleted successfully");
+		} else {
+			flash("error", "Error deleting user. The user is member of an activity");
+		}
         return redirect(
                 routes.Users.showAll()
             );
@@ -160,7 +256,7 @@ public class Users extends Controller {
     	Form<Profile> profileForm = form(Profile.class);
     	profileForm.data().put("firstName", user.getFirstName());
     	profileForm.data().put("lastName", user.getLastName());
-    	profileForm.data().put("birthDate", DateLib.format(user.getBirthDate(), "d-M-y"));
+    	profileForm.data().put("birthDate", DateLib.format(user.getBirthDate(), DATE_FORMAT));
     	
         return ok(views.html.users.profile.render(profileForm, user));
     }
@@ -179,7 +275,7 @@ public class Users extends Controller {
         	user.setLastName(formData.get("firstName"));
         	user.setFirstName(formData.get("lastName"));
         	try {
-            	user.setBirthDate(DateLib.createFromString("d-M-y", formData.get("birthDate")));
+            	user.setBirthDate(DateLib.createFromString(DATE_FORMAT, formData.get("birthDate")));
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
