@@ -3,29 +3,27 @@ package controllers;
 import static play.data.Form.form;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import controllers.Users.NewUser;
+import models.domain.Activity;
+import models.domain.Membership;
+import models.domain.User;
+import models.util.DateLib;
+import models.util.Helper;
+import play.data.DynamicForm;
+import play.data.Form;
+import play.db.jpa.Transactional;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Security;
 import controllers.security.AdminSecured;
 import controllers.security.Secured;
 import controllers.service.ActivityService;
 import controllers.service.ActivitySessionService;
 import controllers.service.MembershipService;
 import controllers.service.UserService;
-import play.data.DynamicForm;
-import play.data.Form;
-import play.db.jpa.Transactional;
-import play.mvc.*;
-import models.domain.Activity;
-import models.domain.ActivitySession;
-import models.domain.Membership;
-import models.domain.User;
-import models.domain.UserType;
-import models.util.DateLib;
-import models.util.Helper;
 
 public class Activities extends Controller {
 

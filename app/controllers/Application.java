@@ -1,15 +1,17 @@
 package controllers;
 
-import controllers.security.Secured;
-import controllers.service.UserService;
+import static play.data.Form.form;
 import models.domain.User;
 import models.util.Authenticator;
-import play.*;
-import play.mvc.*;
-import play.data.*;
+import play.data.Form;
 import play.db.jpa.Transactional;
-import views.html.*;
-import static play.data.Form.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Security;
+import views.html.index;
+import views.html.login;
+import controllers.security.Secured;
+import controllers.service.UserService;
 
 public class Application extends Controller {
 

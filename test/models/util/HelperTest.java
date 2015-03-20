@@ -3,14 +3,13 @@ package models.util;
 import java.util.Date;
 import java.util.List;
 
+import models.domain.Activity;
+import models.domain.EntityBaseTest;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import models.domain.Activity;
-import models.domain.EntityBaseTest;
-import models.domain.User;
 import controllers.service.ActivityService;
-import controllers.service.UserService;
 
 /**
  * 

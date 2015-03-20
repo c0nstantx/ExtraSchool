@@ -2,9 +2,8 @@ package controllers.security;
 
 import models.domain.User;
 import models.domain.UserType;
+import play.mvc.Http.Context;
 import controllers.service.UserService;
-import play.mvc.*;
-import play.mvc.Http.*;
 
 public class AdminSecured extends Secured {
 

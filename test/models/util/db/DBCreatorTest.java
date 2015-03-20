@@ -57,7 +57,6 @@ public class DBCreatorTest extends EntityBaseTest {
     				PupilBank.pupilData[i].getFirstName(),
     				PupilBank.pupilData[i].getLastName(),
     				PupilBank.pupilData[i].getBirthDate());
-    		System.out.println("Successfully tested pupil " + i + ": " + PupilBank.pupilData[i]);
     	}
     }
     

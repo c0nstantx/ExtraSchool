@@ -68,7 +68,6 @@ public class DBCreator {
 		while (it.hasNext()) {
 			Entry<String, ActivityInfo> entry = (Entry<String, ActivityInfo>)it.next();
 			ActivityInfo activityInfo = entry.getValue();
-			System.out.println("Creating activity: " + entry.getValue().getName());
 			Membership[] activityMemberships = activityInfo.setupActivity(pupils, DateLib.getDateObject(1, 1, 2015));
 			Activity activity = activityMemberships[0].getActivity();
 			em.persist(activity);

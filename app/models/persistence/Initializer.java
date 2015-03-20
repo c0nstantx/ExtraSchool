@@ -3,10 +3,6 @@ package models.persistence;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import controllers.service.ActivityService;
-import controllers.service.ActivitySessionService;
-import controllers.service.MembershipService;
-import controllers.service.UserService;
 import models.domain.Activity;
 import models.domain.ActivitySession;
 import models.domain.Membership;
