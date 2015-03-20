@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import controllers.service.ActivityService;
 import models.util.DateLib;
 
 /**
@@ -237,5 +238,14 @@ public class Activity {
 			return today.after(firstSession.getDate()) && today.before(lastSession.getDate());
 		}
 		return false;
+	}
+
+	/**
+	 * Get Activity's tutor
+	 * @return User
+	 */
+	public User getTutor() {
+		ActivityService as = new ActivityService();
+		return as.findActivityTutor(name);
 	}
 }

@@ -21,10 +21,12 @@ public class AdminSecured extends Secured {
     }
     
     private boolean isTutor(User user) {
-    	UserType userType = user.getUserType();
-    	if (user != null && userType == UserType.Admin) {
-    		return true;
+    	if (user != null) {
+        	UserType userType = user.getUserType();
+        	if (userType == UserType.Admin) {
+        		return true;
+        	}
     	}
     	return false;
-    	
-    }}
+    }
+}

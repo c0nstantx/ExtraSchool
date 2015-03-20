@@ -20,11 +20,12 @@ public class TutorSecured extends Secured {
     }
     
     private boolean isTutor(User user) {
-    	UserType userType = user.getUserType();
-    	if (user != null && (userType == UserType.Tutor || userType == UserType.Admin)) {
-    		return true;
+    	if (user != null) {
+	    	UserType userType = user.getUserType();
+	    	if (userType == UserType.Tutor || userType == UserType.Admin) {
+	    		return true;
+	    	}
     	}
     	return false;
-    	
     }
 }

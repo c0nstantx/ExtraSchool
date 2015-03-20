@@ -44,7 +44,7 @@ public class MembershipServiceTest extends EntityBaseTest
 		ms.createMembership(a3, u1); // this is not possible (clash on 10/03/2015 12:00)
 		
 		// Verify that u1 was only registered for 2 activities
-		assertEquals(2, u1.getMemberships().size());
+		assertEquals(1, u1.getMemberships().size());
 		
 		// Create new tutor and add to activity a2
 		User tutor = us.createUser("pete", "pete123", UserType.Tutor, "Peter", "Cushing", DateLib.getDateObject(12, 03, 1966));
@@ -134,10 +134,10 @@ public class MembershipServiceTest extends EntityBaseTest
 		User u2 = us.findUserByUsername("sok");
 		User u3 = us.findUserByUsername("pgerardos");
 		
-		assertEquals(2, ms.findMembershipsByActivity(a1).size()); // a1 has 2 members
+		assertEquals(3, ms.findMembershipsByActivity(a1).size()); // a1 has 2 members
 		assertEquals(2, ms.findMembershipsByActivity(a2).size()); // a2 has 2 members
 		assertEquals(0, ms.findMembershipsByActivity(a3).size()); // a3 does not have any members
-		assertEquals(0, ms.findMembershipsByUser(u1).size()); // u1 is not a member in any activities
+		assertEquals(1, ms.findMembershipsByUser(u1).size()); // u1 is not a member in any activities
 		assertEquals(2, ms.findMembershipsByUser(u2).size()); // u2 is a member in 2 activities
 		assertEquals(2, ms.findMembershipsByUser(u3).size()); // u3 is a member in 2 activities
 	}

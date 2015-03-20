@@ -86,14 +86,14 @@ public class UserServiceTest extends EntityBaseTest
 	@Test
 	public void deleteUser() {
 		User user = (User) em.createQuery("SELECT u FROM User u WHERE username = :username")
-				.setParameter("username", "kchristofilos")
+				.setParameter("username", "sok")
 				.getSingleResult();
 		us.deleteUser(user);
 		
 		@SuppressWarnings("unchecked")
 		List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
 		
-		assertEquals(3, users.size()); // initial users are 3, should now be 2
+		assertEquals(4, users.size()); // initial users are 3, should now be 2
 		
 		/* Get first user and alter username */
 		user = users.get(0);

@@ -5,6 +5,7 @@
 	<table class="table table-bordered">
 		<tr class="active">
 			<th>Activity</th>
+			<th>Tutor</th>
 			<th>Venue</th>
 			<th>Members</th>
 			<th>Status</th>
@@ -13,6 +14,7 @@
 	@for(a <- activities) {
 		<tr @if(a.isActive()) { class="success" } else { class="danger" }>
 			<td>@a.getName()</td>
+			<td>@a.getTutor().getShortName()</td>
 			<td>@a.getVenue()</td>
 			<td>@a.getMemberships().size()</td>
 			<td>

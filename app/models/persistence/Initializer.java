@@ -167,6 +167,7 @@ public class Initializer {
     	Membership m2 = new Membership(a1, u3, DateLib.getDateObject());
     	Membership m3 = new Membership(a2, u2, DateLib.getDateObject());
     	Membership m4 = new Membership(a2, u3, DateLib.getDateObject());
+    	Membership m5 = new Membership(a1, u1, DateLib.getDateObject());
     	a1.addMembership(m1);
     	a1.addMembership(m2);
     	a2.addMembership(m3);
@@ -175,6 +176,7 @@ public class Initializer {
     	u2.addMembership(m3);
     	u3.addMembership(m2);
     	u3.addMembership(m4);
+    	a1.addMembership(m5);
     	
     	// Store activities
         em.persist(a1);
