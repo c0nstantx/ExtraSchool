@@ -13,6 +13,7 @@ import controllers.security.Secured;
 import controllers.service.ActivityService;
 import controllers.service.UserService;
 import play.*;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.*;
@@ -58,6 +59,7 @@ public class Users extends Controller {
 	
 	public static class UserForm {
 
+		public Integer id;
 	    public String firstName;
 	    public String lastName;
 	    public String password;
@@ -95,6 +97,7 @@ public class Users extends Controller {
 	}
 	
 	@Security.Authenticated(AdminSecured.class)
+	@Transactional
 	public static Result create() {
     	UserService us = new UserService();
     	User user = us.findUserByUsername(request().username());
@@ -112,6 +115,7 @@ public class Users extends Controller {
 		
 	}
 	
+	@Transactional
 	@Security.Authenticated(AdminSecured.class)
 	public static Result show(Integer id) {
     	UserService us = new UserService();
@@ -122,15 +126,28 @@ public class Users extends Controller {
     	userForm.data().put("firstName", userEdit.getFirstName());
     	userForm.data().put("lastName", userEdit.getLastName());
     	userForm.data().put("birthDate", DateLib.format(userEdit.getBirthDate(), "d-M-y"));
+    	userForm.data().put("id", userEdit.getId().toString());
+    	userForm.data().put("userType", userEdit.getUserType().toString());
     	
-        return ok(views.html.users.profile.render(userForm, user));
+        return ok(views.html.users.show.render(userForm, user));
 		
 	}
 	
 	@Security.Authenticated(AdminSecured.class)
+	@Transactional
 	public static Result update(Integer id) {
         return redirect(
                 routes.Users.show(id)
+            );
+	}
+	
+	@Security.Authenticated(AdminSecured.class)
+	@Transactional
+	public static Result delete() {
+		DynamicForm form = Form.form().bindFromRequest();
+		System.out.println(form.get("user_id"));
+        return redirect(
+                routes.Users.showAll()
             );
 	}
 	
@@ -176,4 +193,13 @@ public class Users extends Controller {
             );
         }
 	}
+	
+	@Transactional
+	@Security.Authenticated(AdminSecured.class)
+    public static Result showAll() {
+    	UserService us = new UserService();
+    	List<User> usersList = us.findAllUsers();
+    	
+    	return ok(views.html.users.users.render(usersList, us.findUserByUsername(request().username())));
+    }
 }

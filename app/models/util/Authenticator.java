@@ -19,8 +19,6 @@ public class Authenticator {
 		UserService us = new UserService();
 		User user = us.findUserByUsername(username);
 		
-		System.out.println(username);
-		System.out.println(user);
 		if (null != user && user.getPassword().equals(password)) {
 			return user;
 		}
