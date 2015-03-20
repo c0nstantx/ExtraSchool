@@ -8,7 +8,7 @@ import models.util.DateLib;
 import models.util.DateSet;
 
 /**
- * ActivityCreator class: creates a set of activities with tutors
+ * ActivityBank class
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
@@ -27,7 +27,7 @@ public class ActivityBank {
 	private static final String BasketballDescription = "Basketball is a sport played by two teams of five players on a rectangular court. The objective is "
 			+ "to shoot a ball through a hoop 18 inches (46 cm) in diameter and 10 feet (3.048 m) high mounted to a backboard at each end.";
 	
-	private static final String DramaDescription = "Drama is the specific mode of fiction represented in performance.The term comes from a Greek word meaning action, "
+	private static final String DramaClubDescription = "Drama is the specific mode of fiction represented in performance.The term comes from a Greek word meaning action, "
 			+ "which is derived from the verb meaning to do or to act.";
 	
 	private static final String FootballDescription = "Association football, more commonly known as football or soccer, is a sport played between two teams of eleven "
@@ -37,11 +37,11 @@ public class ActivityBank {
 			+ "power, agility, coordination, grace, balance and control. Internationally, all of the competitive gymnastics events are governed "
 			+ "by the FIG.";
 	
-	private static final String HistoryDescription = "History is the study of the past, particularly how it relates to humans.It is an umbrella term that relates to "
+	private static final String HistoryClubDescription = "History is the study of the past, particularly how it relates to humans.It is an umbrella term that relates to "
 			+ "past events as well as the memory, discovery, collection, organization, presentation, and interpretation of information about these "
 			+ "events.";
 	
-	private static final String IctDescription = "Information and communications technology (ICT) is often used as an extended synonym for information technology (IT), "
+	private static final String IctClubDescription = "Information and communications technology (ICT) is often used as an extended synonym for information technology (IT), "
 			+ "but is a more specific term that stresses the role of unified communication and the integration of telecommunications and computers.";
 	
 	private static final String SwimmingDescription = "The recreational activity of swimming has been recorded since prehistoric times. The earliest recording of "
@@ -56,8 +56,8 @@ public class ActivityBank {
 	private static final String VolleyballDescription = "Volleyball is a team sport in which two teams of six players are separated by a net. Each team tries to "
 			+ "score points by grounding a ball on the other team's court under organized rules.";
 	
-	private static final String ActivityDescriptions[] = new String[] {AthleticsDescription, BasketballDescription, DramaDescription, FootballDescription,
-																	   GymnasticsDescription, HistoryDescription, IctDescription, SwimmingDescription,
+	private static final String ActivityDescriptions[] = new String[] {AthleticsDescription, BasketballDescription, DramaClubDescription, FootballDescription,
+																	   GymnasticsDescription, HistoryClubDescription, IctClubDescription, SwimmingDescription,
 																	   MartialArtsDescription, TrampolineDescription, VolleyballDescription};
 	
 	private static final DateSet[] AthleticsDateSet = new DateSet[] {new DateSet(DateLib.getDateObject(13, 1, 2015, 16, 0, 0),
@@ -74,7 +74,7 @@ public class ActivityBank {
 																			 DateLib.getDateObject(29, 5, 2015, 17, 0, 0),
 																			 new boolean[] {false, false, false, false, false, true, false})};
 	
-	private static final DateSet[] DramaDateSet = new DateSet[] {new DateSet(DateLib.getDateObject(12, 1, 2015, 17, 0, 0),
+	private static final DateSet[] DramaClubDateSet = new DateSet[] {new DateSet(DateLib.getDateObject(12, 1, 2015, 17, 0, 0),
 																			 DateLib.getDateObject(27, 5, 2015, 17, 0, 0),
 																			 new boolean[] {false, true, false, true, false, false, false})};
 	
@@ -92,11 +92,11 @@ public class ActivityBank {
 																			  	  DateLib.getDateObject(30, 5, 2015, 10, 0, 0),
 																			  	  new boolean[] {false, false, false, false, false, false, true})};
 	
-	private static final DateSet[] HistoryDateSet = new DateSet[] {new DateSet(DateLib.getDateObject(15, 1, 2015, 16, 0, 0),
+	private static final DateSet[] HistoryClubDateSet = new DateSet[] {new DateSet(DateLib.getDateObject(15, 1, 2015, 16, 0, 0),
 																			   DateLib.getDateObject(29, 5, 2015, 16, 0, 0),
 																			   new boolean[] {false, false, false, false, true, true, false})};
 	
-	private static final DateSet[] IctDateSet = new DateSet[] {new DateSet(DateLib.getDateObject(12, 1, 2015, 16, 0, 0),
+	private static final DateSet[] IctClubDateSet = new DateSet[] {new DateSet(DateLib.getDateObject(12, 1, 2015, 16, 0, 0),
 																		   DateLib.getDateObject(26, 5, 2015, 16, 0, 0),
 																		   new boolean[] {false, true, true, false, false, false, false})};
 	
@@ -116,8 +116,8 @@ public class ActivityBank {
 																				  DateLib.getDateObject(27, 5, 2015, 17, 0, 0),
 																				  new boolean[] {false, true, false, true, false, false, false})};
 	
-	private static final DateSet[][] ActivityDateSets = new DateSet[][] {AthleticsDateSet, BasketballDateSet, DramaDateSet, FootballDateSet,
-																		 GymnasticsDateSet, HistoryDateSet, IctDateSet, SwimmingDateSet,
+	private static final DateSet[][] ActivityDateSets = new DateSet[][] {AthleticsDateSet, BasketballDateSet, DramaClubDateSet, FootballDateSet,
+																		 GymnasticsDateSet, HistoryClubDateSet, IctClubDateSet, SwimmingDateSet,
 																		 MartialArtsDateSet, TrampolineDateSet, VolleyballDateSet};
 	
 	private static final String[] ActivityVenues = new String[] {"Outside fields", "Basketball court", "Room A5", "Football picth",
@@ -135,6 +135,22 @@ public class ActivityBank {
 															  DateLib.getDateObject(2, 2, 1981), DateLib.getDateObject(2, 10, 1967),
 															  DateLib.getDateObject(30, 20, 1987)};
 	
+	private static final int[] AthleticsPupils = new int[] {0, 6, 17, 24, 40, 56, 60, 62, 74, 80, 88, 94};
+	private static final int[] BasketballPupils = new int[] {6, 10, 11, 14, 26, 27, 28, 40, 41, 42, 56, 63, 65, 66, 79, 80, 81, 83, 84, 90, 91, 96, 99};
+	private static final int[] DramaClubPupils = new int[] {2, 5, 13, 44, 45, 47, 68, 69};
+	private static final int[] FootballPupils = new int[] {1, 4, 8, 9, 18, 19, 20, 31, 32, 33, 34, 35, 46, 49, 51, 52, 57, 59, 63, 70, 71, 72, 79, 81, 85, 86, 87, 89, 92, 93, 98};
+	private static final int[] GymnasticsPupils = new int[] {3, 7, 12, 37, 54, 76};
+	private static final int[] HistoryPupils = new int[] {22, 25, 30, 39, 77};
+	private static final int[] IctClubPupils = new int[] {11, 12, 26, 30, 42, 54, 65, 66, 69, 76, 84, 90, 96};
+	private static final int[] SwimmingPupils = new int[] {6, 10, 14, 27, 37, 44, 45, 68, 74, 80, 82, 83, 91, 94};
+	private static final int[] MartialArtsPupils = new int[] {6, 12, 18, 59, 60, 88, 91};
+	private static final int[] TrampolinePupils = new int[] {28, 35, 41, 47, 49, 62, 82, 85, 96};
+	private static final int[] VolleyballPupils = new int[] {4, 14, 17, 18, 26, 28, 31, 33, 46, 51, 52, 54, 56, 66, 71, 80, 88, 94, 98};
+	
+	private static final int[][] ActivityPupilIds = {AthleticsPupils, BasketballPupils, DramaClubPupils, FootballPupils,
+													 GymnasticsPupils, HistoryPupils, IctClubPupils, SwimmingPupils,
+													 MartialArtsPupils, TrampolinePupils, VolleyballPupils};
+	
 	public static final Map<String, ActivityInfo> ActivityInfoMap;
 	
 	static {
@@ -143,7 +159,7 @@ public class ActivityBank {
 			ActivityInfo activityInfo = new ActivityInfo(ActivityNames[i], ActivityDescriptions[i], ActivityDateSets[i],
 														 ActivityVenues[i], createTutorUsername(TutorFullNames[i]),
 														 createTutorPassword(TutorFullNames[i]), getTutorFirstName(TutorFullNames[i]),
-														getTutorLastName(TutorFullNames[i]), TutorBirthDates[i]);
+														getTutorLastName(TutorFullNames[i]), TutorBirthDates[i], ActivityPupilIds[i]);
 			ActivityInfoMap.put(ActivityNames[i], activityInfo);
 		}
 	}
