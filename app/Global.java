@@ -3,6 +3,7 @@ import java.util.Set;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.transaction.Transactional;
 
 import models.persistence.Initializer;
 import models.util.db.DBCreator;
@@ -20,6 +21,7 @@ import play.db.jpa.JPA;
 public class Global extends GlobalSettings {
 
 	@Override
+	@Transactional
 	public void onStart(Application app) {
 		Logger.info("Application started...");
 		Logger.info("DataLoader: Loading initial data");

@@ -21,7 +21,7 @@ public class JPAUtil {
     
     public static EntityManager createEntityManager() {
     	
-    	return JPA.em();
+    	return JPA.em("default");
     }
     
 }

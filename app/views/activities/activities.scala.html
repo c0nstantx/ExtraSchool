@@ -13,7 +13,7 @@
 			}
 		</tr>
 	@for(a <- activities) {
-		<tr @if(a.isActive()) { class="active" } else { class="danger" }>
+		<tr @if(a.isActive()) { class="success" } else { class="danger" }>
 			<td>@a.getName()</td>
 			<td>@a.getVenue()</td>
 			<td>@a.getMemberships().size()</td>
