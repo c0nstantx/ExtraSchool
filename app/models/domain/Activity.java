@@ -206,7 +206,7 @@ public class Activity {
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Activity: ");
-		strbuilder.append((getId() == null ? -1 : getId()) + ", ");
+		strbuilder.append(getId() + ", ");
 		strbuilder.append("'" + getName() + "'" + ", ");
 		strbuilder.append("'" + getDescription() + "'" + ", ");
 		strbuilder.append("'" + getVenue() + "'" + ", ");

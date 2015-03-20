@@ -93,4 +93,21 @@ public class ActivityTest extends EntityBaseTest
 			Assert.assertEquals(activityString, activity.toString());
 		}
 	}
+
+	@Test
+	public void testIsActive()
+	{
+		ActivityService as = new ActivityService();
+		Activity activity = as.findActivityByName("Gymnastics");
+		Assert.assertFalse(activity.isActive());
+	}
+
+	@Test
+	public void testIsActiveEmptySessions()
+	{
+		ActivityService as = new ActivityService();
+		Activity activity = as.findActivityByName("Gymnastics");
+		activity.setSessions(new HashSet<ActivitySession>());
+		Assert.assertFalse(activity.isActive());
+	}
 }

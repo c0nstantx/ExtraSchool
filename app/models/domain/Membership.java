@@ -153,7 +153,7 @@ public class Membership {
 	public String toString() {
 		StringBuilder strbuilder = new StringBuilder();
 		strbuilder.append("Membership: ");
-		strbuilder.append((getId() == null ? -1 : getId()) + ", ");
+		strbuilder.append(getId() + ", ");
 		strbuilder.append(getActivity().getId() + ", ");
 		strbuilder.append(getUser().getId() + ", ");
 		strbuilder.append(DateLib.dateAsString(getRegistrationDate()) + ", ");

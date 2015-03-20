@@ -72,7 +72,15 @@ public class UserServiceTest extends EntityBaseTest
 
 		assertEquals("Kostas", retrievedUser.getPerson().getFirstName());
 	}
-
+	
+	// Testing UserService.updateUser()
+	@Test
+	public void updateNullUser() {
+		UserService us = new UserService();
+		User user = us.findUserByUsername("kchristofilos");
+		user.setUsername("unknown");
+		us.updateUser(user);
+	}
 	
 	// Testing UserService.deleteUser()
 	@Test
