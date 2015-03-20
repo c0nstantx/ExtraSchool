@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 
 import models.persistence.Initializer;
-import models.util.DBCreator;
+import models.util.db.DBCreator;
 
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaUpdate;
