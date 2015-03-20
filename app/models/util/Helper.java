@@ -30,16 +30,16 @@ public class Helper {
 		for (ActivitySession session : activity.getSessions()) {
 			dates.add(session.getDate());
 		}
-		dates.sort(new Comparator<Date>() {
-
-			@Override
-			public int compare(Date d1, Date d2) {
-				if (d1.before(d2)) {
-					return 1;
-				}
-				return 0;
-			}
-		});
+//		dates.sort(new Comparator<Date>() {
+//
+//			@Override
+//			public int compare(Date d1, Date d2) {
+//				if (d1.before(d2)) {
+//					return 1;
+//				}
+//				return 0;
+//			}
+//		});
 		return dates;
 	}
 }

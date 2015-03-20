@@ -20,7 +20,7 @@ public class BaseService
 	 */
 	public BaseService()
 	{
-		em = JPAUtil.getCurrentEntityManager();
+		em = JPAUtil.getCurrentEntityManager(true);
 	}
 	
 }
