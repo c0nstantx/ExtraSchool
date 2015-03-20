@@ -25,11 +25,13 @@
 }
 </div>
 @if(user.getUserType().toString().equals("Student")) {
-	<div class="clearfix"></div>
-	<br>
-	<div class="col-xs-12">
-		<a href="@routes.Activities.register(activity.getId())" class="btn btn-primary">Register</a>
-	</div>
+	@if(activity.isActive()) {
+		<div class="clearfix"></div>
+		<br>
+		<div class="col-xs-12">
+			<a href="@routes.Activities.register(activity.getId())" class="btn btn-primary">Register</a>
+		</div>
+	}
 } else {
 <div class="col-sm-12">
 <h1>Students</h1>
