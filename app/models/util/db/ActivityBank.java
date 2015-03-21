@@ -126,7 +126,7 @@ public class ActivityBank {
 	
 	private static final String[] TutorFullNames = new String[] {"Kate Voisey", "Chris Latanis", "Julie Gunn", "Nick Moustakas",
 																 "Giota Ziara", "Elizabeth Stewart", "Tim Roberts", "Laura Pearson",
-																 "Richard Watts", "Philip Kolyvas", "Daniel Grannon"};
+																 "Richard Watts", "Philip Kolyvas", "Test Tutor"};
 	
 	private static final Date[] TutorBirthDates = new Date[] {DateLib.getDateObject(11, 8, 1985), DateLib.getDateObject(21, 1, 1987),
 															  DateLib.getDateObject(3, 12, 1968), DateLib.getDateObject(13, 11, 1980),
@@ -165,11 +165,11 @@ public class ActivityBank {
 	}
 	
 	private static String createTutorUsername(String tutorFullName) {
-		return tutorFullName.toLowerCase().charAt(0) + getTutorLastName(tutorFullName).toLowerCase(); 
+		return tutorFullName.equals("Test Tutor") ? "tutor" : tutorFullName.toLowerCase().charAt(0) + getTutorLastName(tutorFullName).toLowerCase(); 
 	}
 	
 	private static String createTutorPassword(String tutorFullName) {
-		return createTutorUsername(tutorFullName) + "123";
+		return createTutorUsername(tutorFullName).equals("tutor") ? "tutor" : createTutorUsername(tutorFullName) + "123";
 	}
 	
 	private static String getTutorFirstName(String tutorFullName) {

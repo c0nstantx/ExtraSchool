@@ -43,7 +43,7 @@ public class PupilBank {
 	static {
 		pupilData = new PupilInfo[NumberOfPupils];
 		randomGenerator = new Random();
-		for (int i = 0; i < NumberOfPupils; i++) {
+		for (int i = 0; i < NumberOfPupils - 1; i++) {
 			int firstNameIndex = (6 * i) / PupilFirstNames.length;
 			int lastNameIndex = (6 * i) % PupilLastNames.length;
 			pupilData[i] = new PupilInfo(createPupilUsername(PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex]),
@@ -51,6 +51,7 @@ public class PupilBank {
 					PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex],
 					createPupilBirthDate(CurrentDate, MinimumAgeInYearsForPupils, MaximumAgeInYearsForPupils));
 		}
+		pupilData[NumberOfPupils - 1] = new PupilInfo("student", "student", "Test", "Student", DateLib.getDateObject(1, 1, 2000));
 	}
 	
 	private static String createPupilUsername(String firstName, String lastName) {

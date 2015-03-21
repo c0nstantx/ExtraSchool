@@ -50,7 +50,6 @@ public class DBCreator {
 	public void preparePresentationDatabase() {
 		createAdmins();
 		setupActivities();
-		createTestUsers();
 	}
 	
 	private void createAdmins() {
@@ -60,6 +59,8 @@ public class DBCreator {
 		em.persist(admin2);
 		User admin3 = new User("spanta", "123456", UserType.Admin, "Sokratis", "Pantazaras", DateLib.getDateObject(20, 10, 1978));
 		em.persist(admin3);
+		User testAdmin = new User("admin", "admin", UserType.Admin, "Test", "Admin", DateLib.getDateObject(1, 1, 1980));
+		em.persist(testAdmin);
 	}
 	
 	private void setupActivities() {
@@ -90,14 +91,5 @@ public class DBCreator {
 			em.persist(pupils[i]);
 		}
 		return pupils;
-	}
-	
-	private void createTestUsers() {
-		User testAdmin = new User("admin", "admin", UserType.Admin, "Test", "Admin", DateLib.getDateObject(1, 1, 1980));
-		em.persist(testAdmin);
-		User testTutor = new User("tutor", "tutor", UserType.Tutor, "Test", "Tutor", DateLib.getDateObject(1, 1, 1990));
-		em.persist(testTutor);
-		User testPupil = new User("pupil", "pupil", UserType.Student, "Test", "Pupil", DateLib.getDateObject(1, 1, 2000));
-		em.persist(testPupil);
 	}
 }
