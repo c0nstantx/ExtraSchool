@@ -1,5 +1,6 @@
 package models.util.db;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -22,6 +23,8 @@ import play.db.jpa.Transactional;
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
  */
 public class DBCreator {
+	
+	public static final Date CurrentDate = DateLib.getDateObject(23, 3, 2015);
 	
 	private EntityManager em;
 	
@@ -76,14 +79,6 @@ public class DBCreator {
 		}
 	}
 	
-	private void persistObjects(Membership[] activityMemberships) {
-		for (int i = 0; i < activityMemberships.length; i++) {
-			User user = activityMemberships[i].getUser();
-			em.merge(user);
-			em.persist(activityMemberships[i]);
-		}
-	}
-	
 	private User[] createPupils() {
 		User[] pupils = new User[PupilBank.pupilData.length];
 		for (int i = 0; i < PupilBank.pupilData.length; i++) {
@@ -91,5 +86,17 @@ public class DBCreator {
 			em.persist(pupils[i]);
 		}
 		return pupils;
+	}
+	
+	private void createSessionRegisters() {
+		
+	}
+	
+	private void persistObjects(Membership[] activityMemberships) {
+		for (int i = 0; i < activityMemberships.length; i++) {
+			User user = activityMemberships[i].getUser();
+			em.merge(user);
+			em.persist(activityMemberships[i]);
+		}
 	}
 }

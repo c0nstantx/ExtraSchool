@@ -29,7 +29,6 @@ public class PupilBank {
 																 "Yakov", "Ziemermann"};
 
 	private static final int NumberOfPupils = 100;
-	private static final Date CurrentDate = DateLib.getDateObject(23, 3, 2015);
 	private static final int MinimumAgeInYearsForPupils = 15;
 	private static final int MaximumAgeInYearsForPupils = 18;
 
@@ -49,7 +48,7 @@ public class PupilBank {
 			pupilData[i] = new PupilInfo(createPupilUsername(PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex]),
 					createPupilPassword(PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex]),
 					PupilFirstNames[firstNameIndex], PupilLastNames[lastNameIndex],
-					createPupilBirthDate(CurrentDate, MinimumAgeInYearsForPupils, MaximumAgeInYearsForPupils));
+					createPupilBirthDate(DBCreator.CurrentDate, MinimumAgeInYearsForPupils, MaximumAgeInYearsForPupils));
 		}
 		pupilData[NumberOfPupils - 1] = new PupilInfo("student", "student", "Test", "Student", DateLib.getDateObject(1, 1, 2000));
 	}
