@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import controllers.service.ActivityService;
 import models.util.DateLib;
+import models.util.SessionStatistics;
 
 /**
  * Activity Entity
@@ -247,5 +248,13 @@ public class Activity {
 	public User getTutor() {
 		ActivityService as = new ActivityService();
 		return as.findActivityTutor(name);
+	}
+	
+	/**
+	 * Calculate session statistics
+	 * @return SessionStatistics object
+	 */
+	public SessionStatistics calculateRegistrationStatistics() {
+		return new SessionStatistics(this);
 	}
 }

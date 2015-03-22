@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import models.domain.Activity;
+import models.domain.ActivitySession;
 import models.domain.Membership;
+import models.domain.SessionRegister;
 import models.domain.User;
 import models.domain.UserType;
 import models.persistence.JPAUtil;
@@ -76,7 +78,34 @@ public class DBCreator {
 			Activity activity = activityMemberships[0].getActivity();
 			em.persist(activity);
 			persistObjects(activityMemberships);
+			createSessionRegisters(activity, activityMemberships);
 		}
+	}
+	
+	private void createSessionRegisters(Activity activity, Membership[] activityMemberships) {
+		for (int i = 1; i < activityMemberships.length; i++) {
+			Iterator<ActivitySession> it = activity.getSessions().iterator();
+			while (it.hasNext()) {
+				ActivitySession session = (ActivitySession)it.next();
+				if (DateLib.preceeds(session.getDate(), CurrentDate)) {
+					User pupil = activityMemberships[i].getUser();
+					SessionRegister register = SessionRegisterBank.createSessionRegister(pupil, session);
+					em.persist(register);
+					em.merge(pupil);
+					em.merge(session);
+				}
+			}
+		}
+		
+		
+		System.out.println(activity);
+		System.out.println("Members: " + activity.getMemberships().size());
+		Iterator<ActivitySession> it = activity.getSessions().iterator();
+		while (it.hasNext()) {
+			ActivitySession session = (ActivitySession)it.next();
+			System.out.println(session);
+		}
+		System.out.println("--------------------");
 	}
 	
 	private User[] createPupils() {
@@ -86,10 +115,6 @@ public class DBCreator {
 			em.persist(pupils[i]);
 		}
 		return pupils;
-	}
-	
-	private void createSessionRegisters() {
-		
 	}
 	
 	private void persistObjects(Membership[] activityMemberships) {

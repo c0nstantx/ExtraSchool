@@ -1,9 +1,12 @@
 package models.util.db;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import models.domain.Activity;
+import models.domain.ActivitySession;
 import models.domain.Membership;
+import models.domain.SessionStatus;
 import models.domain.User;
 import models.domain.UserType;
 import models.util.DateLib;
@@ -94,6 +97,7 @@ public class ActivityInfo {
 		for (int i = 0; i < dateSets.length; i++) {
 			activity.createSessions(DateLib.copyDateObject(dateSets[i].getStartDate()), DateLib.copyDateObject(dateSets[i].getEndDate()), dateSets[i].getWeekdays());
 		}
+		setCompletedSessions(activity);
 	}
 	
 	private Membership createAndAddTutor(Activity activity, Date creationDate) {
@@ -109,5 +113,15 @@ public class ActivityInfo {
 		activity.addMembership(pupilMembership);
 		pupil.addMembership(pupilMembership);
 		return pupilMembership;
+	}
+	
+	private void setCompletedSessions(Activity activity) {
+		Iterator<ActivitySession> it = activity.getSessions().iterator();
+		while (it.hasNext()) {
+			ActivitySession session = (ActivitySession)it.next();
+			if (DateLib.preceeds(session.getDate(), DBCreator.CurrentDate)) {
+				session.setStatus(SessionStatus.Completed);
+			}
+		}
 	}
 }

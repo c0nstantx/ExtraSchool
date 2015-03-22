@@ -49,7 +49,7 @@ public class DBCreatorTest extends EntityBaseTest {
     	assertEquals(spanta.getUserType(), UserType.Admin);
     }
     
-    @Test
+    //@Test
     public void testPupils() {
     	for (int i = 0; i < PupilBank.pupilData.length; i++) {
     		testPupil(PupilBank.pupilData[i].getUserame(),
@@ -60,7 +60,7 @@ public class DBCreatorTest extends EntityBaseTest {
     	}
     }
     
-    @Test
+    //@Test
     public void testActivitiesAndTutors() {
     	Iterator<Entry<String, ActivityInfo>> it = ActivityBank.ActivityInfoMap.entrySet().iterator();
 		while (it.hasNext()) {

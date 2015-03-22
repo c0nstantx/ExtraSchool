@@ -151,7 +151,7 @@ public class ActivityBank {
 													 GymnasticsPupils, HistoryPupils, IctClubPupils, SwimmingPupils,
 													 MartialArtsPupils, TrampolinePupils, VolleyballPupils};
 	
-	public static final Map<String, ActivityInfo> ActivityInfoMap;
+	public static Map<String, ActivityInfo> ActivityInfoMap;
 	
 	static {
 		ActivityInfoMap = new HashMap<String, ActivityInfo>();

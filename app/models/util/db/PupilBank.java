@@ -35,9 +35,9 @@ public class PupilBank {
 	private static final int SecondsPerYear = 3600 * 24 * 365;
 	private static final int MaxUsernameLength = 5;
 	
-	private static final Random randomGenerator;
+	private static Random randomGenerator;
 	
-	public static final PupilInfo[] pupilData;
+	public static PupilInfo[] pupilData;
 	
 	static {
 		pupilData = new PupilInfo[NumberOfPupils];

@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import models.domain.Activity;
 import models.domain.User;
 import models.domain.UserType;
+import models.util.SessionStatistics;
 
 /**
  * Service for Activity Entity
@@ -162,5 +163,13 @@ public class ActivityService extends BaseService {
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+	
+	/**
+	 * Calculate session statistics
+	 * @return SessionStatistics object
+	 */
+	public SessionStatistics calculateRegistrationStatistics(Activity activity) {
+		return new SessionStatistics(activity);
 	}
 }
