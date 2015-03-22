@@ -154,15 +154,11 @@ public class Users extends Controller {
         } else {
         	Map<String, String> formData = userForm.data();
         	UserType uType = UserType.Student;
-        	switch (formData.get("userType")) {
-			case "Admin":
+        	if (formData.get("userType").equals("Admin")) {
 				uType = UserType.Admin;
-				break;
-			case "Tutor":
+        	} else if (formData.get("userType").equals("Tutor")) {
 				uType = UserType.Tutor;
-			default:
-				break;
-			}
+        	}
         	us.createUser(formData.get("username"), formData.get("password"), uType, 
         			formData.get("firstName"), formData.get("lastName"), 
         			DateLib.createFromString(DATE_FORMAT, formData.get("birthDate")));
@@ -205,15 +201,11 @@ public class Users extends Controller {
         	userEdit.setLastName(formData.get("firstName"));
         	userEdit.setFirstName(formData.get("lastName"));
         	UserType uType = UserType.Student;
-        	switch (formData.get("userType")) {
-			case "Admin":
+        	if (formData.get("userType").equals("Admin")) {
 				uType = UserType.Admin;
-				break;
-			case "Tutor":
+        	} else if (formData.get("userType").equals("Tutor")) {
 				uType = UserType.Tutor;
-			default:
-				break;
-			}
+        	}
         	userEdit.setUserType(uType);
         	try {
         		userEdit.setBirthDate(DateLib.createFromString(DATE_FORMAT, formData.get("birthDate")));
