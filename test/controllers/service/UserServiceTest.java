@@ -3,6 +3,7 @@ package controllers.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -129,5 +130,11 @@ public class UserServiceTest extends EntityBaseTest
 		assertTrue(us.isRegisteredFor(a1, u));
 		assertTrue(us.isRegisteredFor(a2, u));
 		assertFalse(us.isRegisteredFor(a3, u));
+	}
+
+	@Test
+	public void testFindById()
+	{
+		assertNull(us.find(-1));
 	}
 }

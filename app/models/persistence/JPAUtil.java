@@ -28,7 +28,7 @@ public class JPAUtil {
     
     public static EntityManager createEntityManager() {
     	
-    	return JPA.em();
+    	return createEntityManager(false);
     }
     
     public static EntityManager createEntityManager(Boolean defaultEm) {

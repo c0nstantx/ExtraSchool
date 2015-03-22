@@ -1,15 +1,12 @@
-package models.domain;
+package models.persistence;
 
 import static play.test.Helpers.inMemoryDatabase;
 
 import javax.persistence.EntityManager;
 
-import models.persistence.Initializer;
-
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import play.db.jpa.JPA;
 import play.db.jpa.JPAPlugin;
@@ -17,13 +14,7 @@ import play.test.FakeApplication;
 import play.test.Helpers;
 import scala.Option;
 
-/**
- * Base class for Entity testing
- * @author Konstantinos Christofilos <kostasxx@gmail.com>
- * @author Pavlos Gerardos <pavlos.g@gmail.com >
- * @author Sokratis Pantazaras <spantazaras@gmail.com>
- */
-abstract public class EntityBaseTest
+public class InitializerTest
 {
 	protected static EntityManager em;
 
@@ -43,19 +34,16 @@ abstract public class EntityBaseTest
     	JPA.bindForCurrentThread(null);
 		em.close();
     }
-  
-    @Before
-    public void beforeTest()
-    {
+    
+	@Test
+	public void testContstructorWithBoolean()
+	{
     	em.getTransaction().begin();
     	Initializer init = new Initializer();
-    	init.initDB();
+    	init.initDB(true);
     	em.getTransaction().commit();
-    }
-    
-    @After
-    public void afterTest()
-    {
-    	em.clear();
-    }
+    	em.getTransaction().begin();
+    	init.initDB(false);
+    	em.getTransaction().commit();
+	}
 }

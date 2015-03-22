@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.text.ParseException;
 import java.util.Date;
 
+import junit.framework.Assert;
 import models.domain.EntityBaseTest;
 
 import org.junit.Test;
@@ -17,7 +19,7 @@ import org.junit.Test;
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
  *
  */
-public class DateLibTest extends EntityBaseTest
+public class DateLibTest
 {
 	@Test
 	public void datesTest()
@@ -37,6 +39,7 @@ public class DateLibTest extends EntityBaseTest
 		date1 = DateLib.getDateObject(26, 03, 2015);
 		assertFalse(DateLib.succeeds(date3, date1));
 		assertTrue(DateLib.preceeds(date3, date1));
+		assertFalse(DateLib.preceeds(date3, date4));
 		assertFalse(DateLib.succeeds(date3, date4));
 		
 		date2 = DateLib.copyDateObject(date1); // date2 is 26.03.2015 12.00
@@ -47,5 +50,46 @@ public class DateLibTest extends EntityBaseTest
 		
 		assertEquals(4, DateLib.getWeekday(date3)); // 25.03.2015 is Wed (4)
 		assertEquals(5, DateLib.getWeekday(date2)); // 26.03.2015 is Thur (4)
+	}
+
+	@Test
+	public void testFormat() throws ParseException
+	{
+		String dateFormat = "yyyy-mm-dd";
+		String dateString = "2015-03-23";
+		Date date = DateLib.createFromString(dateFormat, dateString);
+		assertEquals(dateString, DateLib.format(date, dateFormat));
+	}
+
+	@Test
+	public void testDifference() throws ParseException
+	{
+		String dateFormat = "yyyy-mm-dd kk:mm:ss";
+		Date date1 = DateLib.createFromString(dateFormat, "2015-03-03 12:00:00");
+		Date date2 = DateLib.createFromString(dateFormat, "2015-03-03 12:01:00");
+
+		assertEquals(date2.getTime() - date1.getTime() / 1000, DateLib.getDateDifferenceInSeconds(date1, date2));
+	}
+
+	@Test
+	public void testConstruct()
+	{
+		DateLib dateLib = new DateLib();
+		assertEquals(DateLib.class, dateLib.getClass());
+	}
+
+	@Test
+	public void testWeekdayAbbreviation() throws ParseException
+	{
+		String dateFormat = "yyyy-mm-dd";
+		String dateString = "2015-03-23";
+		Date date = DateLib.createFromString(dateFormat, dateString);
+		assertEquals(DateLib.format(date, "E"), DateLib.getWeekdayAbbr(date));
+	}
+
+	@Test
+	public void testWeekdayAbbreviationNullDate()
+	{
+		assertEquals("", DateLib.getWeekdayAbbr(null));
 	}
 }

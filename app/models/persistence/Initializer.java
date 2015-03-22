@@ -139,6 +139,7 @@ public class Initializer {
     	Activity a1 = new Activity("Gymnastics", "Base course in gymnastics", "Main hall");
     	Activity a2 = new Activity("Basketball", "Intensive basketball training", "Basketball court");
     	Activity a3 = new Activity("Drama", "Shakespeare plays", "Room A5");
+    	Activity a4 = new Activity("Empty Activity", "No description", "No Room");
 
     	// Create 4 sessions
     	ActivitySession session1 = new ActivitySession(DateLib.getDateObject(2, 3, 2015));
@@ -178,6 +179,7 @@ public class Initializer {
         em.persist(a1);
         em.persist(a2);
         em.persist(a3);
+        em.persist(a4);
         
         // Create 2 registers and link to sessions & users
         SessionRegister reg1 = new SessionRegister(u2, session1, RegistrationStatus.Present, "very inattentive");

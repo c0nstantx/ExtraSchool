@@ -165,7 +165,7 @@ public class UserTest extends EntityBaseTest
 		}
 		user.setMemberships(memberships);
 		
-		Assert.assertEquals(3, user.getMemberships().size());
+		Assert.assertEquals(4, user.getMemberships().size());
 	}
 
 	@Test

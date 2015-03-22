@@ -34,8 +34,8 @@ public class ActivityServiceTest extends EntityBaseTest
 		Activity handballAc = as.createActivity("Handball", "Advanced handball training", "Outside pitch");
 		Activity photoAc = as.createActivity("Photography club", "Let's take pictures!", "Room B4");
 		
-		// The total number of activities should now be 6
-		assertEquals(6, as.findAllActivities().size());
+		// The total number of activities should now be 7
+		assertEquals(7, as.findAllActivities().size());
 		
 		// Create sessions for above activities
 		ActivitySessionService ass = new ActivitySessionService();
@@ -65,7 +65,7 @@ public class ActivityServiceTest extends EntityBaseTest
 		as.createActivity("Drama", "Ancient Greek drama course", "Room E1");
 		
 		// This activity should not have been added
-		assertEquals(3, as.findAllActivities().size());
+		assertEquals(4, as.findAllActivities().size());
 	}
 	
 	// Testing ActivityService.updateActivity()
@@ -117,7 +117,7 @@ public class ActivityServiceTest extends EntityBaseTest
 	public void findActivities()
 	{
 		List<Activity> activities = as.findAllActivities();
-		assertEquals(3, activities.size());
+		assertEquals(4, activities.size());
 		
 		Activity activity = as.findActivityByName("Gymnastics");
 		assertNotNull(activity);
@@ -154,5 +154,11 @@ public class ActivityServiceTest extends EntityBaseTest
 		
 		/* Test non existing activity */
 		assertNull(as.findActivityTutor("NonExisting"));
+	}
+
+	@Test
+	public void testFindById()
+	{
+		assertNull(as.find(-1));
 	}
 }

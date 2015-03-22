@@ -11,6 +11,7 @@ import models.domain.ActivitySession;
 import models.domain.EntityBaseTest;
 import models.util.DateLib;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ActivitySessionServiceTest extends EntityBaseTest
@@ -41,5 +42,21 @@ public class ActivitySessionServiceTest extends EntityBaseTest
 		assertNotNull(session1); // verify
 		ActivitySession session2 = ass.findSessionByActivityDate(gymAc, DateLib.getDateObject(4, 3, 2015)); // this session does not exist
 		assertNull(session2); // verify
+	}
+
+	@Test
+	public void testDeleteActivitySessions()
+	{
+		ActivityService as = new ActivityService();
+		ActivitySessionService ass = new ActivitySessionService();
+		
+		Activity activity = as.findActivityByName("Drama");
+		Assert.assertTrue(ass.deleteActivitySessions(activity));
+		
+		Activity activity1 = as.findActivityByName("Gymnastics");
+		Assert.assertFalse(ass.deleteActivitySessions(activity1));
+		
+		Activity activity2 = as.findActivityByName("Empty Activity");
+		Assert.assertTrue(ass.deleteActivitySessions(activity2));
 	}
 }
