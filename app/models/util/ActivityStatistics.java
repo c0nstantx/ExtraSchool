@@ -56,11 +56,11 @@ public class ActivityStatistics {
 		str.append("Completed sessions: " + numberOfCompletedSessions + "\n");
 		str.append("Cancelled sessions: " + numberOfCancelledSessions + "\n");
 		str.append("Total number of registers: " + totalNumberOfRegisters + "\n");
-		str.append("Present: " + registrationStatusNumbers.get(RegistrationStatus.Present) + " / " + totalNumberOfRegisters  + "\n");
-		str.append("Absent due to illness: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToIllness) + " / " + totalNumberOfRegisters  + "\n");
-		str.append("Absent due to injury: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToInjury) + " / " + totalNumberOfRegisters  + "\n");
-		str.append("Absent without permission: " + registrationStatusNumbers.get(RegistrationStatus.AbsentWithoutPermission) + " / " + totalNumberOfRegisters  + "\n");
-		str.append("Absent with permission: " + registrationStatusNumbers.get(RegistrationStatus.AbsentWithPermission) + " / " + totalNumberOfRegisters  + "\n");
+		str.append("Present: " + registrationStatusNumbers.get(RegistrationStatus.Present) + "/" + totalNumberOfRegisters  + "\n");
+		str.append("Absent due to illness: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToIllness) + "/" + totalNumberOfRegisters  + "\n");
+		str.append("Absent due to injury: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToInjury) + "/" + totalNumberOfRegisters  + "\n");
+		str.append("Absent without permission: " + registrationStatusNumbers.get(RegistrationStatus.AbsentWithoutPermission) + "/" + totalNumberOfRegisters  + "\n");
+		str.append("Absent with permission: " + registrationStatusNumbers.get(RegistrationStatus.AbsentWithPermission) + "/" + totalNumberOfRegisters  + "\n");
 		return str.toString();
 	}
 	
@@ -93,6 +93,7 @@ public class ActivityStatistics {
 			User user = ((Membership)it.next()).getUser();
 			if (user.getUserType() == UserType.Student) {
 				SessionRegister register = service.findRegister(session, user);
+				if (register == null) System.out.println("NULL");
 				increaseCount(register.getStatus());
 			}
 		}
