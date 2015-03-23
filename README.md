@@ -2,6 +2,7 @@ Extra School
 ------------------
 
 This is an application for managing extra curriculum activities of a school. This project is created in the frame of the software architecture course of [AUEB][1]'s [MSc in Information Systems][2].
+
 You can find a demo [here][6].
 
 Installation
