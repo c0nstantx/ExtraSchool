@@ -8,6 +8,7 @@ import models.domain.ActivitySession;
 import models.domain.Membership;
 import models.domain.RegistrationStatus;
 import models.domain.SessionRegister;
+import models.domain.SessionStatus;
 import models.domain.User;
 import models.domain.UserType;
 import models.util.DateLib;
@@ -146,6 +147,10 @@ public class Initializer {
     	ActivitySession session2 = new ActivitySession(DateLib.getDateObject(3, 3, 2015));
     	ActivitySession session3 = new ActivitySession(DateLib.getDateObject(9, 3, 2015));
     	ActivitySession session4 = new ActivitySession(DateLib.getDateObject(10, 3, 2015));
+
+    	/* Add statuses to sessions */
+    	session1.setStatus(SessionStatus.Completed);
+    	session3.setStatus(SessionStatus.Cancelled);
     	
     	// Assign sessions to activities
     	a1.addSession(session1);

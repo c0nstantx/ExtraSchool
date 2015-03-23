@@ -71,7 +71,9 @@ public class SessionStatistics {
 		while (it.hasNext()) {
 			User pupil = ((Membership)it.next()).getUser();
 			SessionRegister register = service.findRegister(session, pupil);
-			increaseCount(register.getStatus());
+			if (register != null) {
+				increaseCount(register.getStatus());
+			}
 		}
 	}
 	

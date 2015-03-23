@@ -101,7 +101,7 @@ public class Activities extends Controller {
 		boolean[] selection = new boolean[] {false, false, false, false, false, false, false};
         if (activityForm.hasErrors()) {
     		selection[0] = false;
-        	System.out.println(selection[0]);
+//        	System.out.println(selection[0]);
             return badRequest(views.html.activities.create.render(activityForm, user));
         } else {
         	Map<String, String> formData = activityForm.data();
