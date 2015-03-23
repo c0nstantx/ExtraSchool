@@ -30,6 +30,7 @@ public class ActivityStatistics {
 	private int numberOfCancelledSessions = 0;	
 	private int groupSize;
 	private int totalNumberOfRegisters;
+	private int missingRegisters = 0;
 	private Map<RegistrationStatus, Integer> registrationStatusNumbers = new HashMap<RegistrationStatus, Integer>();
 	private SessionRegisterService service = new SessionRegisterService();
 	
@@ -56,6 +57,7 @@ public class ActivityStatistics {
 		str.append("Completed sessions: " + numberOfCompletedSessions + "\n");
 		str.append("Cancelled sessions: " + numberOfCancelledSessions + "\n");
 		str.append("Total number of registers: " + totalNumberOfRegisters + "\n");
+		str.append("Missing registers: " + missingRegisters + "\n");
 		str.append("Present: " + registrationStatusNumbers.get(RegistrationStatus.Present) + "/" + totalNumberOfRegisters  + "\n");
 		str.append("Absent due to illness: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToIllness) + "/" + totalNumberOfRegisters  + "\n");
 		str.append("Absent due to injury: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToInjury) + "/" + totalNumberOfRegisters  + "\n");
@@ -93,8 +95,13 @@ public class ActivityStatistics {
 			User user = ((Membership)it.next()).getUser();
 			if (user.getUserType() == UserType.Student) {
 				SessionRegister register = service.findRegister(session, user);
-				if (register == null) System.out.println("NULL");
-				increaseCount(register.getStatus());
+				
+				if (register == null) {
+					missingRegisters++;
+				}
+				else {
+					increaseCount(register.getStatus());
+				}
 			}
 		}
 	}
