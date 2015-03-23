@@ -12,6 +12,7 @@ import models.domain.Activity;
 import models.domain.EntityBaseTest;
 import models.domain.User;
 import models.util.DateLib;
+import models.util.SessionStatistics;
 
 import org.junit.Test;
 
@@ -160,5 +161,14 @@ public class ActivityServiceTest extends EntityBaseTest
 	public void testFindById()
 	{
 		assertNull(as.find(-1));
+	}
+
+	@Test
+	public void testStats()
+	{
+		Activity activity = as.findActivityByName("Gymnastics");
+		SessionStatistics stats = as.calculateRegistrationStatistics(activity);
+		
+		assertNotNull(stats);
 	}
 }
