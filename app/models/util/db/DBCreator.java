@@ -96,16 +96,6 @@ public class DBCreator {
 				}
 			}
 		}
-		
-		
-		System.out.println(activity);
-		System.out.println("Members: " + activity.getMemberships().size());
-		Iterator<ActivitySession> it = activity.getSessions().iterator();
-		while (it.hasNext()) {
-			ActivitySession session = (ActivitySession)it.next();
-			System.out.println(session);
-		}
-		System.out.println("--------------------");
 	}
 	
 	private User[] createPupils() {

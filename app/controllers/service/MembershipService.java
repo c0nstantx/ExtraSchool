@@ -132,6 +132,17 @@ public class MembershipService extends BaseService {
 	}
 	
 	/**
+	 * Finds all memberships
+	 * @return list of memberships
+	 */
+	public List<Membership> findAllMemberships() {
+		@SuppressWarnings("unchecked")
+		List<Membership> results = em.createQuery("SELECT s FROM Membership s")
+				.getResultList();
+		return results;
+	}
+	
+	/**
 	 * Finds all memberships for a specific user
 	 * @param user user
 	 * @return list of memberships

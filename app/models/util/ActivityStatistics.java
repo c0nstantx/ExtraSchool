@@ -12,26 +12,30 @@ import models.domain.RegistrationStatus;
 import models.domain.SessionRegister;
 import models.domain.SessionStatus;
 import models.domain.User;
+import models.domain.UserType;
 
 /**
- * SessionStatistics Class
- * Wrapper for registration statistics
+ * ActivityStatistics Class
+ * Wrapper for registration statistics for all activity sessions
  * 
  * @author Konstantinos Christofilos <kostasxx@gmail.com>
  * @author Pavlos Gerardos <pavlos.g@gmail.com >
  * @author Sokratis Pantazaras <spantazaras@gmail.com>
  */
 
-public class SessionStatistics {
+public class ActivityStatistics {
 	
 	private Activity activity;
 	private int numberOfCompletedSessions = 0;
 	private int numberOfCancelledSessions = 0;	
+	private int groupSize;
+	private int totalNumberOfRegisters;
 	private Map<RegistrationStatus, Integer> registrationStatusNumbers = new HashMap<RegistrationStatus, Integer>();
 	private SessionRegisterService service = new SessionRegisterService();
 	
-	public SessionStatistics(Activity activity) {
+	public ActivityStatistics(Activity activity) {
 		this.activity = activity;
+		groupSize = activity.getMemberships().size() - 1;
 		initializeMap();
 		calculateStatistics();
 	}
@@ -42,6 +46,22 @@ public class SessionStatistics {
 	
 	public int getNumberOfCancelledSessions() {
 		return numberOfCancelledSessions;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		str.append("Session Statistics for activity '" + activity.getName() +"'\n");
+		str.append("Group size: " + groupSize + "\n");
+		str.append("Completed sessions: " + numberOfCompletedSessions + "\n");
+		str.append("Cancelled sessions: " + numberOfCancelledSessions + "\n");
+		str.append("Total number of registers: " + totalNumberOfRegisters + "\n");
+		str.append("Present: " + registrationStatusNumbers.get(RegistrationStatus.Present) + " / " + totalNumberOfRegisters  + "\n");
+		str.append("Absent due to illness: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToIllness) + " / " + totalNumberOfRegisters  + "\n");
+		str.append("Absent due to injury: " + registrationStatusNumbers.get(RegistrationStatus.AbsentDueToInjury) + " / " + totalNumberOfRegisters  + "\n");
+		str.append("Absent without permission: " + registrationStatusNumbers.get(RegistrationStatus.AbsentWithoutPermission) + " / " + totalNumberOfRegisters  + "\n");
+		str.append("Absent with permission: " + registrationStatusNumbers.get(RegistrationStatus.AbsentWithPermission) + " / " + totalNumberOfRegisters  + "\n");
+		return str.toString();
 	}
 	
 	private void initializeMap() {
@@ -64,14 +84,17 @@ public class SessionStatistics {
 				numberOfCancelledSessions++;
 			}
 		}
+		totalNumberOfRegisters = numberOfCompletedSessions * groupSize;
 	}
 	
 	private void updateStatistics(ActivitySession session) {
 		Iterator<Membership> it = activity.getMemberships().iterator();
 		while (it.hasNext()) {
-			User pupil = ((Membership)it.next()).getUser();
-			SessionRegister register = service.findRegister(session, pupil);
-			increaseCount(register.getStatus());
+			User user = ((Membership)it.next()).getUser();
+			if (user.getUserType() == UserType.Student) {
+				SessionRegister register = service.findRegister(session, user);
+				increaseCount(register.getStatus());
+			}
 		}
 	}
 	

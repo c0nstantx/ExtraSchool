@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import models.domain.Activity;
 import models.domain.User;
 import models.domain.UserType;
-import models.util.SessionStatistics;
+import models.util.ActivityStatistics;
 
 /**
  * Service for Activity Entity
@@ -169,7 +169,7 @@ public class ActivityService extends BaseService {
 	 * Calculate session statistics
 	 * @return SessionStatistics object
 	 */
-	public SessionStatistics calculateRegistrationStatistics(Activity activity) {
-		return new SessionStatistics(activity);
+	public ActivityStatistics calculateRegistrationStatistics(Activity activity) {
+		return new ActivityStatistics(activity);
 	}
 }

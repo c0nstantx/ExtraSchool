@@ -3,12 +3,17 @@ package models.util.db;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import models.domain.Activity;
 import models.domain.EntityBaseTest;
+import models.domain.Membership;
+import models.domain.SessionRegister;
 import models.domain.User;
 import models.domain.UserType;
 import models.util.DateLib;
@@ -17,6 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controllers.service.ActivityService;
+import controllers.service.MembershipService;
+import controllers.service.SessionRegisterService;
 import controllers.service.UserService;
 
 /**
@@ -49,7 +56,7 @@ public class DBCreatorTest extends EntityBaseTest {
     	assertEquals(spanta.getUserType(), UserType.Admin);
     }
     
-    //@Test
+    @Test
     public void testPupils() {
     	for (int i = 0; i < PupilBank.pupilData.length; i++) {
     		testPupil(PupilBank.pupilData[i].getUserame(),
@@ -60,13 +67,49 @@ public class DBCreatorTest extends EntityBaseTest {
     	}
     }
     
-    //@Test
+    @Test
     public void testActivitiesAndTutors() {
     	Iterator<Entry<String, ActivityInfo>> it = ActivityBank.ActivityInfoMap.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, ActivityInfo> entry = (Entry<String, ActivityInfo>)it.next();
 			ActivityInfo activityInfo = entry.getValue();
 			testActivity(activityInfo.getName(), activityInfo.getDescription(), activityInfo.getVenue(), activityInfo.getTotalNumberOfSessions(), activityInfo.getTutorUsername());
+		}
+    }
+    
+    @Test
+    public void testSessionRegisters() {
+    	try {
+			PrintStream ps = new PrintStream("registers.txt");
+			SessionRegisterService srs = new SessionRegisterService();
+	    	List<SessionRegister> list = srs.findAllRegisters();
+	    	Iterator<SessionRegister> it = list.iterator();
+	    	while (it.hasNext()) {
+	    		SessionRegister reg = (SessionRegister)it.next();
+	    		String regs = "Register for " + reg.getStudent() + ", " + reg.getSession();
+	    		ps.println(regs);
+	    	}
+			ps.close();
+		} catch (FileNotFoundException e) {			
+			e.printStackTrace();
+		}
+    }
+    
+    @Test
+    public void testMemberships() {
+    	try {
+			PrintStream ps = new PrintStream("memberships.txt");
+			MembershipService ms = new MembershipService();
+	    	List<Membership> list = ms.findAllMemberships();
+	    	Iterator<Membership> it = list.iterator();
+	    	while (it.hasNext()) {
+	    		Membership mem = (Membership)it.next();
+	    		String mems = "Membership for " + mem.getUser() + ", " + mem.getActivity();
+	    		ps.println(mems);
+	    	}
+			ps.close();
+		} catch (FileNotFoundException e) {			
+			e.printStackTrace();
 		}
     }
     

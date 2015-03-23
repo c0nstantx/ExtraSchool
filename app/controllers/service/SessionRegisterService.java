@@ -84,6 +84,17 @@ public class SessionRegisterService extends BaseService {
 	}
 	
 	/**
+	 * Finds all session registers
+	 * @return list of registers
+	 */
+	public List<SessionRegister> findAllRegisters() {
+		@SuppressWarnings("unchecked")
+		List<SessionRegister> results = em.createQuery("SELECT s FROM SessionRegister s")
+				.getResultList();
+		return results;
+	}
+	
+	/**
 	 * Finds all session registers for a specific user
 	 * @param user user
 	 * @return list of registers

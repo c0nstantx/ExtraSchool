@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 import controllers.service.ActivityService;
 import models.util.DateLib;
-import models.util.SessionStatistics;
+import models.util.ActivityStatistics;
 
 /**
  * Activity Entity
@@ -254,7 +254,7 @@ public class Activity {
 	 * Calculate session statistics
 	 * @return SessionStatistics object
 	 */
-	public SessionStatistics calculateRegistrationStatistics() {
-		return new SessionStatistics(this);
+	public ActivityStatistics calculateRegistrationStatistics() {
+		return new ActivityStatistics(this);
 	}
 }
